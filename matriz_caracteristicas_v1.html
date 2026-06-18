@@ -1,0 +1,161 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+
+/* Header grupo de columnas */
+table.matriz thead tr.hdr-grp th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#fff;text-transform:uppercase;letter-spacing:.5px;
+  padding:5px 12px;text-align:center;white-space:nowrap;border-bottom:1px solid rgba(255,255,255,.1);
+}
+table.matriz thead tr.hdr-grp th.lbl-hdr{background:#F4F4FA;color:#9898B8}
+table.matriz thead tr.hdr-grp th.grp-a{background:#07074E}
+table.matriz thead tr.hdr-grp th.grp-b{background:#3d3d6b}
+table.matriz thead tr.hdr-grp th.grp-c{background:#2d1a4e}
+
+table.matriz thead tr.hdr-sub th{
+  font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:6px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:center;white-space:nowrap;
+}
+table.matriz thead tr.hdr-sub th:first-child{text-align:left}
+
+table.matriz tbody td{
+  padding:8px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:center;
+}
+table.matriz tbody td:first-child{text-align:left}
+table.matriz tbody tr:hover td{background:#F8F8FD}
+table.matriz tbody tr:last-child td{border-bottom:none}
+
+/* Fila de atributo label */
+.row-attr td:first-child{color:#44446A;font-size:11px}
+.row-attr.highlighted td{background:#FAFAFA}
+
+/* Íconos de estado */
+.ic{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px}
+.ic.yes{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.2)}
+.ic.no{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.2)}
+.ic.partial{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.2)}
+.ic.na{background:#F4F4FA;color:#AAAABF;border:1px solid #E2E2EF;font-size:8px;font-weight:700}
+
+/* Valores de texto */
+.val-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;background:#F4F4FA;color:#07074E;border:1px solid #E2E2EF;white-space:nowrap}
+.val-tag.highlight{background:#EEEEF9;color:#07074E;border-color:#C8C8E0}
+
+/* Fila de sección */
+.row-section td{
+  background:#F4F4FA;
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.8px;
+  padding:5px 12px;border-top:2px solid #E2E2EF;border-bottom:1px solid #E2E2EF;
+}
+.row-section:hover td{background:#F4F4FA}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Matriz de Características — Comparativo de Herramientas Analíticas</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr class="hdr-grp">
+        <th class="lbl-hdr" rowspan="2" style="width:30%">Característica</th>
+        <th class="grp-a" colspan="1">EduIntelligence</th>
+        <th class="grp-b" colspan="1">Power BI</th>
+        <th class="grp-c" colspan="1">Tableau</th>
+        <th class="grp-c" style="background:#1e3a5f" colspan="1">Excel + Add-ins</th>
+      </tr>
+      <tr class="hdr-sub">
+        <th style="width:17%">EduIntelligence</th>
+        <th style="width:17%">Power BI</th>
+        <th style="width:17%">Tableau</th>
+        <th style="width:17%">Excel</th>
+      </tr>
+    </thead>
+    <tbody id="caracBody"></tbody>
+  </table>
+</div>
+
+<script>
+// Tipos de celda: yes/no/partial/na/text
+const sections = [
+  {
+    section: 'Funcionalidades Analíticas',
+    rows:[
+      { attr:'Dashboards interactivos',        vals:['yes','yes','yes','partial'] },
+      { attr:'IA / Análisis conversacional',   vals:['yes','partial','no','no'] },
+      { attr:'Drill-down por jerarquías',       vals:['yes','yes','yes','partial'] },
+      { attr:'Alertas automáticas',            vals:['yes','yes','partial','no'] },
+      { attr:'Narrativa automática (insights)',vals:['yes','no','no','no'] },
+    ]
+  },
+  {
+    section: 'Experiencia de Usuario',
+    rows:[
+      { attr:'Curva de aprendizaje',  vals:[{t:'Baja'},{t:'Media'},{t:'Alta'},{t:'Media'}] },
+      { attr:'Diseño personalizable', vals:['yes','partial','yes','partial'] },
+      { attr:'Acceso web / móvil',    vals:['yes','yes','partial','no'] },
+      { attr:'Colaboración en tiempo real', vals:['yes','yes','no','partial'] },
+    ]
+  },
+  {
+    section: 'Integración y Tecnología',
+    rows:[
+      { attr:'Conexión a bases de datos',   vals:['yes','yes','yes','partial'] },
+      { attr:'API propia',                  vals:['yes','yes','partial','no'] },
+      { attr:'Integración con ERP',         vals:['partial','yes','yes','yes'] },
+      { attr:'On-premise / Cloud',          vals:[{t:'Cloud'},{t:'Ambos'},{t:'Ambos'},{t:'On-prem'}] },
+    ]
+  },
+  {
+    section: 'Costos y Licenciamiento',
+    rows:[
+      { attr:'Modelo de precio',   vals:[{t:'SaaS'},{t:'Por usuario'},{t:'Por usuario'},{t:'Por licencia'}] },
+      { attr:'Costo mensual aprox.',vals:[{t:'<$50'},{t:'$10-30'},{t:'$35-70'},{t:'$10-20'}] },
+      { attr:'Implementación',      vals:[{t:'Rápida'},{t:'Media'},{t:'Compleja'},{t:'Media'}] },
+    ]
+  },
+];
+
+function icHtml(v){
+  if(typeof v === 'object' && v.t){
+    return `<span class="val-tag">${v.t}</span>`;
+  }
+  if(v==='yes')     return `<span class="ic yes">✓</span>`;
+  if(v==='no')      return `<span class="ic no">✗</span>`;
+  if(v==='partial') return `<span class="ic partial">~</span>`;
+  return `<span class="ic na">N/A</span>`;
+}
+
+// Primera columna (EduIntelligence) ligeramente destacada
+function cellHtml(v, isFirst=false){
+  if(typeof v === 'object' && v.t){
+    return `<span class="val-tag ${isFirst?'highlight':''}">${v.t}</span>`;
+  }
+  return icHtml(v);
+}
+
+let html='';
+sections.forEach(sec=>{
+  html+=`<tr class="row-section"><td colspan="5">${sec.section}</td></tr>`;
+  sec.rows.forEach((row,ri)=>{
+    html+=`<tr class="row-attr ${ri%2===0?'highlighted':''}">
+      <td style="color:#44446A">${row.attr}</td>
+      ${row.vals.map((v,vi)=>`<td style="${vi===0?'background:rgba(7,7,78,.03)':''}">${cellHtml(v,vi===0)}</td>`).join('')}
+    </tr>`;
+  });
+});
+
+document.getElementById('caracBody').innerHTML=html;
+</script>
