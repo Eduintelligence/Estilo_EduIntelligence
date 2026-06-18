@@ -1,0 +1,176 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table{width:100%;border-collapse:collapse}
+thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:center;white-space:nowrap;
+}
+thead th:first-child{text-align:left;width:18%}
+thead th:nth-child(2){text-align:left;width:16%}
+
+tbody tr:hover td{background:#F8F8FD}
+tbody td{
+  padding:8px 12px;border-bottom:1px solid #F2F2F8;
+  vertical-align:middle;white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+
+.row-section td{background:#F4F4FA;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.8px;padding:5px 12px;border-top:1px solid #E2E2EF}
+.row-section:hover td{background:#F4F4FA}
+
+/* KPI label */
+.kpi-name{font-family:'Open Sans',sans-serif;font-size:11px;font-weight:600;color:#07074E}
+.kpi-unit{font-family:'Open Sans',sans-serif;font-size:8px;color:#AAAABF;margin-left:3px}
+
+/* Valor actual */
+.kpi-val{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.5px;line-height:1}
+
+/* Objetivo */
+.kpi-obj{font-family:'Open Sans',sans-serif;font-size:9px;color:#9898B8}
+.kpi-obj span{color:#44446A;font-weight:600}
+
+/* Variación vs anterior */
+.var-tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;white-space:nowrap}
+.var-tag.pos{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}
+.var-tag.neg{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}
+.var-tag.neu{background:#F4F4FA;color:#9898B8;border:1px solid #E2E2EF}
+
+/* Sparkline */
+.spark-wrap{display:flex;align-items:center;justify-content:center}
+
+/* Condición pill */
+.cond{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;white-space:nowrap}
+.cond.good{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}
+.cond.warn{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.18)}
+.cond.bad{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}
+
+/* Barra vs objetivo */
+.obj-bar-wrap{display:flex;align-items:center;gap:6px;justify-content:center}
+.obj-bar-track{width:60px;height:5px;background:#EAEAF2;border-radius:3px;overflow:hidden;position:relative}
+.obj-bar-fill{height:100%;border-radius:3px}
+.obj-bar-marker{position:absolute;top:-2px;width:2px;height:9px;background:#07074E;border-radius:1px}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Resumen Ejecutivo — KPIs de Gestión · FY 2022 vs Objetivos</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align:left">KPI</th>
+        <th style="text-align:left">Categoría</th>
+        <th>Valor Actual</th>
+        <th>Objetivo</th>
+        <th>vs Objetivo</th>
+        <th style="width:90px">Tendencia</th>
+        <th>vs Año Ant.</th>
+        <th>Condición</th>
+      </tr>
+    </thead>
+    <tbody id="execBody"></tbody>
+  </table>
+</div>
+
+<script>
+const sections = [
+  {
+    label: 'Financiero',
+    kpis: [
+      { name:'Ventas Netas',       unit:'K',  cat:'Ingresos',      val:785,  obj:730,  prev:720,  hist:[620,648,680,702,718,730,742,758,770,780,785,785], higher:true  },
+      { name:'Margen Neto',        unit:'%',  cat:'Rentabilidad',  val:12.6, obj:15,   prev:11.2, hist:[8.1,8.8,9.2,10.1,10.8,11.4,12.0,11.8,12.2,13.1,18.6,12.6], higher:true  },
+      { name:'EBITDA',             unit:'K',  cat:'Rentabilidad',  val:106,  obj:96,   prev:88,   hist:[62,68,74,80,85,90,94,98,100,103,107,106], higher:true  },
+      { name:'Costo de Ventas',    unit:'%',  cat:'Eficiencia',    val:62.4, obj:65,   prev:64.1, hist:[67,66,65.5,65,64.5,64,63.5,63,62.8,62.6,62.5,62.4], higher:false },
+    ]
+  },
+  {
+    label: 'Operacional',
+    kpis: [
+      { name:'Clientes Activos',   unit:'',   cat:'Comercial',     val:189,  obj:180,  prev:162,  hist:[142,148,152,158,162,165,168,171,175,180,185,189], higher:true  },
+      { name:'Satisfacción',       unit:'%',  cat:'Servicio',      val:91,   obj:85,   prev:86,   hist:[80,81,82,83,84,85,86,87,88,89,90,91], higher:true  },
+      { name:'Plazo de Cobro',     unit:'días',cat:'Liquidez',     val:28,   obj:30,   prev:33,   hist:[38,36,35,34,33,32,31,30,29,29,28,28], higher:false },
+      { name:'Cumpl. COVENIN',     unit:'%',  cat:'Mantenimiento', val:44.9, obj:65,   prev:40.1, hist:[36,37,38,39,40,41,42,42,43,43,44,44.9], higher:true  },
+    ]
+  },
+];
+
+function varTag(val, prev, higher){
+  const diff = val - prev;
+  const pct  = prev!==0 ? ((diff/Math.abs(prev))*100).toFixed(1) : 0;
+  const isGood = higher ? diff>=0 : diff<=0;
+  const cls  = Math.abs(diff)<0.1 ? 'neu' : isGood ? 'pos' : 'neg';
+  const sign = diff>0?'+':'';
+  const arrow= diff>0?'↑':diff<0?'↓':'→';
+  return `<span class="var-tag ${cls}">${arrow} ${sign}${parseFloat(pct).toFixed(1)}%</span>`;
+}
+
+function condCls(val, obj, higher){
+  const ratio = higher ? val/obj : obj/val;
+  if(ratio>=1)    return 'good';
+  if(ratio>=0.85) return 'warn';
+  return 'bad';
+}
+function condLabel(c){ return c==='good'?'✓ En meta':c==='warn'?'⚠ Cercano':'✕ Bajo meta' }
+
+function objBar(val, obj, higher){
+  const max   = higher ? Math.max(val,obj)*1.1 : Math.max(val,obj)*1.1;
+  const vPct  = Math.min((val/max)*100,100);
+  const oPct  = Math.min((obj/max)*100,100);
+  const cls   = condCls(val,obj,higher);
+  const color = cls==='good'?'#1A7F3C':cls==='warn'?'#B87800':'#CC1B00';
+  return `<div class="obj-bar-wrap">
+    <div class="obj-bar-track">
+      <div class="obj-bar-fill" style="width:${vPct}%;background:${color}"></div>
+      <div class="obj-bar-marker" style="left:calc(${oPct}% - 1px)"></div>
+    </div>
+  </div>`;
+}
+
+function sparkline(hist, higher){
+  const w=80, h=28, pad=2;
+  const min=Math.min(...hist), max=Math.max(...hist);
+  const range=max-min||1;
+  const pts=hist.map((v,i)=>{
+    const x=pad+(i/(hist.length-1))*(w-pad*2);
+    const y=h-pad-((v-min)/range)*(h-pad*2);
+    return `${x},${y}`;
+  }).join(' ');
+  const last=hist[hist.length-1], prev=hist[hist.length-2];
+  const color=higher?(last>=prev?'#1A7F3C':'#CC1B00'):(last<=prev?'#1A7F3C':'#CC1B00');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+    <circle cx="${pad+(hist.length-1)/(hist.length-1)*(w-pad*2)}" cy="${h-pad-((last-min)/range)*(h-pad*2)}" r="2.5" fill="${color}"/>
+  </svg>`;
+}
+
+let html='';
+sections.forEach(sec=>{
+  html+=`<tr class="row-section"><td colspan="8">${sec.label}</td></tr>`;
+  sec.kpis.forEach(k=>{
+    const cls=condCls(k.val,k.obj,k.higher);
+    const valColor=cls==='good'?'#1A7F3C':cls==='warn'?'#B87800':'#CC1B00';
+    html+=`<tr>
+      <td><span class="kpi-name">${k.name}</span><span class="kpi-unit">${k.unit}</span></td>
+      <td><span style="font-family:'Open Sans',sans-serif;font-size:9px;background:#F4F4FA;border:1px solid #E2E2EF;border-radius:4px;padding:2px 7px;color:#9898B8">${k.cat}</span></td>
+      <td style="text-align:center"><span class="kpi-val" style="color:${valColor}">${k.val}</span></td>
+      <td style="text-align:center">${objBar(k.val,k.obj,k.higher)}<span style="font-family:'Open Sans',sans-serif;font-size:9px;color:#9898B8;display:block;text-align:center;margin-top:2px">${k.obj}</span></td>
+      <td style="text-align:center">${varTag(k.val,k.obj,k.higher)}</td>
+      <td style="text-align:center"><div class="spark-wrap">${sparkline(k.hist,k.higher)}</div></td>
+      <td style="text-align:center">${varTag(k.val,k.prev,k.higher)}</td>
+      <td style="text-align:center"><span class="cond ${cls}">${condLabel(cls)}</span></td>
+    </tr>`;
+  });
+});
+
+document.getElementById('execBody').innerHTML=html;
+</script>

@@ -1,0 +1,282 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:1px solid #E2E2EF;
+  background:#FAFAFA;text-align:right;white-space:nowrap;
+}
+table.matriz thead th:first-child{text-align:left}
+table.matriz tbody tr{transition:background .1s;cursor:pointer}
+table.matriz tbody tr:hover td{background:#F8F8FD}
+table.matriz tbody td{
+  padding:7px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:right;
+}
+table.matriz tbody tr:last-child td{border-bottom:none}
+
+/* Niveles */
+.row-n1 td{background:#fff}
+.row-n1 td:first-child{font-weight:700;color:#07074E}
+.row-n2 td{background:#FAFAFA}
+.row-n2 td:first-child{color:#44446A;padding-left:28px}
+.row-n3 td{background:#F4F4FA}
+.row-n3 td:first-child{color:#6B6B8A;padding-left:48px;font-size:10.5px}
+
+/* Toggle icon */
+.toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:4px;
+  background:#EEEEF9;border:1px solid #D4D4E8;
+  font-size:10px;font-weight:700;color:#07074E;
+  margin-right:7px;flex-shrink:0;cursor:pointer;
+  font-family:'Open Sans',sans-serif;line-height:1;
+  transition:background .12s;
+}
+.toggle:hover{background:#D4D4E8}
+.label-wrap{display:flex;align-items:center}
+
+/* Valores numéricos */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E}
+.pct{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px}
+.pct.good{color:#1A7F3C}.pct.warn{color:#B87800}.pct.bad{color:#CC1B00}
+
+/* Barra embebida */
+.bar-wrap{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.bar-track{width:60px;height:5px;background:#F0F0F8;border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.bar-fill.good{background:#1A7F3C}.bar-fill.warn{background:#B87800}.bar-fill.bad{background:#CC1B00}
+
+/* Pill condición */
+.pill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;white-space:nowrap}
+.pill.good{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}
+.pill.warn{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.18)}
+.pill.bad{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}
+
+/* Separador de nivel 1 */
+.row-n1 td{border-top:2px solid #E2E2EF}
+.row-n1:first-child td{border-top:none}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Evaluación COVENIN 2500-93 — Desglose por Área · Principio · Demérito</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr>
+        <th style="width:40%;text-align:left">Área / Principio / Demérito</th>
+        <th style="width:10%">Ptje. Máx.</th>
+        <th style="width:10%">Deméritos</th>
+        <th style="width:10%">Diferencia</th>
+        <th style="width:18%">Cumplimiento</th>
+        <th style="width:8%">%</th>
+        <th style="width:10%">Condición</th>
+      </tr>
+    </thead>
+    <tbody id="matrizBody"></tbody>
+  </table>
+</div>
+
+<script>
+const data = [
+  {
+    id:'A1', label:'VIII Mantenimiento Preventivo', max:250, dem:170, cls:'bad',
+    children:[
+      {
+        id:'A1P1', label:'1. Planificación', max:80, dem:62, cls:'bad',
+        children:[
+          {id:'A1P1D1', label:'VIII.1.1 · No existen estudios de confiabilidad', max:20, dem:17, cls:'bad'},
+          {id:'A1P1D2', label:'VIII.1.2 · Sin delimitación de sistemas preventivos', max:20, dem:20, cls:'bad'},
+          {id:'A1P1D3', label:'VIII.1.3 · Programa no contempla todos los activos', max:20, dem:15, cls:'warn'},
+          {id:'A1P1D4', label:'VIII.1.4 · No hay estudios de frecuencia de revisión', max:20, dem:10, cls:'warn'},
+        ]
+      },
+      {
+        id:'A1P2', label:'2. Programación e Implantación', max:90, dem:65, cls:'bad',
+        children:[
+          {id:'A1P2D1', label:'VIII.2.1 · Sin delimitación entre sistemas preventivos', max:20, dem:17, cls:'bad'},
+          {id:'A1P2D2', label:'VIII.2.2 · Cronograma no considera recursos', max:20, dem:18, cls:'bad'},
+          {id:'A1P2D3', label:'VIII.2.3 · Sin procedimientos de ejecución', max:30, dem:30, cls:'bad'},
+        ]
+      },
+      {
+        id:'A1P3', label:'3. Control y Evaluación', max:80, dem:43, cls:'warn',
+        children:[
+          {id:'A1P3D1', label:'VIII.3.1 · Sin registros de actividades preventivas', max:20, dem:13, cls:'warn'},
+          {id:'A1P3D2', label:'VIII.3.2 · No se evalúan resultados del programa', max:20, dem:15, cls:'warn'},
+          {id:'A1P3D3', label:'VIII.3.3 · Sin indicadores de gestión preventiva', max:20, dem:15, cls:'warn'},
+        ]
+      }
+    ]
+  },
+  {
+    id:'A2', label:'IX Mantenimiento por Avería', max:250, dem:161, cls:'bad',
+    children:[
+      {
+        id:'A2P1', label:'1. Atención a Fallas', max:100, dem:80, cls:'bad',
+        children:[
+          {id:'A2P1D1', label:'IX.1.1 · Sin procedimiento de atención a fallas', max:25, dem:25, cls:'bad'},
+          {id:'A2P1D2', label:'IX.1.2 · Tiempo de respuesta no documentado', max:25, dem:20, cls:'bad'},
+          {id:'A2P1D3', label:'IX.1.3 · Sin jerarquización de fallas', max:25, dem:20, cls:'bad'},
+          {id:'A2P1D4', label:'IX.1.4 · Recursos para atención no disponibles', max:25, dem:15, cls:'warn'},
+        ]
+      },
+      {
+        id:'A2P2', label:'2. Supervisión y Registro', max:80, dem:55, cls:'bad',
+        children:[
+          {id:'A2P2D1', label:'IX.2.1 · Sin registro histórico de averías', max:20, dem:20, cls:'bad'},
+          {id:'A2P2D2', label:'IX.2.2 · Sin análisis de causas raíz', max:30, dem:20, cls:'warn'},
+          {id:'A2P2D3', label:'IX.2.3 · No se documentan lecciones aprendidas', max:30, dem:15, cls:'warn'},
+        ]
+      }
+    ]
+  },
+  {
+    id:'A3', label:'I Organización de la Empresa', max:150, dem:50, cls:'good',
+    children:[
+      {
+        id:'A3P1', label:'1. Funciones y Responsabilidades', max:75, dem:20, cls:'good',
+        children:[
+          {id:'A3P1D1', label:'I.1.1 · Organigrama actualizado y funcional', max:25, dem:5,  cls:'good'},
+          {id:'A3P1D2', label:'I.1.2 · Manual de funciones de mantenimiento', max:25, dem:8,  cls:'good'},
+          {id:'A3P1D3', label:'I.1.3 · Líneas de autoridad claramente definidas', max:25, dem:7,  cls:'good'},
+        ]
+      },
+      {
+        id:'A3P2', label:'2. Autoridad y Autonomía', max:75, dem:30, cls:'warn',
+        children:[
+          {id:'A3P2D1', label:'I.2.1 · Autonomía para solicitar recursos', max:25, dem:10, cls:'warn'},
+          {id:'A3P2D2', label:'I.2.2 · Presupuesto propio de mantenimiento', max:25, dem:12, cls:'warn'},
+          {id:'A3P2D3', label:'I.2.3 · Relación directa con alta gerencia', max:25, dem:8,  cls:'good'},
+        ]
+      }
+    ]
+  }
+];
+
+// Estado de expansión
+const expanded = {};
+
+function pct(dem, max){ return max>0 ? ((max-dem)/max*100).toFixed(1) : 0 }
+function cls(dem, max){
+  const p = parseFloat(pct(dem,max));
+  if(p>=60) return 'good';
+  if(p>=40) return 'warn';
+  return 'bad';
+}
+function condLabel(c){ return c==='good'?'Aceptable':c==='warn'?'Mejorable':'Grave' }
+
+function render(){
+  const tbody = document.getElementById('matrizBody');
+  tbody.innerHTML = '';
+
+  data.forEach(n1 => {
+    const p1 = pct(n1.dem, n1.max);
+    const c1 = cls(n1.dem, n1.max);
+    const isOpen1 = expanded[n1.id];
+
+    // NIVEL 1
+    const tr1 = document.createElement('tr');
+    tr1.className = 'row-n1';
+    tr1.innerHTML = `
+      <td>
+        <div class="label-wrap">
+          <span class="toggle" onclick="toggle('${n1.id}')">${isOpen1?'−':'+'}</span>
+          ${n1.label}
+        </div>
+      </td>
+      <td class="num">${n1.max}</td>
+      <td class="num" style="color:var(--c,#CC1B00)">${n1.dem}</td>
+      <td class="num">${n1.max-n1.dem}</td>
+      <td>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill ${c1}" style="width:${p1}%"></div></div>
+        </div>
+      </td>
+      <td class="pct ${c1}">${p1}%</td>
+      <td><span class="pill ${c1}">${condLabel(c1)}</span></td>
+    `;
+    tr1.querySelector('.num[style]').style.color = c1==='bad'?'#CC1B00':c1==='warn'?'#B87800':'#1A7F3C';
+    tbody.appendChild(tr1);
+
+    if(!isOpen1) return;
+
+    n1.children.forEach(n2 => {
+      const p2 = pct(n2.dem, n2.max);
+      const c2 = cls(n2.dem, n2.max);
+      const isOpen2 = expanded[n2.id];
+
+      // NIVEL 2
+      const tr2 = document.createElement('tr');
+      tr2.className = 'row-n2';
+      tr2.innerHTML = `
+        <td>
+          <div class="label-wrap">
+            <span class="toggle" onclick="toggle('${n2.id}')">${isOpen2?'−':'+'}</span>
+            ${n2.label}
+          </div>
+        </td>
+        <td class="num" style="color:#9898B8">${n2.max}</td>
+        <td class="num" style="color:${c2==='bad'?'#CC1B00':c2==='warn'?'#B87800':'#1A7F3C'}">${n2.dem}</td>
+        <td class="num" style="color:#9898B8">${n2.max-n2.dem}</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="bar-track"><div class="bar-fill ${c2}" style="width:${p2}%"></div></div>
+          </div>
+        </td>
+        <td class="pct ${c2}">${p2}%</td>
+        <td><span class="pill ${c2}">${condLabel(c2)}</span></td>
+      `;
+      tbody.appendChild(tr2);
+
+      if(!isOpen2) return;
+
+      n2.children.forEach(n3 => {
+        const p3 = pct(n3.dem, n3.max);
+        const c3 = cls(n3.dem, n3.max);
+
+        // NIVEL 3
+        const tr3 = document.createElement('tr');
+        tr3.className = 'row-n3';
+        tr3.innerHTML = `
+          <td>
+            <div class="label-wrap" style="padding-left:48px">
+              <span style="width:6px;height:6px;border-radius:50%;background:${c3==='bad'?'#CC1B00':c3==='warn'?'#B87800':'#1A7F3C'};display:inline-block;margin-right:8px;flex-shrink:0"></span>
+              ${n3.label}
+            </div>
+          </td>
+          <td class="num" style="color:#AAAABF">${n3.max}</td>
+          <td class="num" style="color:${c3==='bad'?'#CC1B00':c3==='warn'?'#B87800':'#1A7F3C'}">${n3.dem}</td>
+          <td class="num" style="color:#AAAABF">${n3.max-n3.dem}</td>
+          <td>
+            <div class="bar-wrap">
+              <div class="bar-track"><div class="bar-fill ${c3}" style="width:${p3}%"></div></div>
+            </div>
+          </td>
+          <td class="pct ${c3}">${p3}%</td>
+          <td><span class="pill ${c3}">${condLabel(c3)}</span></td>
+        `;
+        tbody.appendChild(tr3);
+      });
+    });
+  });
+}
+
+function toggle(id){
+  expanded[id] = !expanded[id];
+  render();
+}
+
+render();
+</script>

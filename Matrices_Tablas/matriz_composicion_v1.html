@@ -1,0 +1,201 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:right;white-space:nowrap;
+}
+table.matriz thead th:first-child{text-align:left}
+table.matriz tbody td{
+  padding:7px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:right;
+  white-space:nowrap;
+}
+
+/* Tipos de fila */
+.row-item td{background:#fff}
+.row-item:hover td{background:#F8F8FD}
+.row-sub td{background:#FAFAFA}
+.row-sub:hover td{background:#F4F4FA}
+.row-sub td:first-child{padding-left:28px;color:#6B6B8A;font-size:10.5px}
+.row-total td{background:#07074E;border-top:3px solid #C96A00}
+.row-total:hover td{background:#0D0D6B !important}
+.row-total td{color:#fff !important}
+.row-total td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px}
+.row-item td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#07074E}
+
+/* Toggle */
+.toggle{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:#EEEEF9;border:1px solid #D4D4E8;font-size:10px;font-weight:700;color:#07074E;margin-right:7px;flex-shrink:0;cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1;transition:background .12s}
+.toggle:hover{background:#D4D4E8}
+.toggle-inv{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.label-wrap{display:flex;align-items:center}
+
+/* Valores */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E}
+.num-w{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff}
+.num-sm{font-family:'Poppins',sans-serif;font-weight:500;font-size:10.5px;color:#9898B8}
+
+/* Barra de composición con color por ítem */
+.bar-wrap{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.bar-track{width:80px;height:6px;background:#F0F0F8;border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Composición del Costo de Producción — FY 2022</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr>
+        <th style="width:34%;text-align:left">Componente</th>
+        <th style="width:11%">Valor (K)</th>
+        <th style="width:9%">% del Total</th>
+        <th style="width:24%">Participación</th>
+        <th style="width:11%">Vs. Año Ant. (K)</th>
+        <th style="width:9%">Var. %</th>
+      </tr>
+    </thead>
+    <tbody id="compBody"></tbody>
+  </table>
+</div>
+
+<script>
+const items = [
+  {
+    id:'i1', label:'Materia Prima', val:291, prev:268, color:'#07074E',
+    subs:[
+      {label:'Insumo Principal A', val:142, prev:130, color:'#07074E'},
+      {label:'Insumo Principal B', val:98,  prev:90,  color:'#0D0D6B'},
+      {label:'Insumos Menores',    val:51,  prev:48,  color:'#1a1a8a'},
+    ]
+  },
+  {
+    id:'i2', label:'Mano de Obra Directa', val:156, prev:142, color:'#C2410C',
+    subs:[
+      {label:'Operarios Línea 1', val:68, prev:62, color:'#C2410C'},
+      {label:'Operarios Línea 2', val:54, prev:50, color:'#c2531c'},
+      {label:'Supervisión',       val:34, prev:30, color:'#d4703a'},
+    ]
+  },
+  {
+    id:'i3', label:'Gastos de Fabricación', val:124, prev:118, color:'#C96A00',
+    subs:[
+      {label:'Energía Eléctrica',  val:48, prev:46, color:'#C96A00'},
+      {label:'Mantenimiento',      val:38, prev:36, color:'#d47a10'},
+      {label:'Otros Gastos Fab.',  val:38, prev:36, color:'#e08a20'},
+    ]
+  },
+  {
+    id:'i4', label:'Gastos Indirectos', val:45, prev:40, color:'#888799',
+    subs:[
+      {label:'Depreciación',       val:22, prev:20, color:'#888799'},
+      {label:'Seguros Planta',     val:13, prev:12, color:'#9898B8'},
+      {label:'Otros Indirectos',   val:10, prev:8,  color:'#AAAABF'},
+    ]
+  },
+];
+
+const total    = items.reduce((s,i)=>s+i.val,0);
+const totalPrev= items.reduce((s,i)=>s+i.prev,0);
+const expanded = {};
+
+function pct(v){ return ((v/total)*100).toFixed(1) }
+function varK(v,p){ return v-p }
+function varP(v,p){ return p!==0?((v-p)/Math.abs(p)*100).toFixed(1):0 }
+function varCls(v){ return v>0?'#CC1B00':v<0?'#1A7F3C':'#9898B8' } // costo: subir es malo
+function s(v){ return v>0?'+':'' }
+
+function barCell(val, color, isWhite=false){
+  const p = pct(val);
+  const bg = isWhite ? 'rgba(255,255,255,.15)' : '#F0F0F8';
+  const fc = isWhite ? 'rgba(255,255,255,.8)' : color;
+  const tc = isWhite ? 'rgba(255,255,255,.7)' : '#9898B8';
+  return `<div class="bar-wrap">
+    <div class="bar-track" style="background:${bg}">
+      <div class="bar-fill" style="width:${p}%;background:${fc}"></div>
+    </div>
+    <span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:${tc};min-width:34px;text-align:right">${p}%</span>
+  </div>`;
+}
+
+function addRow(tbody, cls, cells){
+  const tr=document.createElement('tr');
+  tr.className=cls;
+  cells.forEach(c=>{const td=document.createElement('td');td.innerHTML=c;tr.appendChild(td)});
+  tbody.appendChild(tr);
+}
+
+function render(){
+  const tbody=document.getElementById('compBody');
+  tbody.innerHTML='';
+
+  items.forEach(item=>{
+    const isOpen=expanded[item.id];
+    const vk=varK(item.val,item.prev);
+    const vp=varP(item.val,item.prev);
+    const vc=varCls(vk);
+
+    // Color square indicador
+    const sq=`<span style="width:10px;height:10px;border-radius:2px;background:${item.color};display:inline-block;margin-right:8px;flex-shrink:0"></span>`;
+
+    addRow(tbody,'row-item',[
+      `<div class="label-wrap"><span class="toggle" onclick="toggle('${item.id}')">${isOpen?'−':'+'}</span>${sq}${item.label}</div>`,
+      `<span class="num">${item.val}</span>`,
+      `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:${item.color}">${pct(item.val)}%</span>`,
+      barCell(item.val, item.color),
+      `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${vc}">${s(vk)}${vk}</span>`,
+      `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${vc}">${s(parseFloat(vp))}${vp}%</span>`,
+    ]);
+
+    if(isOpen){
+      item.subs.forEach(sub=>{
+        const svk=varK(sub.val,sub.prev);
+        const svp=varP(sub.val,sub.prev);
+        const svc=varCls(svk);
+        addRow(tbody,'row-sub',[
+          `<div class="label-wrap" style="padding-left:28px">
+            <span style="width:6px;height:6px;border-radius:50%;background:${sub.color};display:inline-block;margin-right:8px;flex-shrink:0"></span>
+            ${sub.label}
+          </div>`,
+          `<span class="num-sm">${sub.val}</span>`,
+          `<span style="font-family:'Poppins',sans-serif;font-size:10px;color:${sub.color};opacity:.8">${pct(sub.val)}%</span>`,
+          barCell(sub.val, sub.color),
+          `<span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:9.5px;color:${svc}">${s(svk)}${svk}</span>`,
+          `<span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:9.5px;color:${svc}">${s(parseFloat(svp))}${svp}%</span>`,
+        ]);
+      });
+    }
+  });
+
+  // Total
+  const tvk=varK(total,totalPrev), tvp=varP(total,totalPrev), tvc=varCls(tvk);
+  addRow(tbody,'row-total',[
+    `<div class="label-wrap"><span class="toggle-inv toggle" onclick="toggleAll()">${Object.values(expanded).some(v=>v)?'−':'+'}</span>Total Costo de Producción</div>`,
+    `<span class="num-w">${total}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#C96A00">100%</span>`,
+    barCell(total,'#C96A00',true),
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${tvc==='#CC1B00'?'#FF8A80':'#7ECFA0'}">${s(tvk)}${tvk}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${tvc==='#CC1B00'?'#FF8A80':'#7ECFA0'}">${s(parseFloat(tvp))}${tvp}%</span>`,
+  ]);
+}
+
+function toggle(id){ expanded[id]=!expanded[id]; render(); }
+function toggleAll(){
+  const any=Object.values(expanded).some(v=>v);
+  items.forEach(i=>expanded[i.id]=!any);
+  render();
+}
+render();
+</script>

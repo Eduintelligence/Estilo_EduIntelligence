@@ -1,0 +1,181 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:center;white-space:nowrap;
+}
+table.matriz thead th:first-child{text-align:left}
+table.matriz tbody td{
+  padding:7px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:center;
+}
+table.matriz tbody td:first-child{text-align:left}
+table.matriz tbody tr:hover td{background:#F8F8FD}
+table.matriz tbody tr:last-child td{border-bottom:none}
+
+/* Fila total */
+.row-total td{background:#F4F4FA;border-top:2px solid #E2E2EF;border-bottom:none}
+.row-total:hover td{background:#EEEEF9}
+.row-total td:first-child{font-family:'Poppins',sans-serif;font-weight:700;color:#07074E}
+
+/* Indicadores */
+.check{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px}
+.check.yes{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.2)}
+.check.no{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.2)}
+.check.partial{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.2)}
+.check.na{background:#F4F4FA;color:#AAAABF;border:1px solid #E2E2EF;font-size:9px;font-weight:700}
+
+/* Pill condición columna */
+.cond-pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;white-space:nowrap}
+.cond-pill.good{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}
+.cond-pill.warn{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.18)}
+.cond-pill.bad{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}
+
+/* Score bar */
+.score-wrap{display:flex;align-items:center;gap:6px;justify-content:center}
+.score-track{width:50px;height:5px;background:#F0F0F8;border-radius:3px;overflow:hidden}
+.score-fill{height:100%;border-radius:3px}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Matriz de Cumplimiento — Indicadores de Gestión vs Objetivos · FY 2022</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr>
+        <th style="width:28%;text-align:left">Indicador</th>
+        <th style="width:7%">Q1</th>
+        <th style="width:7%">Q2</th>
+        <th style="width:7%">Q3</th>
+        <th style="width:7%">Q4</th>
+        <th style="width:10%">Score</th>
+        <th style="width:9%">% Cumpl.</th>
+        <th style="width:10%">Tendencia</th>
+        <th style="width:12%">Condición</th>
+      </tr>
+    </thead>
+    <tbody id="cumplBody"></tbody>
+  </table>
+</div>
+
+<script>
+// ✓ = cumple, ✗ = no cumple, ~ = parcial, — = N/A
+const indicadores = [
+  { label:'Ventas vs Presupuesto',         vals:['no','yes','yes','yes'] },
+  { label:'Margen Neto > 15%',             vals:['no','no','partial','no'] },
+  { label:'Costo de Ventas < 65%',         vals:['yes','yes','yes','yes'] },
+  { label:'Rotación de Inventario > 6x',   vals:['yes','yes','yes','yes'] },
+  { label:'Gastos Operativos < 15%',       vals:['partial','yes','yes','yes'] },
+  { label:'EBITDA > 18%',                  vals:['no','no','partial','partial'] },
+  { label:'Plazo de Cobro < 30 días',      vals:['yes','partial','yes','yes'] },
+  { label:'Satisfacción Cliente > 85%',    vals:['yes','yes','yes','yes'] },
+  { label:'Cumplimiento COVENIN > 65%',    vals:['no','no','no','no'] },
+  { label:'Capacitación Personal',         vals:['partial','partial','yes','yes'] },
+  { label:'Auditoría Interna',             vals:['na','yes','na','yes'] },
+  { label:'Plan de Mantenimiento',         vals:['no','partial','partial','partial'] },
+];
+
+function scoreOf(vals){
+  let s=0;
+  vals.forEach(v=>{ if(v==='yes') s+=1; else if(v==='partial') s+=0.5; });
+  return s;
+}
+function scoreCls(pct){
+  if(pct>=75) return 'good';
+  if(pct>=50) return 'warn';
+  return 'bad';
+}
+function condLabel(c){ return c==='good'?'✓ Cumple':c==='warn'?'⚠ Parcial':'✕ No cumple' }
+
+function checkHtml(v){
+  if(v==='yes')     return `<span class="check yes">✓</span>`;
+  if(v==='no')      return `<span class="check no">✗</span>`;
+  if(v==='partial') return `<span class="check partial">~</span>`;
+  return `<span class="check na">N/A</span>`;
+}
+
+function trendHtml(vals){
+  const effective = vals.filter(v=>v!=='na');
+  if(effective.length < 2) return '<span style="color:#AAAABF;font-size:11px">—</span>';
+  const first = scoreOf([effective[0]]);
+  const last  = scoreOf([effective[effective.length-1]]);
+  if(last > first)  return '<span style="color:#1A7F3C;font-size:14px;font-weight:700">↑</span>';
+  if(last < first)  return '<span style="color:#CC1B00;font-size:14px;font-weight:700">↓</span>';
+  return '<span style="color:#9898B8;font-size:14px">→</span>';
+}
+
+function renderRow(ind){
+  const effective = ind.vals.filter(v=>v!=='na');
+  const maxScore  = effective.length;
+  const score     = scoreOf(ind.vals);
+  const pct       = maxScore>0 ? Math.round((score/maxScore)*100) : 0;
+  const cls       = scoreCls(pct);
+  const fillColor = cls==='good'?'#1A7F3C':cls==='warn'?'#B87800':'#CC1B00';
+
+  return `<tr>
+    <td style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">${ind.label}</td>
+    ${ind.vals.map(v=>`<td>${checkHtml(v)}</td>`).join('')}
+    <td>
+      <div class="score-wrap">
+        <div class="score-track"><div class="score-fill" style="width:${pct}%;background:${fillColor}"></div></div>
+        <span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${fillColor};min-width:24px">${score}/${maxScore}</span>
+      </div>
+    </td>
+    <td style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${fillColor}">${pct}%</td>
+    <td>${trendHtml(ind.vals)}</td>
+    <td><span class="cond-pill ${cls}">${condLabel(cls)}</span></td>
+  </tr>`;
+}
+
+function renderTotal(){
+  const quarters = [0,1,2,3];
+  const totals = quarters.map(q=>{
+    const qVals = indicadores.map(i=>i.vals[q]).filter(v=>v!=='na');
+    const s = scoreOf(qVals);
+    const m = qVals.length;
+    const p = m>0?Math.round((s/m)*100):0;
+    const c = scoreCls(p);
+    return {s,m,p,c};
+  });
+
+  const allVals = indicadores.flatMap(i=>i.vals).filter(v=>v!=='na');
+  const totalScore = scoreOf(allVals);
+  const totalMax   = allVals.length;
+  const totalPct   = Math.round((totalScore/totalMax)*100);
+  const totalCls   = scoreCls(totalPct);
+  const fc = totalCls==='good'?'#1A7F3C':totalCls==='warn'?'#B87800':'#CC1B00';
+
+  return `<tr class="row-total">
+    <td>Resumen por Período</td>
+    ${totals.map(t=>{
+      const f=t.c==='good'?'#1A7F3C':t.c==='warn'?'#B87800':'#CC1B00';
+      return `<td><span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${f}">${t.p}%</span></td>`;
+    }).join('')}
+    <td>
+      <div class="score-wrap">
+        <div class="score-track"><div class="score-fill" style="width:${totalPct}%;background:${fc}"></div></div>
+        <span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${fc}">${totalScore}/${totalMax}</span>
+      </div>
+    </td>
+    <td style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:${fc}">${totalPct}%</td>
+    <td></td>
+    <td><span class="cond-pill ${totalCls}">${condLabel(totalCls)}</span></td>
+  </tr>`;
+}
+
+document.getElementById('cumplBody').innerHTML =
+  indicadores.map(renderRow).join('') + renderTotal();
+</script>

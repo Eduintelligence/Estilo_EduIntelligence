@@ -1,0 +1,273 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table{width:100%;border-collapse:collapse}
+thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:center;white-space:nowrap;
+}
+thead th:first-child{text-align:left}
+
+tbody td{padding:6px 12px;border-bottom:1px solid #F2F2F8;vertical-align:middle;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+
+/* Tipos de fila */
+.row-detail td{background:#fff}
+.row-detail:hover td{background:#F8F8FD}
+.row-detail td:first-child{padding-left:28px;font-family:'Open Sans',sans-serif;font-size:10.5px;color:#6B6B8A}
+.row-subtotal td{background:#F4F4FA;border-top:1px solid #E2E2EF;border-bottom:1px solid #E2E2EF}
+.row-subtotal:hover td{background:#EEEEF9}
+.row-subtotal td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#07074E}
+.row-section td{background:#07074E;border-top:none;border-bottom:none}
+.row-section:hover td{background:#0D0D6B !important}
+.row-section td:first-child{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3px;color:#fff;text-transform:uppercase}
+.row-highlight td{background:#EEEEF9;border-top:2px solid #C8C8E0;border-bottom:2px solid #C8C8E0}
+.row-highlight:hover td{background:#E4E4F4}
+.row-highlight td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#07074E}
+.row-total td{background:#07074E;border-top:3px solid #C96A00}
+.row-total:hover td{background:#0D0D6B !important}
+.row-total td{color:#fff !important}
+.row-total td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px}
+
+/* Toggle */
+.toggle{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:#EEEEF9;border:1px solid #D4D4E8;font-size:10px;font-weight:700;color:#07074E;margin-right:7px;flex-shrink:0;cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1;transition:background .12s}
+.toggle:hover{background:#D4D4E8}
+.toggle-inv{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.toggle-inv:hover{background:rgba(255,255,255,.2)}
+.label-wrap{display:flex;align-items:center}
+
+/* Valores */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E;text-align:right}
+.num-sm{font-family:'Poppins',sans-serif;font-weight:500;font-size:10.5px;color:#9898B8;text-align:right}
+.num-w{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff;text-align:right}
+.pct-muted{font-family:'Open Sans',sans-serif;font-size:9px;color:#AAAABF;text-align:right}
+
+/* Barra de valor % ventas */
+.pct-bar-wrap{display:flex;align-items:center;justify-content:flex-end;gap:5px}
+.pct-bar-track{width:50px;height:4px;background:#EAEAF2;border-radius:2px;overflow:hidden}
+.pct-bar-fill{height:100%;border-radius:2px}
+
+/* Barra de variación desde centro */
+.var-wrap{display:flex;align-items:center;gap:5px;justify-content:center}
+.var-track{position:relative;width:64px;height:6px;background:#EAEAF2;border-radius:3px}
+.var-center{position:absolute;left:50%;top:0;width:1.5px;height:100%;background:#C8C8DC}
+.var-pos{position:absolute;left:50%;top:0;height:100%;border-radius:0 3px 3px 0}
+.var-neg{position:absolute;right:50%;top:0;height:100%;border-radius:3px 0 0 3px}
+.var-lbl{font-family:'Poppins',sans-serif;font-size:9px;font-weight:700;min-width:32px;text-align:left}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Estado de Resultados — FY 2022 vs FY 2021 · Estilo Analítico</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:28%;text-align:left">Concepto</th>
+        <th style="width:9%">FY 2022</th>
+        <th style="width:9%">FY 2021</th>
+        <th style="width:12%">% Ventas 22</th>
+        <th style="width:12%">% Ventas 21</th>
+        <th style="width:15%">Variación K</th>
+        <th style="width:9%">Var. %</th>
+        <th style="width:6%">Spark</th>
+      </tr>
+    </thead>
+    <tbody id="pylBody"></tbody>
+  </table>
+</div>
+
+<script>
+// Datos del P&L
+const vn22=785, vn21=715;
+
+const sections=[
+  {
+    id:'ing', label:'Ingresos', inv:false,
+    items:[
+      {label:'Ventas Brutas',        v22:895, v21:810, spark:[780,790,800,805,808,810,815,820,830,840,860,895]},
+      {label:'Devoluciones y Desc.', v22:-110,v21:-95, spark:[-85,-88,-90,-92,-93,-94,-95,-96,-98,-100,-105,-110]},
+    ],
+    total:{label:'Ventas Netas', v22:785, v21:715}
+  },
+  {
+    id:'cv', label:'Costo de Ventas', inv:true,
+    items:[
+      {label:'Materia Prima',         v22:291, v21:268, spark:[240,245,250,255,258,260,263,265,268,272,280,291]},
+      {label:'Mano de Obra Directa',  v22:156, v21:142, spark:[128,130,132,134,136,138,140,141,142,146,150,156]},
+      {label:'Gastos de Fabricación', v22:124, v21:118, spark:[108,110,112,113,114,115,116,117,118,119,121,124]},
+    ],
+    total:{label:'Total Costo de Ventas', v22:571, v21:528}
+  },
+  {
+    id:'go', label:'Gastos Operativos', inv:true,
+    items:[
+      {label:'Gastos de Ventas',       v22:38, v21:34, spark:[28,29,30,31,32,33,34,34,35,36,37,38]},
+      {label:'Administración',         v22:52, v21:48, spark:[40,42,43,44,45,46,47,47,48,49,50,52]},
+      {label:'Marketing',              v22:18, v21:15, spark:[12,12,13,13,14,14,15,15,15,16,17,18]},
+    ],
+    total:{label:'Total Gastos Operativos', v22:108, v21:97}
+  },
+  {
+    id:'oig', label:'Otros Ing. y Gastos', inv:false,
+    items:[
+      {label:'Ingresos Financieros',  v22:8,  v21:6,  spark:[4,4,5,5,5,6,6,6,6,7,7,8]},
+      {label:'Gastos Financieros',    v22:-14,v21:-12, spark:[-10,-10,-11,-11,-11,-12,-12,-12,-12,-13,-13,-14]},
+      {label:'Otros',                 v22:5,  v21:4,  spark:[3,3,3,4,4,4,4,4,4,5,5,5]},
+    ],
+    total:{label:'Total Otros', v22:-1, v21:-2}
+  },
+];
+
+// Intermedios
+const ub22=vn22-571, ub21=vn21-528;
+const ebitda22=ub22-108, ebitda21=ub21-97;
+const un22=ebitda22+(-1), un21=ebitda21+(-2);
+
+// Máximo variación para escalar barras
+const allItems=sections.flatMap(s=>[...s.items,s.total]);
+const maxVar=Math.max(...allItems.map(i=>Math.abs(i.v22-(i.v21||0))));
+
+const expanded={};
+
+function pctVn(v,base){return base!==0?((v/Math.abs(base))*100).toFixed(1)+'%':'—'}
+
+function pctBar(v, base, inv=false){
+  const p=Math.min(Math.abs((v/Math.abs(base))*100),100);
+  const color=inv?'#C2410C':'#07074E';
+  return `<div class="pct-bar-wrap">
+    <span class="pct-muted" style="min-width:30px;text-align:right">${pctVn(v,base)}</span>
+    <div class="pct-bar-track"><div class="pct-bar-fill" style="width:${p}%;background:${color}"></div></div>
+  </div>`;
+}
+
+function varBar(v22, v21, inv=false){
+  const diff=v22-v21;
+  const pct=maxVar>0?Math.min((Math.abs(diff)/maxVar)*100,100):0;
+  const half=pct/2;
+  // Para costos, subir es malo
+  const isGood=inv?(diff<=0):(diff>=0);
+  const color=Math.abs(diff)<0.5?'#9898B8':isGood?'#1A7F3C':'#CC1B00';
+  const sign=diff>0?'+':'';
+  const fill=diff>=0
+    ?`<div class="var-pos" style="width:${half}%;background:${color}"></div>`
+    :`<div class="var-neg" style="width:${half}%;background:${color}"></div>`;
+  return `<div class="var-wrap">
+    <div class="var-track"><div class="var-center"></div>${fill}</div>
+    <span class="var-lbl" style="color:${color}">${sign}${diff}</span>
+  </div>`;
+}
+
+function varPct(v22,v21){
+  const diff=v22-v21;
+  const p=v21!==0?((diff/Math.abs(v21))*100).toFixed(1):0;
+  const color=parseFloat(p)>=0?'#1A7F3C':'#CC1B00';
+  const sign=parseFloat(p)>=0?'+':'';
+  return `<span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${color};display:block;text-align:center">${sign}${p}%</span>`;
+}
+
+function sparkSvg(hist){
+  if(!hist||!hist.length) return '';
+  const w=50,h=20,pad=2;
+  const vals=hist.map(Math.abs);
+  const min=Math.min(...vals),max=Math.max(...vals);
+  const range=max-min||1;
+  const pts=vals.map((v,i)=>{
+    const x=pad+(i/(vals.length-1))*(w-pad*2);
+    const y=h-pad-((v-min)/range)*(h-pad*2);
+    return `${x},${y}`;
+  }).join(' ');
+  const last=vals[vals.length-1],prev=vals[vals.length-2];
+  const color=last>=prev?'#1A7F3C':'#CC1B00';
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+    <circle cx="${pad+(vals.length-1)/(vals.length-1)*(w-pad*2)}" cy="${h-pad-((last-min)/range)*(h-pad*2)}" r="2" fill="${color}"/>
+  </svg>`;
+}
+
+function addRow(tbody,cls,cells){
+  const tr=document.createElement('tr');tr.className=cls;
+  cells.forEach(c=>{const td=document.createElement('td');td.innerHTML=c;tr.appendChild(td)});
+  tbody.appendChild(tr);
+}
+
+function render(){
+  const tbody=document.getElementById('pylBody');tbody.innerHTML='';
+
+  sections.forEach(sec=>{
+    const isOpen=expanded[sec.id];
+
+    // Header sección
+    addRow(tbody,'row-section',[
+      `<div class="label-wrap"><span class="toggle toggle-inv" onclick="toggle('${sec.id}')">${isOpen?'−':'+'}</span>${sec.label}</div>`,
+      '','','','','','',''
+    ]);
+
+    if(isOpen){
+      sec.items.forEach(item=>{
+        addRow(tbody,'row-detail',[
+          `<div class="label-wrap" style="padding-left:28px">
+            <span style="width:5px;height:5px;border-radius:50%;background:#C8C8DC;display:inline-block;margin-right:8px;flex-shrink:0"></span>
+            ${item.label}
+          </div>`,
+          `<span class="num-sm">${item.v22}</span>`,
+          `<span class="num-sm" style="color:#C8C8DC">${item.v21}</span>`,
+          pctBar(item.v22,vn22,sec.inv),
+          pctBar(item.v21,vn21,sec.inv),
+          varBar(item.v22,item.v21,sec.inv),
+          varPct(item.v22,item.v21),
+          `<div style="display:flex;justify-content:center">${sparkSvg(item.spark)}</div>`,
+        ]);
+      });
+    }
+
+    // Subtotal sección
+    const t=sec.total;
+    addRow(tbody,'row-subtotal',[
+      `<div class="label-wrap"><span class="toggle" onclick="toggle('${sec.id}')">${isOpen?'−':'+'}</span>${t.label}</div>`,
+      `<span class="num">${t.v22}</span>`,
+      `<span class="num" style="color:#9898B8">${t.v21}</span>`,
+      pctBar(t.v22,vn22,sec.inv),
+      pctBar(t.v21,vn21,sec.inv),
+      varBar(t.v22,t.v21,sec.inv),
+      varPct(t.v22,t.v21),
+      '',
+    ]);
+  });
+
+  // Intermedios
+  [[ub22,ub21,'Utilidad Bruta'],[ebitda22,ebitda21,'EBITDA']].forEach(([a,b,lbl])=>{
+    addRow(tbody,'row-highlight',[
+      `<span style="font-family:'Poppins',sans-serif;font-weight:700;color:#07074E">${lbl}</span>`,
+      `<span class="num">${a}</span>`,
+      `<span class="num" style="color:#9898B8">${b}</span>`,
+      pctBar(a,vn22),pctBar(b,vn21),
+      varBar(a,b,false),varPct(a,b),'',
+    ]);
+  });
+
+  // Utilidad Neta
+  addRow(tbody,'row-total',[
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:#fff">Utilidad Neta</span>`,
+    `<span class="num-w">${un22}</span>`,
+    `<span class="num-w" style="opacity:.6">${un21}</span>`,
+    `<span style="font-family:'Open Sans',sans-serif;font-size:9px;color:rgba(255,255,255,.5);display:block;text-align:right">${pctVn(un22,vn22)}</span>`,
+    `<span style="font-family:'Open Sans',sans-serif;font-size:9px;color:rgba(255,255,255,.4);display:block;text-align:right">${pctVn(un21,vn21)}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:${un22>=un21?'#7ECFA0':'#FF8A80'};display:block;text-align:center">${un22>=un21?'+':''}${un22-un21}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${un22>=un21?'#7ECFA0':'#FF8A80'};display:block;text-align:center">${un22>=un21?'+':''}${((un22-un21)/Math.abs(un21)*100).toFixed(1)}%</span>`,
+    '',
+  ]);
+}
+
+function toggle(id){expanded[id]=!expanded[id];render();}
+render();
+</script>

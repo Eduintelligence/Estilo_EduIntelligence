@@ -1,0 +1,228 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:1px solid #E2E2EF;
+  background:#FAFAFA;text-align:right;white-space:nowrap;
+}
+table.matriz thead th:first-child{text-align:left}
+table.matriz tbody td{
+  padding:7px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:right;
+}
+
+/* Niveles */
+.row-cat td{background:#fff;border-top:2px solid #E2E2EF}
+.row-cat:first-child td{border-top:none}
+.row-cat td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#07074E}
+.row-sub td{background:#FAFAFA}
+.row-sub td:first-child{padding-left:28px;color:#44446A}
+.row-subtotal td{background:#F0F0F8;border-top:1px solid #E2E2EF}
+.row-subtotal td:first-child{padding-left:28px;font-weight:700;color:#07074E;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
+.row-total td{background:#07074E;border-top:2px solid #07074E}
+.row-total td{color:#fff !important}
+.row-total td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff}
+
+/* Toggle */
+.toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:4px;
+  background:#EEEEF9;border:1px solid #D4D4E8;
+  font-size:10px;font-weight:700;color:#07074E;
+  margin-right:7px;flex-shrink:0;cursor:pointer;
+  font-family:'Open Sans',sans-serif;line-height:1;
+  transition:background .12s;
+}
+.toggle:hover{background:#D4D4E8}
+.toggle-white{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff}
+.toggle-white:hover{background:rgba(255,255,255,.25)}
+.label-wrap{display:flex;align-items:center}
+
+/* Valores */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E}
+.num-white{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff}
+.num-sub{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#9898B8}
+.var-pos{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#1A7F3C}
+.var-neg{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#CC1B00}
+.var-neu{font-family:'Poppins',sans-serif;font-weight:600;font-size:10px;color:#9898B8}
+.pct-pos{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#1A7F3C}
+.pct-neg{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#CC1B00}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Ventas por Categoría y Subcategoría — Real vs Presupuesto · FY 2022</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr>
+        <th style="width:36%;text-align:left">Categoría / Subcategoría</th>
+        <th style="width:12%">Real (K)</th>
+        <th style="width:12%">Presupuesto (K)</th>
+        <th style="width:10%">Variación (K)</th>
+        <th style="width:8%">Var. %</th>
+        <th style="width:10%">% del Total</th>
+        <th style="width:12%">Participación</th>
+      </tr>
+    </thead>
+    <tbody id="matrizBody"></tbody>
+  </table>
+</div>
+
+<script>
+const data = [
+  {
+    id:'C1', label:'Bienes', real:371, ppto:340,
+    subs:[
+      {label:'Producto A',  real:182, ppto:165},
+      {label:'Producto B',  real:124, ppto:115},
+      {label:'Producto C',  real:65,  ppto:60},
+    ]
+  },
+  {
+    id:'C2', label:'Servicios', real:284, ppto:275,
+    subs:[
+      {label:'Servicio A',  real:158, ppto:150},
+      {label:'Servicio B',  real:96,  ppto:95},
+      {label:'Servicio C',  real:30,  ppto:30},
+    ]
+  },
+  {
+    id:'C3', label:'Proyectos', real:130, ppto:145,
+    subs:[
+      {label:'Proyecto A',  real:84,  ppto:90},
+      {label:'Proyecto B',  real:46,  ppto:55},
+    ]
+  },
+];
+
+const totalReal = data.reduce((s,c)=>s+c.real,0);
+const totalPpto = data.reduce((s,c)=>s+c.ppto,0);
+const expanded = {};
+
+function fmt(v){ return v.toLocaleString('es-VE') }
+function varK(r,p){ return r-p }
+function varPct(r,p){ return p>0?((r-p)/p*100).toFixed(1):0 }
+function partPct(r){ return ((r/totalReal)*100).toFixed(1) }
+
+function varClass(v){ return v>0?'var-pos':v<0?'var-neg':'var-neu' }
+function pctClass(v){ return parseFloat(v)>0?'pct-pos':parseFloat(v)<0?'pct-neg':'var-neu' }
+function varSign(v){ return v>0?'+':'' }
+
+function partBar(pct, white=false){
+  const color = white ? 'rgba(255,255,255,.7)' : '#07074E';
+  const bg = white ? 'rgba(255,255,255,.15)' : '#E8E8F4';
+  return `<div style="display:flex;align-items:center;gap:6px;justify-content:flex-end">
+    <div style="width:60px;height:5px;background:${bg};border-radius:3px;overflow:hidden">
+      <div style="width:${pct}%;height:100%;background:${color};border-radius:3px"></div>
+    </div>
+    <span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:${white?'rgba(255,255,255,.8)':'#9898B8'};min-width:32px;text-align:right">${parseFloat(pct).toFixed(1)}%</span>
+  </div>`;
+}
+
+function render(){
+  const tbody = document.getElementById('matrizBody');
+  tbody.innerHTML = '';
+
+  data.forEach(cat => {
+    const vk = varK(cat.real, cat.ppto);
+    const vp = varPct(cat.real, cat.ppto);
+    const pp = partPct(cat.real);
+    const isOpen = expanded[cat.id];
+
+    // CATEGORÍA
+    const trCat = document.createElement('tr');
+    trCat.className = 'row-cat';
+    trCat.innerHTML = `
+      <td><div class="label-wrap">
+        <span class="toggle" onclick="toggle('${cat.id}')">${isOpen?'−':'+'}</span>
+        ${cat.label}
+      </div></td>
+      <td class="num">${fmt(cat.real)}</td>
+      <td class="num" style="color:#9898B8">${fmt(cat.ppto)}</td>
+      <td class="${varClass(vk)}">${varSign(vk)}${fmt(vk)}</td>
+      <td class="${pctClass(vp)}">${varSign(parseFloat(vp))}${vp}%</td>
+      <td colspan="2">${partBar(pp)}</td>
+    `;
+    tbody.appendChild(trCat);
+
+    if(!isOpen) return;
+
+    // SUBCATEGORÍAS
+    cat.subs.forEach(sub => {
+      const svk = varK(sub.real, sub.ppto);
+      const svp = varPct(sub.real, sub.ppto);
+      const spp = partPct(sub.real);
+      const trSub = document.createElement('tr');
+      trSub.className = 'row-sub';
+      trSub.innerHTML = `
+        <td><div class="label-wrap" style="padding-left:28px">
+          <span style="width:5px;height:5px;border-radius:50%;background:#C8C8DC;display:inline-block;margin-right:8px;flex-shrink:0"></span>
+          ${sub.label}
+        </div></td>
+        <td class="num-sub">${fmt(sub.real)}</td>
+        <td class="num-sub" style="color:#C8C8DC">${fmt(sub.ppto)}</td>
+        <td class="${varClass(svk)}" style="font-size:10px">${varSign(svk)}${fmt(svk)}</td>
+        <td class="${pctClass(svp)}" style="font-size:10px">${varSign(parseFloat(svp))}${svp}%</td>
+        <td colspan="2">${partBar(spp)}</td>
+      `;
+      tbody.appendChild(trSub);
+    });
+
+    // SUBTOTAL
+    const trSub2 = document.createElement('tr');
+    trSub2.className = 'row-subtotal';
+    trSub2.innerHTML = `
+      <td><div class="label-wrap" style="padding-left:28px">Subtotal ${cat.label}</div></td>
+      <td class="num">${fmt(cat.real)}</td>
+      <td class="num" style="color:#9898B8">${fmt(cat.ppto)}</td>
+      <td class="${varClass(vk)}">${varSign(vk)}${fmt(vk)}</td>
+      <td class="${pctClass(vp)}">${varSign(parseFloat(vp))}${vp}%</td>
+      <td colspan="2">${partBar(pp)}</td>
+    `;
+    tbody.appendChild(trSub2);
+  });
+
+  // TOTAL
+  const tvk = varK(totalReal, totalPpto);
+  const tvp = varPct(totalReal, totalPpto);
+  const trTotal = document.createElement('tr');
+  trTotal.className = 'row-total';
+  trTotal.innerHTML = `
+    <td><div class="label-wrap">
+      <span class="toggle toggle-white" onclick="toggleAll()">${Object.values(expanded).some(v=>v)?'−':'+'}</span>
+      Total General
+    </div></td>
+    <td class="num-white">${fmt(totalReal)}</td>
+    <td class="num-white" style="opacity:.6">${fmt(totalPpto)}</td>
+    <td style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${tvk>=0?'#7ECFA0':'#FF8A80'}">${varSign(tvk)}${fmt(tvk)}</td>
+    <td style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${tvk>=0?'#7ECFA0':'#FF8A80'}">${varSign(parseFloat(tvp))}${tvp}%</td>
+    <td colspan="2">${partBar(100, true)}</td>
+  `;
+  tbody.appendChild(trTotal);
+}
+
+function toggle(id){
+  expanded[id] = !expanded[id];
+  render();
+}
+
+function toggleAll(){
+  const anyOpen = Object.values(expanded).some(v=>v);
+  data.forEach(c => expanded[c.id] = !anyOpen);
+  render();
+}
+
+render();
+</script>

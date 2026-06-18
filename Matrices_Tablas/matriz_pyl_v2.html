@@ -1,0 +1,224 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:right;white-space:nowrap;
+}
+table.matriz thead th:first-child{text-align:left}
+table.matriz tbody td{
+  padding:6px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:right;
+  white-space:nowrap;
+}
+
+/* Hover solo en filas claras */
+.row-detail:hover td{background:#F8F8FD}
+.row-pct:hover td{background:#F8F8FD}
+
+/* Tipos de fila */
+.row-section td{background:#07074E;color:#fff !important;border-bottom:none;border-top:none}
+.row-section td:first-child{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;color:#fff;text-transform:uppercase}
+.row-section:hover td{background:#0D0D6B !important}
+
+.row-total1 td{background:#F4F4FA;border-top:2px solid #E2E2EF;border-bottom:2px solid #E2E2EF}
+.row-total1 td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#07074E}
+.row-total1:hover td{background:#EEEEF9}
+
+.row-total2 td{background:#EEEEF9;border-top:2px solid #C8C8E0;border-bottom:2px solid #C8C8E0}
+.row-total2 td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#07074E}
+.row-total2:hover td{background:#E4E4F4}
+
+.row-grandtotal td{background:#07074E;border-top:2px solid #07074E}
+.row-grandtotal td{color:#fff !important}
+.row-grandtotal td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:#fff}
+.row-grandtotal:hover td{background:#0D0D6B !important}
+
+.row-detail td{background:#fff}
+.row-detail td:first-child{padding-left:28px;color:#6B6B8A;font-size:10.5px}
+
+/* Toggle */
+.toggle{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:#EEEEF9;border:1px solid #D4D4E8;font-size:10px;font-weight:700;color:#07074E;margin-right:7px;flex-shrink:0;cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1;transition:background .12s}
+.toggle:hover{background:#D4D4E8}
+.toggle-inv{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.toggle-inv:hover{background:rgba(255,255,255,.2)}
+.label-wrap{display:flex;align-items:center}
+
+/* Valores */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E}
+.num-w{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff}
+.num-sm{font-family:'Poppins',sans-serif;font-weight:500;font-size:10.5px;color:#9898B8}
+.var-pos{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#1A7F3C}
+.var-neg{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#CC1B00}
+.var-neu{font-family:'Poppins',sans-serif;font-weight:600;font-size:10px;color:#9898B8}
+.pct-muted{font-family:'Open Sans',sans-serif;font-size:9px;color:#AAAABF}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Estado de Resultados — FY 2022 vs FY 2021</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr>
+        <th style="width:36%;text-align:left">Concepto</th>
+        <th style="width:12%">FY 2022 (K)</th>
+        <th style="width:12%">FY 2021 (K)</th>
+        <th style="width:10%">Var. (K)</th>
+        <th style="width:8%">Var. %</th>
+        <th style="width:10%">% Ventas 22</th>
+        <th style="width:10%">% Ventas 21</th>
+      </tr>
+    </thead>
+    <tbody id="pylBody"></tbody>
+  </table>
+</div>
+
+<script>
+const sections = [
+  {
+    id:'ing', label:'Ingresos', type:'section',
+    items:[
+      {label:'Ventas Brutas',         v22:895,  v21:820},
+      {label:'Devoluciones y Desc.',  v22:-110, v21:-95},
+    ],
+    total:{label:'Ventas Netas'}
+  },
+  {
+    id:'cv', label:'Costo de Ventas', type:'section',
+    items:[
+      {label:'Materia Prima',         v22:291, v21:268},
+      {label:'Mano de Obra Directa',  v22:156, v21:142},
+      {label:'Gastos de Fabricación', v22:124, v21:118},
+    ],
+    total:{label:'Total Costo de Ventas'}
+  },
+  {
+    id:'go', label:'Gastos Operativos', type:'section',
+    items:[
+      {label:'Gastos de Ventas',       v22:38, v21:34},
+      {label:'Gastos Administrativos', v22:52, v21:48},
+      {label:'Gastos de Marketing',    v22:18, v21:15},
+    ],
+    total:{label:'Total Gastos Operativos'}
+  },
+  {
+    id:'oig', label:'Otros Ingresos y Gastos', type:'section',
+    items:[
+      {label:'Ingresos Financieros', v22:8,   v21:6},
+      {label:'Gastos Financieros',   v22:-14, v21:-12},
+      {label:'Otros Ingresos',       v22:5,   v21:4},
+    ],
+    total:{label:'Total Otros'}
+  },
+];
+
+const vn22=895-110, vn21=820-95;
+const cv22=291+156+124, cv21=268+142+118;
+const ub22=vn22-cv22, ub21=vn21-cv21;
+const go22=38+52+18, go21=34+48+15;
+const ebitda22=ub22-go22, ebitda21=ub21-go21;
+const oig22=8-14+5, oig21=6-12+4;
+const un22=ebitda22+oig22, un21=ebitda21+oig21;
+
+const expanded={};
+
+function fmtK(v){ return v<0?'('+Math.abs(v)+')':v.toString() }
+function varCls(v){ return v>0?'var-pos':v<0?'var-neg':'var-neu' }
+function s(v){ return v>0?'+':'' }
+function pctVn(v){ return vn22!==0?((v/Math.abs(vn22))*100).toFixed(1)+'%':'—' }
+function pctVn21(v){ return vn21!==0?((v/Math.abs(vn21))*100).toFixed(1)+'%':'—' }
+function varPct(r,p){ return p!==0?((r-p)/Math.abs(p)*100).toFixed(1):0 }
+
+function addRow(tbody, cls, cells){
+  const tr=document.createElement('tr');
+  tr.className=cls;
+  cells.forEach(c=>{const td=document.createElement('td');td.innerHTML=c;tr.appendChild(td)});
+  tbody.appendChild(tr);
+}
+
+function render(){
+  const tbody=document.getElementById('pylBody');
+  tbody.innerHTML='';
+
+  sections.forEach(sec=>{
+    const isOpen=expanded[sec.id];
+    const t22=sec.items.reduce((s,i)=>s+i.v22,0);
+    const t21=sec.items.reduce((s,i)=>s+i.v21,0);
+    const tv=t22-t21;
+    const tvp=varPct(t22,t21);
+
+    // Sección header
+    addRow(tbody,'row-section',[
+      `<div class="label-wrap"><span class="toggle toggle-inv" onclick="toggle('${sec.id}')">${isOpen?'−':'+'}</span>${sec.label}</div>`,
+      '','','','','',''
+    ]);
+
+    if(isOpen){
+      sec.items.forEach(item=>{
+        const iv=item.v22-item.v21;
+        const ivp=varPct(item.v22,item.v21);
+        addRow(tbody,'row-detail',[
+          `<div class="label-wrap" style="padding-left:28px"><span style="width:5px;height:5px;border-radius:50%;background:#C8C8DC;display:inline-block;margin-right:8px;flex-shrink:0"></span>${item.label}</div>`,
+          `<span class="num-sm">${fmtK(item.v22)}</span>`,
+          `<span class="num-sm" style="color:#C8C8DC">${fmtK(item.v21)}</span>`,
+          `<span class="${varCls(iv)}" style="font-size:9.5px">${s(iv)}${fmtK(iv)}</span>`,
+          `<span class="${varCls(iv)}" style="font-size:9.5px">${s(parseFloat(ivp))}${ivp}%</span>`,
+          `<span class="pct-muted">${pctVn(item.v22)}</span>`,
+          `<span class="pct-muted">${pctVn21(item.v21)}</span>`,
+        ]);
+      });
+    }
+
+    addRow(tbody,'row-total1',[
+      `<div class="label-wrap"><span class="toggle" onclick="toggle('${sec.id}')">${isOpen?'−':'+'}</span>${sec.total.label}</div>`,
+      `<span class="num">${fmtK(t22)}</span>`,
+      `<span class="num" style="color:#9898B8">${fmtK(t21)}</span>`,
+      `<span class="${varCls(tv)}">${s(tv)}${fmtK(tv)}</span>`,
+      `<span class="${varCls(tv)}">${s(parseFloat(tvp))}${tvp}%</span>`,
+      `<span class="pct-muted">${pctVn(t22)}</span>`,
+      `<span class="pct-muted">${pctVn21(t21)}</span>`,
+    ]);
+  });
+
+  // Intermedios
+  [[ub22,ub21,'Utilidad Bruta'],[ebitda22,ebitda21,'EBITDA']].forEach(([a,b,lbl])=>{
+    const v=a-b, vp=varPct(a,b);
+    addRow(tbody,'row-total2',[
+      `<span style="font-family:'Poppins',sans-serif;font-weight:700;color:#07074E">${lbl}</span>`,
+      `<span class="num">${fmtK(a)}</span>`,
+      `<span class="num" style="color:#9898B8">${fmtK(b)}</span>`,
+      `<span class="${varCls(v)}">${s(v)}${fmtK(v)}</span>`,
+      `<span class="${varCls(v)}">${s(parseFloat(vp))}${vp}%</span>`,
+      `<span class="pct-muted">${pctVn(a)}</span>`,
+      `<span class="pct-muted">${pctVn21(b)}</span>`,
+    ]);
+  });
+
+  // Utilidad Neta
+  const unv=un22-un21, unvp=varPct(un22,un21);
+  addRow(tbody,'row-grandtotal',[
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:#fff">Utilidad Neta</span>`,
+    `<span class="num-w">${fmtK(un22)}</span>`,
+    `<span class="num-w" style="opacity:.6">${fmtK(un21)}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${unv>=0?'#7ECFA0':'#FF8A80'}">${s(unv)}${fmtK(unv)}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${unv>=0?'#7ECFA0':'#FF8A80'}">${s(parseFloat(unvp))}${unvp}%</span>`,
+    `<span style="font-family:'Open Sans',sans-serif;font-size:9px;color:rgba(255,255,255,.5)">${pctVn(un22)}</span>`,
+    `<span style="font-family:'Open Sans',sans-serif;font-size:9px;color:rgba(255,255,255,.5)">${pctVn21(un21)}</span>`,
+  ]);
+}
+
+function toggle(id){ expanded[id]=!expanded[id]; render(); }
+render();
+</script>

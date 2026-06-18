@@ -1,0 +1,150 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:center;white-space:nowrap;
+}
+table.matriz thead th:first-child{text-align:left}
+table.matriz tbody td{
+  padding:8px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:center;
+}
+table.matriz tbody td:first-child{text-align:left}
+table.matriz tbody tr:last-child td{border-bottom:none}
+table.matriz tbody tr:hover td{background:#F8F8FD}
+
+/* Rank badge */
+.rank{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-family:'Poppins',sans-serif;font-size:10px;font-weight:700}
+.rank.r1{background:#CC1B00;color:#fff}
+.rank.r2{background:#C2410C;color:#fff}
+.rank.r3{background:#B87800;color:#fff}
+.rank.r4{background:#9898B8;color:#fff}
+.rank.rn{background:#EEEEF9;color:#9898B8}
+
+/* Score dots */
+.dots{display:flex;gap:3px;justify-content:center;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot.on-high{background:#07074E}
+.dot.on-med{background:#C96A00}
+.dot.on-low{background:#AAAABF}
+.dot.off{background:#EAEAF2;border:1px solid #D4D4E8}
+
+/* Cuadrante pill */
+.quad{display:inline-flex;align-items:center;padding:3px 9px;border-radius:4px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;white-space:nowrap}
+.quad.q1{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}  /* Alto impacto, bajo esfuerzo */
+.quad.q2{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}  /* Alto impacto, alto esfuerzo */
+.quad.q3{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.18)}  /* Bajo impacto, bajo esfuerzo */
+.quad.q4{background:#F4F4FA;color:#9898B8;border:1px solid #E2E2EF}             /* Bajo impacto, alto esfuerzo */
+
+/* Score bar */
+.sbar{display:flex;align-items:center;gap:6px;justify-content:center}
+.sbar-track{width:56px;height:5px;background:#F0F0F8;border-radius:3px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:3px}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Matriz de Priorización — Iniciativas de Mejora · Impacto vs Esfuerzo</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <tr>
+        <th style="width:28%;text-align:left">Iniciativa</th>
+        <th style="width:10%">Impacto</th>
+        <th style="width:10%">Esfuerzo</th>
+        <th style="width:10%">Urgencia</th>
+        <th style="width:10%">Factibilidad</th>
+        <th style="width:10%">Score Total</th>
+        <th style="width:8%">Ranking</th>
+        <th style="width:14%">Cuadrante</th>
+      </tr>
+    </thead>
+    <tbody id="prioBody"></tbody>
+  </table>
+</div>
+
+<script>
+// Escala 1-5 para cada dimensión
+// Esfuerzo: valor alto = más difícil (invertido para score)
+const iniciativas = [
+  { label:'Implementar Plan Preventivo COVENIN', impacto:5, esfuerzo:3, urgencia:5, factibilidad:4 },
+  { label:'Reducir Costo de Materia Prima',       impacto:5, esfuerzo:2, urgencia:4, factibilidad:4 },
+  { label:'Optimizar Gastos de Fabricación',      impacto:4, esfuerzo:2, urgencia:3, factibilidad:5 },
+  { label:'Mejorar Margen Neto a 15%',            impacto:5, esfuerzo:4, urgencia:5, factibilidad:3 },
+  { label:'Capacitación Técnica del Personal',    impacto:4, esfuerzo:2, urgencia:3, factibilidad:5 },
+  { label:'Sistema de Registro de Averías',       impacto:3, esfuerzo:1, urgencia:4, factibilidad:5 },
+  { label:'Auditoría de Gastos Administrativos',  impacto:3, esfuerzo:2, urgencia:2, factibilidad:4 },
+  { label:'Expansión Canal Digital',              impacto:4, esfuerzo:3, urgencia:3, factibilidad:3 },
+  { label:'Certificación ISO 9001',               impacto:3, esfuerzo:5, urgencia:2, factibilidad:2 },
+  { label:'Automatización Línea de Producción',   impacto:5, esfuerzo:5, urgencia:3, factibilidad:2 },
+];
+
+// Score: impacto*30 + (6-esfuerzo)*20 + urgencia*25 + factibilidad*25 → max 500
+function calcScore(d){
+  return d.impacto*30 + (6-d.esfuerzo)*20 + d.urgencia*25 + d.factibilidad*25;
+}
+
+function quadrant(d){
+  const highImpact = d.impacto >= 4;
+  const highEsf    = d.esfuerzo >= 4;
+  if(highImpact && !highEsf) return {cls:'q1', label:'🎯 Ganar rápido'};
+  if(highImpact && highEsf)  return {cls:'q2', label:'📈 Proyectos clave'};
+  if(!highImpact && !highEsf)return {cls:'q3', label:'⚡ Relleno'};
+  return                           {cls:'q4', label:'⚠ Reconsiderar'};
+}
+
+function dots(val, max=5){
+  let html='<div class="dots">';
+  for(let i=1;i<=max;i++){
+    const on = i<=val;
+    const cls = on ? (val>=4?'on-high':val>=3?'on-med':'on-low') : 'off';
+    html+=`<div class="dot ${on?cls:'off'}"></div>`;
+  }
+  return html+'</div>';
+}
+
+function rankCls(r){ return r===1?'r1':r===2?'r2':r===3?'r3':r<=5?'r4':'rn' }
+
+// Ordenar por score
+const sorted = [...iniciativas]
+  .map(d=>({...d, score:calcScore(d)}))
+  .sort((a,b)=>b.score-a.score)
+  .map((d,i)=>({...d, rank:i+1}));
+
+const maxScore = 500;
+
+const html = sorted.map(d=>{
+  const q = quadrant(d);
+  const pct = Math.round((d.score/maxScore)*100);
+  const fc = d.rank<=3?'#CC1B00':d.rank<=6?'#B87800':'#9898B8';
+  return `<tr>
+    <td style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">${d.label}</td>
+    <td>${dots(d.impacto)}</td>
+    <td>${dots(d.esfuerzo)}</td>
+    <td>${dots(d.urgencia)}</td>
+    <td>${dots(d.factibilidad)}</td>
+    <td>
+      <div class="sbar">
+        <div class="sbar-track"><div class="sbar-fill" style="width:${pct}%;background:${fc}"></div></div>
+        <span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${fc};min-width:28px">${d.score}</span>
+      </div>
+    </td>
+    <td><span class="rank ${rankCls(d.rank)}">${d.rank}</span></td>
+    <td><span class="quad ${q.cls}">${q.label}</span></td>
+  </tr>`;
+}).join('');
+
+document.getElementById('prioBody').innerHTML = html;
+</script>

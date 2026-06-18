@@ -1,0 +1,125 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;
+  border-bottom:1px solid #E2E2EF;
+  background:#F4F4FA;
+}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#07074E}
+.panel-actions{display:flex;align-items:center;gap:8px}
+.btn-csv{appearance:none;-webkit-appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:5px 10px;cursor:pointer;line-height:1}
+.btn-det{appearance:none;-webkit-appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,#07074E 0%,#C2410C 60%,#E87202 100%);border:none;border-radius:5px;padding:5px 10px;cursor:pointer;line-height:1}
+.tbl{width:100%;border-collapse:collapse}
+.tbl thead th{font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#AAAABF;padding:8px 14px;border-bottom:1px solid #E2E2EF;background:#FAFAFA;text-align:left;white-space:nowrap}
+.tbl thead th.right{text-align:right}
+.tbl thead th.center{text-align:center}
+.tbl tbody tr:hover td{background:#F8F8FD}
+.tbl tbody td{font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A;padding:9px 14px;border-bottom:1px solid #F2F2F8;vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:none}
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E;text-align:right}
+.bar-track{width:80px;height:5px;background:#F0F0F8;border-radius:3px;overflow:hidden;margin:0 auto}
+.bar-fill{height:100%;border-radius:3px}
+.bar-fill.grave{background:#CC1B00}
+.bar-fill.mejorable{background:#B87800}
+.bar-fill.aceptable{background:#1A7F3C}
+.pct{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;text-align:right}
+.pct.grave{color:#CC1B00}
+.pct.mejorable{color:#B87800}
+.pct.aceptable{color:#1A7F3C}
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-family:'Open Sans',sans-serif;font-size:8.5px;font-weight:700;white-space:nowrap}
+.pill.grave{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}
+.pill.mejorable{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.18)}
+.pill.aceptable{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Ficha de Evaluación — Principios Básicos</div>
+    <div class="panel-actions">
+      <button class="btn-csv">↓ CSV</button>
+      <button class="btn-det">Detalles</button>
+    </div>
+  </div>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th style="width:36%">Principio Básico</th>
+        <th class="right" style="width:10%">Ptje. Máx.</th>
+        <th class="right" style="width:10%">Deméritos</th>
+        <th class="right" style="width:10%">Diferencia</th>
+        <th class="center" style="width:18%">Cumplimiento</th>
+        <th class="right" style="width:8%">%</th>
+        <th class="center" style="width:8%">Condición</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>VIII Mantenimiento Preventivo</td>
+        <td class="num">250</td><td class="num">170</td><td class="num">80</td>
+        <td><div class="bar-track"><div class="bar-fill grave" style="width:32%"></div></div></td>
+        <td class="pct grave">32.00%</td>
+        <td style="text-align:center"><span class="pill grave">Grave</span></td>
+      </tr>
+      <tr>
+        <td>IX Mantenimiento por Avería</td>
+        <td class="num">250</td><td class="num">161</td><td class="num">89</td>
+        <td><div class="bar-track"><div class="bar-fill grave" style="width:35.6%"></div></div></td>
+        <td class="pct grave">35.60%</td>
+        <td style="text-align:center"><span class="pill grave">Grave</span></td>
+      </tr>
+      <tr>
+        <td>VII Mantenimiento Correctivo</td>
+        <td class="num">250</td><td class="num">157</td><td class="num">93</td>
+        <td><div class="bar-track"><div class="bar-fill grave" style="width:37.2%"></div></div></td>
+        <td class="pct grave">37.20%</td>
+        <td style="text-align:center"><span class="pill grave">Grave</span></td>
+      </tr>
+      <tr>
+        <td>VI Mantenimiento Circunstancial</td>
+        <td class="num">250</td><td class="num">152</td><td class="num">98</td>
+        <td><div class="bar-track"><div class="bar-fill grave" style="width:39.2%"></div></div></td>
+        <td class="pct grave">39.20%</td>
+        <td style="text-align:center"><span class="pill grave">Grave</span></td>
+      </tr>
+      <tr>
+        <td>XII Recursos de Mantenimiento</td>
+        <td class="num">150</td><td class="num">89</td><td class="num">61</td>
+        <td><div class="bar-track"><div class="bar-fill grave" style="width:40.7%"></div></div></td>
+        <td class="pct grave">40.67%</td>
+        <td style="text-align:center"><span class="pill grave">Grave</span></td>
+      </tr>
+      <tr>
+        <td>XI Apoyo Logístico</td>
+        <td class="num">100</td><td class="num">57</td><td class="num">43</td>
+        <td><div class="bar-track"><div class="bar-fill mejorable" style="width:43%"></div></div></td>
+        <td class="pct mejorable">43.00%</td>
+        <td style="text-align:center"><span class="pill mejorable">Mejorable</span></td>
+      </tr>
+      <tr>
+        <td>X Personal de Mantenimiento</td>
+        <td class="num">200</td><td class="num">108</td><td class="num">92</td>
+        <td><div class="bar-track"><div class="bar-fill mejorable" style="width:46%"></div></div></td>
+        <td class="pct mejorable">46.00%</td>
+        <td style="text-align:center"><span class="pill mejorable">Mejorable</span></td>
+      </tr>
+      <tr>
+        <td>IV Mantenimiento Rutinario</td>
+        <td class="num">250</td><td class="num">134</td><td class="num">116</td>
+        <td><div class="bar-track"><div class="bar-fill mejorable" style="width:46.4%"></div></div></td>
+        <td class="pct mejorable">46.40%</td>
+        <td style="text-align:center"><span class="pill mejorable">Mejorable</span></td>
+      </tr>
+      <tr>
+        <td>I Organización de la Empresa</td>
+        <td class="num">100</td><td class="num">30</td><td class="num">70</td>
+        <td><div class="bar-track"><div class="bar-fill aceptable" style="width:66.7%"></div></div></td>
+        <td class="pct aceptable">66.70%</td>
+        <td style="text-align:center"><span class="pill aceptable">Aceptable</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

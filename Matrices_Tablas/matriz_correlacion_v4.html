@@ -1,0 +1,160 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;display:inline-block}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1;flex-shrink:0}
+
+/* Layout: tabla izq + leyenda der */
+.content{display:flex;align-items:flex-start;gap:0;padding:12px 0 16px}
+.table-wrap{padding:0 0 0 20px}
+.legend-col{
+  padding:0 20px;
+  display:flex;flex-direction:column;gap:10px;
+  border-left:1px solid #F2F2F8;
+  min-width:140px;
+  justify-content:center;
+}
+.legend-title{font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.legend-item{display:flex;align-items:center;gap:8px;font-family:'Open Sans',sans-serif;font-size:9px;color:#6B6B8A;white-space:nowrap}
+.legend-swatch{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.legend-scale-wrap{margin-top:4px;display:flex;flex-direction:column;gap:2px}
+.legend-scale{display:flex;flex-direction:column;gap:1px;border-radius:3px;overflow:hidden;width:10px}
+.legend-scale-row{display:flex;align-items:center;gap:8px}
+.legend-scale div{height:14px;width:10px}
+
+table.corr{border-collapse:separate;border-spacing:2px}
+table.corr th.row-hdr{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:600;color:#44446A;text-align:right;padding:4px 10px 4px 4px;white-space:nowrap;background:transparent}
+table.corr th.col-hdr{font-family:'Open Sans',sans-serif;font-size:8.5px;font-weight:600;color:#44446A;text-align:center;padding:0 4px 8px;white-space:nowrap;background:transparent}
+table.corr th.col-hdr div{writing-mode:vertical-rl;transform:rotate(180deg);height:80px;display:flex;align-items:center;justify-content:center}
+table.corr td.cell{width:44px;height:44px;border-radius:6px;text-align:center;vertical-align:middle;cursor:default;transition:transform .1s}
+table.corr td.cell:hover{transform:scale(1.12);z-index:10;position:relative}
+table.corr td.diag{background:#F4F4FA}
+.cell-val{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;line-height:1;display:block}
+.cell-lbl{font-family:'Open Sans',sans-serif;font-size:7px;opacity:.7;display:block;margin-top:2px}
+</style>
+
+<div style="background:#EAEAF2;padding:32px">
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Matriz de Correlación — Variables de Gestión · FY 2022</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+
+  <div class="content">
+    <!-- TABLA -->
+    <div class="table-wrap">
+      <table class="corr" id="corrTable"></table>
+    </div>
+
+    <!-- LEYENDA VERTICAL DERECHA -->
+    <div class="legend-col">
+      <div class="legend-title">Correlación</div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#1A7F3C"></div>
+        Positiva fuerte (&gt;0.7)
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#2E8B57;opacity:.8"></div>
+        Positiva moderada
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#5A9E6A;opacity:.6"></div>
+        Positiva débil
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#E2E2EF;border:1px solid #C8C8DC"></div>
+        Sin correlación
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#C96A00;opacity:.65"></div>
+        Negativa débil
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#D94E1A;opacity:.8"></div>
+        Negativa moderada
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#CC1B00;opacity:.9"></div>
+        Negativa fuerte
+      </div>
+
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid #F2F2F8">
+        <div class="legend-title" style="margin-bottom:6px">Etiquetas</div>
+        <div class="legend-item"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#07074E;min-width:18px">++</span>Muy alta</div>
+        <div class="legend-item"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#07074E;min-width:18px">+</span>Moderada</div>
+        <div class="legend-item"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#07074E;min-width:18px">~</span>Débil/Nula</div>
+        <div class="legend-item"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#07074E;min-width:18px">-</span>Neg. moderada</div>
+        <div class="legend-item"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#07074E;min-width:18px">--</span>Neg. fuerte</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const vars=['Ventas','Margen Neto','Costo de Vtas.','Gtos. Operativos','EBITDA','Deméritos COVENIN','Capacitación'];
+const corr=[
+  [ 1.00,  0.72, -0.65, -0.48,  0.80, -0.58,  0.44],
+  [ 0.72,  1.00, -0.81, -0.60,  0.92, -0.70,  0.55],
+  [-0.65, -0.81,  1.00,  0.72, -0.75,  0.68, -0.40],
+  [-0.48, -0.60,  0.72,  1.00, -0.55,  0.45, -0.30],
+  [ 0.80,  0.92, -0.75, -0.55,  1.00, -0.68,  0.52],
+  [-0.58, -0.70,  0.68,  0.45, -0.68,  1.00, -0.62],
+  [ 0.44,  0.55, -0.40, -0.30,  0.52, -0.62,  1.00],
+];
+
+function getColor(v){
+  if(v>=0.7)  return{bg:'#1A7F3C',op:.9, text:'#fff'};
+  if(v>=0.4)  return{bg:'#2E8B57',op:.7, text:'#fff'};
+  if(v>=0.1)  return{bg:'#5A9E6A',op:.55,text:'#fff'};
+  if(v>-0.1)  return{bg:'#E2E2EF',op:1,  text:'#9898B8'};
+  if(v>=-0.4) return{bg:'#C96A00',op:.65,text:'#fff'};
+  if(v>=-0.7) return{bg:'#D94E1A',op:.75,text:'#fff'};
+  return           {bg:'#CC1B00',op:.9, text:'#fff'};
+}
+function corrLabel(v){
+  const a=Math.abs(v);
+  if(a>=0.7) return v>0?'++':'--';
+  if(a>=0.4) return v>0?'+':'-';
+  return '~';
+}
+
+const table=document.getElementById('corrTable');
+const thead=document.createElement('thead');
+const trHead=document.createElement('tr');
+const thE=document.createElement('th');thE.className='row-hdr';trHead.appendChild(thE);
+vars.forEach(v=>{
+  const th=document.createElement('th');th.className='col-hdr';
+  th.innerHTML=`<div>${v}</div>`;trHead.appendChild(th);
+});
+thead.appendChild(trHead);table.appendChild(thead);
+
+const tbody=document.createElement('tbody');
+vars.forEach((rowVar,i)=>{
+  const tr=document.createElement('tr');
+  const thRow=document.createElement('th');thRow.className='row-hdr';thRow.textContent=rowVar;tr.appendChild(thRow);
+  vars.forEach((_,j)=>{
+    const td=document.createElement('td');
+    const v=corr[i][j];
+    if(i===j){
+      td.className='cell diag';
+      td.innerHTML=`<span class="cell-val" style="color:#07074E;font-size:12px">1.00</span><span class="cell-lbl" style="color:#9898B8">—</span>`;
+    } else {
+      const c=getColor(v);
+      td.className='cell';
+      td.style.background=c.bg;
+      td.style.opacity=c.op;
+      td.title=`${vars[i]} vs ${vars[j]}: ${v}`;
+      td.innerHTML=`<span class="cell-val" style="color:${c.text}">${v.toFixed(2)}</span><span class="cell-lbl" style="color:${c.text}">${corrLabel(v)}</span>`;
+    }
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+});
+table.appendChild(tbody);
+</script>

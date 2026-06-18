@@ -1,0 +1,220 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table.matriz{width:100%;border-collapse:collapse}
+table.matriz thead tr.hdr-group th{
+  font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;
+  color:#fff;text-transform:uppercase;letter-spacing:.5px;
+  padding:5px 12px;text-align:center;white-space:nowrap;
+}
+table.matriz thead tr.hdr-group th.lbl{background:#F4F4FA;color:#9898B8;text-align:left}
+table.matriz thead tr.hdr-group th.grp-real{background:#07074E}
+table.matriz thead tr.hdr-group th.grp-ppto{background:#3d3d6b}
+table.matriz thead tr.hdr-group th.grp-var{background:#2d1a4e}
+
+table.matriz thead tr.hdr-cols th{
+  font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;
+  color:#9898B8;text-transform:uppercase;letter-spacing:.5px;
+  padding:6px 12px;border-bottom:2px solid #E2E2EF;
+  background:#FAFAFA;text-align:right;white-space:nowrap;
+}
+table.matriz thead tr.hdr-cols th:first-child{text-align:left}
+
+table.matriz tbody td{
+  padding:6px 12px;border-bottom:1px solid #F2F2F8;
+  font-family:'Open Sans',sans-serif;font-size:11px;
+  color:#44446A;vertical-align:middle;text-align:right;
+  white-space:nowrap;
+}
+
+/* Tipos de fila */
+.row-dept td{background:#07074E;border-top:none;border-bottom:none}
+.row-dept:hover td{background:#0D0D6B !important}
+.row-dept td:first-child{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3px;color:#fff;text-transform:uppercase}
+.row-sub td{background:#fff}
+.row-sub:hover td{background:#F8F8FD}
+.row-sub td:first-child{padding-left:28px;color:#6B6B8A;font-size:10.5px}
+.row-subtotal td{background:#F4F4FA;border-top:2px solid #E2E2EF;border-bottom:2px solid #E2E2EF}
+.row-subtotal:hover td{background:#EEEEF9}
+.row-subtotal td:first-child{font-family:'Poppins',sans-serif;font-weight:700;color:#07074E;padding-left:28px}
+.row-grandtotal td{background:#07074E;border-top:3px solid #C96A00}
+.row-grandtotal:hover td{background:#0D0D6B !important}
+.row-grandtotal td{color:#fff !important}
+.row-grandtotal td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px}
+
+/* Toggle */
+.toggle{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:#EEEEF9;border:1px solid #D4D4E8;font-size:10px;font-weight:700;color:#07074E;margin-right:7px;flex-shrink:0;cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1;transition:background .12s}
+.toggle:hover{background:#D4D4E8}
+.toggle-inv{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.toggle-inv:hover{background:rgba(255,255,255,.2)}
+.label-wrap{display:flex;align-items:center}
+
+/* Valores */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E}
+.num-w{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff}
+.num-sm{font-family:'Poppins',sans-serif;font-weight:500;font-size:10.5px;color:#9898B8}
+.var-pos{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#1A7F3C}
+.var-neg{font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:#CC1B00}
+.var-neu{font-family:'Poppins',sans-serif;font-weight:600;font-size:10px;color:#9898B8}
+
+/* Pill ejecución */
+.pill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;white-space:nowrap}
+.pill.good{background:#EEF7F1;color:#1A7F3C;border:1px solid rgba(26,127,60,.18)}
+.pill.warn{background:#FFF8E5;color:#B87800;border:1px solid rgba(184,120,0,.18)}
+.pill.bad{background:#FFF0EE;color:#CC1B00;border:1px solid rgba(204,27,0,.18)}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Presupuesto vs Real por Centro de Costo — FY 2022</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table class="matriz">
+    <thead>
+      <!-- Grupos de columnas -->
+      <tr class="hdr-group">
+        <th class="lbl" rowspan="2" style="width:30%">Centro de Costo</th>
+        <th class="grp-real" colspan="2">Real (K)</th>
+        <th class="grp-ppto" colspan="2">Presupuesto (K)</th>
+        <th class="grp-var" colspan="2">Variación</th>
+        <th class="lbl" rowspan="2" style="color:#9898B8;background:#FAFAFA;text-align:center">Ejecución</th>
+      </tr>
+      <tr class="hdr-cols">
+        <th>Acum.</th><th>Mes</th>
+        <th>Acum.</th><th>Mes</th>
+        <th>Var. K</th><th>Var. %</th>
+      </tr>
+    </thead>
+    <tbody id="pptoBody"></tbody>
+  </table>
+</div>
+
+<script>
+const depts = [
+  {
+    id:'d1', label:'Producción', 
+    subs:[
+      {label:'Materia Prima',          racum:291, rmes:28, pacum:280, pmes:26},
+      {label:'Mano de Obra Directa',   racum:156, rmes:14, pacum:150, pmes:14},
+      {label:'Gastos de Fabricación',  racum:124, rmes:11, pacum:120, pmes:11},
+    ]
+  },
+  {
+    id:'d2', label:'Ventas y Marketing',
+    subs:[
+      {label:'Gastos de Ventas',        racum:38, rmes:4, pacum:36, pmes:3},
+      {label:'Marketing Digital',       racum:12, rmes:1, pacum:10, pmes:1},
+      {label:'Eventos y Promociones',   racum:6,  rmes:1, pacum:5,  pmes:0},
+    ]
+  },
+  {
+    id:'d3', label:'Administración',
+    subs:[
+      {label:'Sueldos Administrativos', racum:38, rmes:4, pacum:36, pmes:3},
+      {label:'Servicios Generales',     racum:9,  rmes:1, pacum:8,  pmes:1},
+      {label:'Tecnología y Sistemas',   racum:5,  rmes:0, pacum:4,  pmes:0},
+    ]
+  },
+  {
+    id:'d4', label:'Finanzas',
+    subs:[
+      {label:'Gastos Financieros',      racum:14, rmes:1, pacum:12, pmes:1},
+      {label:'Seguros',                 racum:4,  rmes:0, pacum:4,  pmes:0},
+    ]
+  },
+];
+
+const expanded={};
+
+function varK(r,p){return r-p}
+function varPct(r,p){return p!==0?((r-p)/Math.abs(p)*100).toFixed(1):0}
+function varCls(v){return v>0?'var-pos':v<0?'var-neg':'var-neu'}
+function s(v){return v>0?'+':''}
+function execPct(r,p){return p!==0?((r/p)*100).toFixed(1):0}
+function execCls(p){const v=parseFloat(p);return v>=95?'good':v>=80?'warn':'bad'}
+function execLabel(p){const v=parseFloat(p);return v>=95?'✓ En meta':v>=80?'⚠ Cercano':'✕ Bajo'}
+
+function addRow(tbody,cls,cells){
+  const tr=document.createElement('tr');
+  tr.className=cls;
+  cells.forEach(c=>{const td=document.createElement('td');td.innerHTML=c;tr.appendChild(td)});
+  tbody.appendChild(tr);
+}
+
+function render(){
+  const tbody=document.getElementById('pptoBody');
+  tbody.innerHTML='';
+
+  let gtRacum=0,gtRmes=0,gtPacum=0,gtPmes=0;
+
+  depts.forEach(dept=>{
+    const isOpen=expanded[dept.id];
+    const dRacum=dept.subs.reduce((s,i)=>s+i.racum,0);
+    const dRmes =dept.subs.reduce((s,i)=>s+i.rmes,0);
+    const dPacum=dept.subs.reduce((s,i)=>s+i.pacum,0);
+    const dPmes =dept.subs.reduce((s,i)=>s+i.pmes,0);
+    gtRacum+=dRacum; gtRmes+=dRmes; gtPacum+=dPacum; gtPmes+=dPmes;
+
+    const dvka=varK(dRacum,dPacum), dvpa=varPct(dRacum,dPacum);
+    const exec=execPct(dRacum,dPacum);
+
+    // Header departamento
+    addRow(tbody,'row-dept',[
+      `<div class="label-wrap"><span class="toggle toggle-inv" onclick="toggle('${dept.id}')">${isOpen?'−':'+'}</span>${dept.label}</div>`,
+      '','','','','','',''
+    ]);
+
+    if(isOpen){
+      dept.subs.forEach(sub=>{
+        const svka=varK(sub.racum,sub.pacum), svpa=varPct(sub.racum,sub.pacum);
+        const sexec=execPct(sub.racum,sub.pacum);
+        addRow(tbody,'row-sub',[
+          `<div class="label-wrap" style="padding-left:28px"><span style="width:5px;height:5px;border-radius:50%;background:#C8C8DC;display:inline-block;margin-right:8px;flex-shrink:0"></span>${sub.label}</div>`,
+          `<span class="num-sm">${sub.racum}</span>`,
+          `<span class="num-sm">${sub.rmes}</span>`,
+          `<span class="num-sm" style="color:#C8C8DC">${sub.pacum}</span>`,
+          `<span class="num-sm" style="color:#C8C8DC">${sub.pmes}</span>`,
+          `<span class="${varCls(svka)}" style="font-size:9.5px">${s(svka)}${svka}</span>`,
+          `<span class="${varCls(svka)}" style="font-size:9.5px">${s(parseFloat(svpa))}${svpa}%</span>`,
+          `<span class="pill ${execCls(sexec)}">${execLabel(sexec)}</span>`,
+        ]);
+      });
+    }
+
+    // Subtotal
+    addRow(tbody,'row-subtotal',[
+      `<div class="label-wrap" style="padding-left:28px"><span class="toggle" onclick="toggle('${dept.id}')">${isOpen?'−':'+'}</span>Subtotal ${dept.label}</div>`,
+      `<span class="num">${dRacum}</span>`,
+      `<span class="num">${dRmes}</span>`,
+      `<span class="num" style="color:#9898B8">${dPacum}</span>`,
+      `<span class="num" style="color:#9898B8">${dPmes}</span>`,
+      `<span class="${varCls(dvka)}">${s(dvka)}${dvka}</span>`,
+      `<span class="${varCls(dvka)}">${s(parseFloat(dvpa))}${dvpa}%</span>`,
+      `<span class="pill ${execCls(exec)}">${execLabel(exec)}</span>`,
+    ]);
+  });
+
+  // Gran total
+  const gtvka=varK(gtRacum,gtPacum), gtvpa=varPct(gtRacum,gtPacum);
+  const gexec=execPct(gtRacum,gtPacum);
+  addRow(tbody,'row-grandtotal',[
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:#fff">Total General</span>`,
+    `<span class="num-w">${gtRacum}</span>`,
+    `<span class="num-w">${gtRmes}</span>`,
+    `<span class="num-w" style="opacity:.6">${gtPacum}</span>`,
+    `<span class="num-w" style="opacity:.6">${gtPmes}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${gtvka>=0?'#7ECFA0':'#FF8A80'}">${s(gtvka)}${gtvka}</span>`,
+    `<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${gtvka>=0?'#7ECFA0':'#FF8A80'}">${s(parseFloat(gtvpa))}${gtvpa}%</span>`,
+    `<span style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:${execCls(gexec)==='good'?'#7ECFA0':execCls(gexec)==='warn'?'#FFD080':'#FF8A80'}">${gexec}% ejec.</span>`,
+  ]);
+}
+
+function toggle(id){expanded[id]=!expanded[id];render();}
+render();
+</script>

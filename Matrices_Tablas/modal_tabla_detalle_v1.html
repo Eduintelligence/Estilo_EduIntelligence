@@ -1,0 +1,367 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+
+.modal-wrap{display:flex;flex-direction:column;gap:32px}
+.label-sec{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#AAAABF;margin-bottom:8px}
+
+/* MODAL */
+.modal{background:#F4F4FA;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(7,7,78,.12)}
+
+/* MODAL HEADER */
+.modal-hdr{
+  background:linear-gradient(135deg,#07074E 0%,#0D0D6B 45%,#1a1a8a 70%,#2d1a6e 100%);
+  padding:16px 20px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  position:relative;overflow:hidden;
+}
+.modal-hdr::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#07074E 0%,#1a1a8a 20%,#3d2a9e 35%,#6b21a8 50%,#c2410c 70%,#E87202 85%,#f59e0b 100%);
+}
+.modal-hdr::before{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:200px;
+  background:linear-gradient(90deg,transparent,rgba(232,114,2,.08));
+}
+.modal-htitle{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.2px}
+.modal-hsub{font-family:'Open Sans',sans-serif;font-size:9px;color:rgba(255,255,255,.4);margin-top:3px}
+.modal-close{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;
+  color:rgba(255,255,255,.7);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:'Open Sans',sans-serif;z-index:1;
+}
+
+/* FILTROS */
+.modal-filters{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;
+  background:#fff;
+  border-bottom:1px solid #E2E2EF;
+}
+.filter-label{font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#AAAABF}
+.filter-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#F4F4FA;border:1.5px solid #E2E2EF;
+  border-radius:6px;padding:5px 10px;
+  font-family:'Open Sans',sans-serif;font-size:10px;font-weight:600;color:#44446A;
+  cursor:pointer;
+}
+.filter-pill svg{width:8px;height:8px;stroke:#9898B8;fill:none;stroke-width:2;stroke-linecap:round}
+.filter-pill .dot{width:6px;height:6px;border-radius:50%;background:#E87202;flex-shrink:0}
+
+/* TABLA */
+.tbl{width:100%;border-collapse:collapse;background:#fff}
+.tbl thead th{
+  font-family:'Open Sans',sans-serif;
+  font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:#AAAABF;padding:8px 14px;
+  border-bottom:1px solid #E2E2EF;
+  background:#FAFAFA;text-align:left;white-space:nowrap;
+}
+.tbl thead th.right{text-align:right}
+.tbl thead th.center{text-align:center}
+.tbl tbody tr:hover td{background:#F8F8FD}
+.tbl tbody td{
+  font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A;
+  padding:9px 14px;border-bottom:1px solid #F2F2F8;vertical-align:middle;
+}
+.tbl tbody tr:last-child td{border-bottom:none}
+
+/* BADGES RANKING */
+.rank{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  font-family:'Poppins',sans-serif;font-size:9px;font-weight:700;
+}
+.rank.r1{background:#CC1B00;color:#fff}
+.rank.r2{background:#C2410C;color:#fff}
+.rank.r3{background:#B87800;color:#fff}
+.rank.rn{background:#EEEEF9;color:#9898B8}
+
+/* VALORES */
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E;text-align:right}
+.num.grave{color:#CC1B00;font-weight:700}
+.num.warn{color:#B87800;font-weight:700}
+.pct{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;text-align:right}
+.pct.grave{color:#CC1B00}
+.pct.mejorable{color:#B87800}
+.pct.aceptable{color:#1A7F3C}
+
+/* ÁREA · PRINCIPIO */
+.area-cell{display:flex;flex-direction:column;gap:2px}
+.area-name{font-family:'Open Sans',sans-serif;font-size:11px;font-weight:600;color:#07074E}
+.area-sub{font-family:'Open Sans',sans-serif;font-size:9px;color:#AAAABF}
+
+/* FOOTER */
+.modal-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 16px;background:#FAFAFA;border-top:1px solid #E2E2EF;
+}
+.footer-src{font-family:'Open Sans',sans-serif;font-size:8px;color:#AAAABF}
+.footer-src strong{color:#44446A;font-weight:600}
+.footer-count{font-family:'Open Sans',sans-serif;font-size:8px;color:#AAAABF}
+</style>
+
+<div class="modal-wrap">
+
+  <!-- TABLA PARETO -->
+  <div>
+    <div class="label-sec">Tabla de detalle · Pareto general</div>
+    <div class="modal">
+      <div class="modal-hdr">
+        <div>
+          <div class="modal-htitle">Datos Pareto General — Diagnóstico COVENIN 2500-93</div>
+          <div class="modal-hsub">Ranking por total de deméritos · SEM 4</div>
+        </div>
+        <button class="modal-close">✕</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th class="center" style="width:7%">Ranking</th>
+              <th style="width:34%">Área</th>
+              <th class="right" style="width:12%">Ptje. Máximo</th>
+              <th class="right" style="width:12%">Total Deméritos</th>
+              <th class="right" style="width:12%">Acumulado</th>
+              <th class="right" style="width:8%">% Acum.</th>
+              <th class="right" style="width:8%">Cumpl.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align:center"><span class="rank r1">1</span></td>
+              <td>VIII Mantenimiento Preventivo</td>
+              <td class="num right">250</td>
+              <td class="num grave right">170</td>
+              <td class="num right">170</td>
+              <td class="num right" style="color:#9898B8">12.35%</td>
+              <td class="pct grave right">32.00%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank r2">2</span></td>
+              <td>IX Mantenimiento por Avería</td>
+              <td class="num right">250</td>
+              <td class="num grave right">161</td>
+              <td class="num right">331</td>
+              <td class="num right" style="color:#9898B8">24.04%</td>
+              <td class="pct grave right">35.60%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank r3">3</span></td>
+              <td>VII Mantenimiento Correctivo</td>
+              <td class="num right">250</td>
+              <td class="num grave right">157</td>
+              <td class="num right">488</td>
+              <td class="num right" style="color:#9898B8">35.44%</td>
+              <td class="pct grave right">37.20%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">4</span></td>
+              <td>VI Mantenimiento Circunstancial</td>
+              <td class="num right">250</td>
+              <td class="num grave right">152</td>
+              <td class="num right">640</td>
+              <td class="num right" style="color:#9898B8">46.48%</td>
+              <td class="pct grave right">39.20%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">5</span></td>
+              <td>IV Mantenimiento Rutinario</td>
+              <td class="num right">250</td>
+              <td class="num warn right">134</td>
+              <td class="num right">774</td>
+              <td class="num right" style="color:#9898B8">56.21%</td>
+              <td class="pct mejorable right">46.40%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">6</span></td>
+              <td>V Mantenimiento Programado</td>
+              <td class="num right">250</td>
+              <td class="num warn right">125</td>
+              <td class="num right">899</td>
+              <td class="num right" style="color:#9898B8">65.29%</td>
+              <td class="pct mejorable right">50.00%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">7</span></td>
+              <td>X Personal de Mantenimiento</td>
+              <td class="num right">200</td>
+              <td class="num warn right">108</td>
+              <td class="num right">1.007</td>
+              <td class="num right" style="color:#9898B8">73.13%</td>
+              <td class="pct mejorable right">46.00%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">8</span></td>
+              <td>III Planificación de Mantenimiento</td>
+              <td class="num right">200</td>
+              <td class="num warn right">90</td>
+              <td class="num right">1.097</td>
+              <td class="num right" style="color:#9898B8">79.67%</td>
+              <td class="pct mejorable right">55.00%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">9</span></td>
+              <td>XII Recursos de Mantenimiento</td>
+              <td class="num right">150</td>
+              <td class="num grave right">89</td>
+              <td class="num right">1.186</td>
+              <td class="num right" style="color:#9898B8">86.13%</td>
+              <td class="pct grave right">40.67%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">10</span></td>
+              <td>II Organización de Mantenimiento</td>
+              <td class="num right">200</td>
+              <td class="num warn right">84</td>
+              <td class="num right">1.270</td>
+              <td class="num right" style="color:#9898B8">92.23%</td>
+              <td class="pct mejorable right">58.00%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">11</span></td>
+              <td>XI Apoyo Logístico</td>
+              <td class="num right">100</td>
+              <td class="num warn right">57</td>
+              <td class="num right">1.327</td>
+              <td class="num right" style="color:#9898B8">96.37%</td>
+              <td class="pct mejorable right">43.00%</td>
+            </tr>
+            <tr>
+              <td style="text-align:center"><span class="rank rn">12</span></td>
+              <td>I Organización de la Empresa</td>
+              <td class="num right">150</td>
+              <td class="num right">50</td>
+              <td class="num right">1.377</td>
+              <td class="num right" style="color:#9898B8">100.00%</td>
+              <td class="pct aceptable right">66.67%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <div class="footer-src">Fuente: <strong>COVENIN 2500-93 · DATA_2500-93_PBI.xlsx</strong></div>
+        <div class="footer-count">12 áreas evaluadas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA FICHA CON FILTROS -->
+  <div>
+    <div class="label-sec">Tabla de detalle · Ficha por demérito con filtros</div>
+    <div class="modal">
+      <div class="modal-hdr">
+        <div>
+          <div class="modal-htitle">Ficha de Evaluación — Detalle por Demérito</div>
+          <div class="modal-hsub">Descripción completa · Puntajes por semana</div>
+        </div>
+        <button class="modal-close">✕</button>
+      </div>
+      <!-- FILTROS CON PILL STYLE -->
+      <div class="modal-filters">
+        <span class="filter-label">Semana</span>
+        <div class="filter-pill">SEM 4 <svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></div>
+        <span class="filter-label" style="margin-left:6px">Área</span>
+        <div class="filter-pill"><span class="dot"></span>Todas <svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></div>
+        <span class="filter-label" style="margin-left:6px">Principio</span>
+        <div class="filter-pill">Todos <svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th style="width:7%">Demérito</th>
+              <th style="width:28%">Área · Principio</th>
+              <th style="width:33%">Descripción</th>
+              <th class="right" style="width:8%">Ptje. Máx.</th>
+              <th class="right" style="width:8%">Deméritos</th>
+              <th class="right" style="width:8%">Diferencia</th>
+              <th class="right" style="width:8%">Cumpl.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#AAAABF">VI.3.5</td>
+              <td>
+                <div class="area-cell">
+                  <span class="area-name">VI Mantenimiento Circunstancial</span>
+                  <span class="area-sub">3. Control y Evaluación</span>
+                </div>
+              </td>
+              <td style="font-size:10px;color:#6B6B8A;line-height:1.5">La recopilación de información no permite la evaluación del mantenimiento circunstancial.</td>
+              <td class="num grave right">20</td>
+              <td class="num grave right">20</td>
+              <td class="num right">0</td>
+              <td class="pct grave right">0.0%</td>
+            </tr>
+            <tr>
+              <td style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#AAAABF">VII.1.1</td>
+              <td>
+                <div class="area-cell">
+                  <span class="area-name">VII Mantenimiento Correctivo</span>
+                  <span class="area-sub">1. Planificación</span>
+                </div>
+              </td>
+              <td style="font-size:10px;color:#6B6B8A;line-height:1.5">No se llevan registros por escrito de aparición de fallas para actualizarlas y evitar su futura presencia.</td>
+              <td class="num grave right">30</td>
+              <td class="num grave right">20</td>
+              <td class="num right">10</td>
+              <td class="pct grave right">33.3%</td>
+            </tr>
+            <tr>
+              <td style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#AAAABF">VIII.2.1</td>
+              <td>
+                <div class="area-cell">
+                  <span class="area-name">VIII Mantenimiento Preventivo</span>
+                  <span class="area-sub">2. Planificación</span>
+                </div>
+              </td>
+              <td style="font-size:10px;color:#6B6B8A;line-height:1.5">No existe una clara delimitación entre los sistemas que forman parte de los programas de mantenimiento preventivo.</td>
+              <td class="num right">20</td>
+              <td class="num warn right">17</td>
+              <td class="num right">3</td>
+              <td class="pct mejorable right">15.0%</td>
+            </tr>
+            <tr>
+              <td style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#AAAABF">IV.3.7</td>
+              <td>
+                <div class="area-cell">
+                  <span class="area-name">IV Mantenimiento Rutinario</span>
+                  <span class="area-sub">3. Control y Evaluación</span>
+                </div>
+              </td>
+              <td style="font-size:10px;color:#6B6B8A;line-height:1.5">La recopilación de información no permite la evaluación del mantenimiento rutinario.</td>
+              <td class="num right">20</td>
+              <td class="num warn right">15</td>
+              <td class="num right">5</td>
+              <td class="pct mejorable right">25.0%</td>
+            </tr>
+            <tr>
+              <td style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#AAAABF">I.1.2</td>
+              <td>
+                <div class="area-cell">
+                  <span class="area-name">I Organización de la Empresa</span>
+                  <span class="area-sub">1. Funciones y Responsabilidades</span>
+                </div>
+              </td>
+              <td style="font-size:10px;color:#6B6B8A;line-height:1.5">La empresa no cuenta con un organigrama actualizado y funcional.</td>
+              <td class="num right">30</td>
+              <td class="num right">6</td>
+              <td class="num right">24</td>
+              <td class="pct aceptable right">80.0%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <div class="footer-src">Fuente: <strong>COVENIN 2500-93 · DATA_2500-93_PBI.xlsx</strong></div>
+        <div class="footer-count">211 deméritos mostrados</div>
+      </div>
+    </div>
+  </div>
+
+</div>

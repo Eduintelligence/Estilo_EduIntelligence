@@ -1,0 +1,143 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#F4F4FA;border-bottom:1px solid #E2E2EF}
+.panel-title{font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase}
+.btn-csv{appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1}
+
+table{width:100%;border-collapse:collapse}
+thead tr.hdr-grp th{font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px;padding:5px 12px;text-align:center;white-space:nowrap}
+thead tr.hdr-grp th.lbl{background:#F4F4FA;color:#9898B8;text-align:left}
+thead tr.hdr-grp th.grp-real{background:#07074E}
+thead tr.hdr-grp th.grp-ppto{background:#3d3d6b}
+thead tr.hdr-grp th.grp-var{background:#1a1a5a}
+thead tr.hdr-sub th{font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.5px;padding:6px 12px;border-bottom:2px solid #E2E2EF;background:#FAFAFA;text-align:center;white-space:nowrap}
+thead tr.hdr-sub th:first-child{text-align:left}
+
+tbody tr:hover td{background:#F8F8FD}
+tbody td{padding:7px 12px;border-bottom:1px solid #F2F2F8;vertical-align:middle;text-align:center;font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A;white-space:nowrap}
+tbody td:first-child{text-align:left}
+tbody tr:last-child td{border-bottom:none}
+.row-section td{background:#F4F4FA;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.8px;padding:5px 12px;border-top:1px solid #E2E2EF}
+.row-section:hover td{background:#F4F4FA}
+.row-total td{background:#07074E;border-top:2px solid #C96A00}
+.row-total:hover td{background:#0D0D6B !important}
+.row-total td{color:#fff !important}
+.row-total td:first-child{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px}
+
+.num{font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;color:#07074E}
+.num-muted{font-family:'Poppins',sans-serif;font-weight:500;font-size:11px;color:#9898B8}
+.num-w{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#fff}
+
+.var-cell{display:flex;align-items:center;gap:6px;justify-content:center;min-width:120px}
+.var-track{position:relative;width:80px;height:6px;background:#EAEAF2;border-radius:3px}
+.var-center{position:absolute;left:50%;top:0;width:1px;height:100%;background:#C8C8DC}
+.var-fill-pos{position:absolute;left:50%;top:0;height:100%;border-radius:0 3px 3px 0}
+.var-fill-neg{position:absolute;right:50%;top:0;height:100%;border-radius:3px 0 0 3px}
+.var-val{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;min-width:36px;text-align:left}
+</style>
+
+<div class="panel">
+  <div class="panel-hdr">
+    <div class="panel-title">Tabla de Variación — Real vs Presupuesto por Área · FY 2022</div>
+    <button class="btn-csv">↓ CSV</button>
+  </div>
+  <table>
+    <thead>
+      <tr class="hdr-grp">
+        <th class="lbl" rowspan="2" style="width:22%">Área / Concepto</th>
+        <th class="grp-real" colspan="2">Real</th>
+        <th class="grp-ppto" colspan="2">Presupuesto</th>
+        <th class="grp-var" colspan="2">Variación</th>
+      </tr>
+      <tr class="hdr-sub">
+        <th>Acum. K</th><th>% Vtas.</th>
+        <th>Acum. K</th><th>% Vtas.</th>
+        <th style="width:160px">Abs. K</th><th>Var. %</th>
+      </tr>
+    </thead>
+    <tbody id="varBody"></tbody>
+  </table>
+</div>
+
+<script>
+const sections=[
+  {label:'Ingresos',rows:[
+    {label:'Ventas Netas',real:785,ppto:730,pctVtas:100},
+    {label:'Otros Ingresos',real:28,ppto:24,pctVtas:3.6},
+  ]},
+  {label:'Costos',rows:[
+    {label:'Materia Prima',real:291,ppto:280,pctVtas:37.1},
+    {label:'Mano de Obra Directa',real:156,ppto:150,pctVtas:19.9},
+    {label:'Gastos de Fabricación',real:124,ppto:120,pctVtas:15.8},
+  ]},
+  {label:'Gastos Operativos',rows:[
+    {label:'Gastos de Ventas',real:38,ppto:36,pctVtas:4.8},
+    {label:'Administración',real:52,ppto:48,pctVtas:6.6},
+    {label:'Marketing',real:18,ppto:15,pctVtas:2.3},
+  ]},
+  {label:'Resultados',rows:[
+    {label:'Utilidad Bruta',real:214,ppto:180,pctVtas:27.3},
+    {label:'EBITDA',real:106,ppto:96,pctVtas:13.5},
+    {label:'Utilidad Neta',real:99,ppto:81,pctVtas:12.6},
+  ]},
+];
+
+const allRows=sections.flatMap(s=>s.rows);
+const maxVar=Math.max(...allRows.map(r=>Math.abs(r.real-r.ppto)));
+
+function varBar(real,ppto){
+  const v=real-ppto;
+  const pct=Math.min((Math.abs(v)/maxVar)*100,100);
+  const half=pct/2;
+  const color=v>=0?'#1A7F3C':'#CC1B00';
+  const sign=v>=0?'+':'';
+  const fill=v>=0
+    ?`<div class="var-fill-pos" style="width:${half}%;background:${color}"></div>`
+    :`<div class="var-fill-neg" style="width:${half}%;background:${color}"></div>`;
+  return `<div class="var-cell">
+    <div class="var-track"><div class="var-center"></div>${fill}</div>
+    <span class="var-val" style="color:${color}">${sign}${v}</span>
+  </div>`;
+}
+
+function varPctCell(real,ppto){
+  const v=ppto!==0?((real-ppto)/Math.abs(ppto)*100).toFixed(1):0;
+  const color=parseFloat(v)>=0?'#1A7F3C':'#CC1B00';
+  const sign=parseFloat(v)>=0?'+':'';
+  return `<span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${color}">${sign}${v}%</span>`;
+}
+
+let html='';
+sections.forEach(sec=>{
+  html+=`<tr class="row-section"><td colspan="7">${sec.label}</td></tr>`;
+  sec.rows.forEach(row=>{
+    const pPpto=row.ppto!==0?((row.ppto/785)*100).toFixed(1):'—';
+    html+=`<tr>
+      <td style="color:#44446A">${row.label}</td>
+      <td><span class="num">${row.real}</span></td>
+      <td><span class="num-muted">${row.pctVtas}%</span></td>
+      <td><span class="num-muted">${row.ppto}</span></td>
+      <td><span class="num-muted" style="color:#C8C8DC">${pPpto}%</span></td>
+      <td>${varBar(row.real,row.ppto)}</td>
+      <td>${varPctCell(row.real,row.ppto)}</td>
+    </tr>`;
+  });
+});
+
+const totalReal=785+28,totalPpto=730+24;
+const tv=totalReal-totalPpto,tvp=((tv/totalPpto)*100).toFixed(1);
+html+=`<tr class="row-total">
+  <td>Total General</td>
+  <td><span class="num-w">${totalReal}</span></td>
+  <td><span class="num-w" style="opacity:.6">100%</span></td>
+  <td><span class="num-w" style="opacity:.5">${totalPpto}</span></td>
+  <td><span class="num-w" style="opacity:.4">100%</span></td>
+  <td><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:${tv>=0?'#7ECFA0':'#FF8A80'}">${tv>=0?'+':''}${tv}K</span></td>
+  <td><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;color:${tv>=0?'#7ECFA0':'#FF8A80'}">${tv>=0?'+':''}${tvp}%</span></td>
+</tr>`;
+
+document.getElementById('varBody').innerHTML=html;
+</script>
