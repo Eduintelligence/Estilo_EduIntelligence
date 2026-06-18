@@ -1,0 +1,415 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:24px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;gap:32px">
+
+  <div style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#AAAABF">Layout A — Tres columnas · Múltiples páginas</div>
+
+  <div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 24px rgba(7,7,78,.12)">
+
+    <!-- NAV -->
+    <div style="background:linear-gradient(135deg,#07074E 0%,#0D0D6B 45%,#1a1a8a 70%,#2d1a6e 100%);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;bottom:0;width:260px;background:linear-gradient(90deg,transparent,rgba(232,114,2,.1))"></div>
+      <div style="display:flex;align-items:center;gap:10px;z-index:1">
+        <div style="width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#E87202" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,2 3,6 7,10"/></svg>
+        </div>
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.4)">Panel de tableros</span>
+      </div>
+      <div style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;color:rgba(232,114,2,.6);font-weight:500">Financiero</span>
+        <span style="font-size:11px;color:rgba(232,114,2,.25)">·</span>
+        <span style="font-size:11px;color:rgba(232,114,2,.85);font-weight:700">Estado de Resultados</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;z-index:1">
+        <div style="display:flex;gap:5px;align-items:center">
+          <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:12px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-start">
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:12px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+          </div>
+        </div>
+        <span style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.35)">Edu<strong style="color:rgba(255,255,255,.6)">Intelligence</strong></span>
+      </div>
+    </div>
+
+    <!-- TÍTULO + FILTROS -->
+    <div style="background:#fff;padding:22px 24px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:inline-flex;align-items:center;gap:7px;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#E87202">
+          <div style="width:14px;height:1.5px;background:#E87202"></div>FY 2022
+        </div>
+        <div style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;color:#07074E;letter-spacing:-.3px">Estado de Resultados</div>
+        <div style="font-size:11px;color:#9898B8;display:flex;align-items:center;gap:5px">
+          Expresado en miles $
+          <div style="width:2px;height:2px;border-radius:50%;background:#D0D0E8"></div>
+          <strong style="color:#44446A;font-weight:600">¿Qué explica la diferencia real vs presupuesto?</strong>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="display:flex;align-items:center;background:#F4F4FA;border:1.5px solid #E2E2EF;border-radius:8px;padding:3px;gap:2px">
+          <div style="font-size:10px;font-weight:600;color:#AAAABF;padding:5px 10px;border-radius:5px">Presupuesto</div>
+          <div style="font-size:10px;font-weight:700;color:#fff;background:linear-gradient(90deg,#07074E 0%,#C2410C 60%,#E87202 100%);padding:5px 10px;border-radius:5px">2022</div>
+          <div style="font-size:10px;font-weight:600;color:#AAAABF;padding:5px 10px;border-radius:5px">Mes · Todas</div>
+        </div>
+      </div>
+    </div>
+    <div style="height:3px;background:linear-gradient(90deg,#07074E 0%,#1a1a8a 20%,#3d2a9e 35%,#6b21a8 50%,#c2410c 70%,#E87202 85%,#f59e0b 100%)"></div>
+
+    <!-- TRES COLUMNAS -->
+    <div style="display:grid;grid-template-columns:220px 1fr 240px;min-height:380px">
+
+      <!-- SIDEBAR NAV -->
+      <div style="background:#07074E;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06)">
+        <nav style="flex:1;padding:12px 0">
+          <div style="padding:8px 14px 4px">
+            <div style="font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:4px">General</div>
+          </div>
+          <div style="padding:7px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;margin:0 6px;border-radius:6px">
+            <span style="font-size:10px">📋</span>
+            <div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.4);font-weight:500">Resumen Ejecutivo</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.18);margin-top:1px">Estado · Alerta · Decisión</div>
+            </div>
+          </div>
+          <div style="padding:7px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;margin:0 6px;border-radius:6px">
+            <span style="font-size:10px">📈</span>
+            <div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.4);font-weight:500">Tendencias</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.18);margin-top:1px">Evolución · 4 indicadores</div>
+            </div>
+          </div>
+          <div style="padding:12px 14px 4px">
+            <div style="font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:4px">Estado Financiero</div>
+          </div>
+          <div style="padding:7px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;margin:0 6px;border-radius:6px;background:rgba(255,255,255,.1);position:relative">
+            <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:65%;background:#C96A00;border-radius:0 2px 2px 0"></div>
+            <span style="font-size:10px">📊</span>
+            <div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#fff;font-weight:600">Estado de Resultados</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.35);margin-top:1px">P&L · Comparativo · Drivers</div>
+            </div>
+          </div>
+          <div style="padding:7px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;margin:0 6px;border-radius:6px">
+            <span style="font-size:10px">⚖️</span>
+            <div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.4);font-weight:500">Balance General</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.18);margin-top:1px">Activo · Pasivo · Patrimonio</div>
+            </div>
+          </div>
+          <div style="padding:7px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;margin:0 6px;border-radius:6px">
+            <span style="font-size:10px">💧</span>
+            <div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.4);font-weight:500">Flujo de Efectivo</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.18);margin-top:1px">Operativo · Inversión · Neto</div>
+            </div>
+          </div>
+          <div style="padding:12px 14px 4px">
+            <div style="font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:4px">Análisis</div>
+          </div>
+          <div style="padding:7px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;margin:0 6px;border-radius:6px">
+            <span style="font-size:10px">💰</span>
+            <div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.4);font-weight:500">Utilidad</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.18);margin-top:1px">Waterfall · Margen · EBITDA</div>
+            </div>
+          </div>
+        </nav>
+        <div style="padding:10px 14px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0">
+          <div style="font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:4px">Período Activo</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#C96A00">Dic 2022 · YTD 12m</div>
+        </div>
+      </div>
+
+      <!-- CONTENIDO -->
+      <div style="padding:16px;display:flex;flex-direction:column;gap:12px;background:#F4F4FA">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;position:relative;display:flex;flex-direction:column">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1A7F3C,rgba(26,127,60,0))"></div>
+            <div style="padding:12px 14px;display:flex;flex-direction:column;flex:1;justify-content:space-between">
+              <div>
+                <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#AAAABF;margin-bottom:1px">EBITDA · YTD 2022</div>
+                <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#CCCCDD;font-style:italic">Acumulado anual</div>
+              </div>
+              <div>
+                <div style="font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#07074E;letter-spacing:-1.5px;line-height:1;margin-bottom:5px">62.173<span style="font-size:13px;font-weight:700">K</span></div>
+                <span style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;background:#EEF7F1;color:#1A7F3C;padding:2px 6px;border-radius:4px">Margen 18.6%</span>
+              </div>
+              <div style="padding-top:7px;border-top:1px solid #F2F2F8;display:grid;grid-template-columns:1fr 1fr 1fr">
+                <div><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Objetivo</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#44446A">67.0K</div></div>
+                <div style="text-align:center"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Mejor</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#44446A">Oct</div></div>
+                <div style="text-align:right"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">vs Ppto</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#1A7F3C">+8.2%</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;position:relative;display:flex;flex-direction:column">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#CC1B00,rgba(204,27,0,0))"></div>
+            <div style="padding:12px 14px;display:flex;flex-direction:column;flex:1;justify-content:space-between">
+              <div>
+                <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#AAAABF;margin-bottom:1px">Utilidad Neta · YTD 2022</div>
+                <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#CCCCDD;font-style:italic">Acumulado anual</div>
+              </div>
+              <div>
+                <div style="font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#07074E;letter-spacing:-1.5px;line-height:1;margin-bottom:5px">27.379<span style="font-size:13px;font-weight:700">K</span></div>
+                <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+                  <span style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;background:#EEF7F1;color:#1A7F3C;padding:2px 6px;border-radius:4px">▲ 83.8% vs AA</span>
+                  <span style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;background:#FFF0EE;color:#CC1B00;padding:2px 6px;border-radius:4px">▼ 12.1% Ppto</span>
+                </div>
+              </div>
+              <div style="padding-top:7px;border-top:1px solid #F2F2F8;display:grid;grid-template-columns:1fr 1fr 1fr">
+                <div><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Objetivo</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#44446A">31.1K</div></div>
+                <div style="text-align:center"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Peor</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#CC1B00">Dic</div></div>
+                <div style="text-align:right"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">vs Ppto</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#CC1B00">−12.1%</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;position:relative;display:flex;flex-direction:column">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#B87800,rgba(184,120,0,0))"></div>
+            <div style="padding:12px 14px;display:flex;flex-direction:column;flex:1;justify-content:space-between">
+              <div>
+                <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#AAAABF;margin-bottom:1px">Margen Neto · YTD 2022</div>
+                <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#CCCCDD;font-style:italic">Acumulado anual</div>
+              </div>
+              <div>
+                <div style="font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#07074E;letter-spacing:-1.5px;line-height:1;margin-bottom:5px">12.6<span style="font-size:13px;font-weight:700">%</span></div>
+                <span style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;background:#FFF8E5;color:#B87800;padding:2px 6px;border-radius:4px">Bajo obj. 15%</span>
+              </div>
+              <div style="padding-top:7px;border-top:1px solid #F2F2F8;display:grid;grid-template-columns:1fr 1fr 1fr">
+                <div><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Objetivo</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#44446A">15.0%</div></div>
+                <div style="text-align:center"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Mejor</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#44446A">Dic</div></div>
+                <div style="text-align:right"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">vs Ppto</div><div style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#B87800">−2.4 pts</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:#fff;border-radius:8px;border:1px solid #E2E2EF;padding:14px;min-height:110px;display:flex;align-items:center;justify-content:center">
+            <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#DFDFE8">Tabla P&L</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;border:1px solid #E2E2EF;padding:14px;min-height:110px;display:flex;align-items:center;justify-content:center">
+            <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#DFDFE8">Gráfico de líneas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL IA -->
+      <div style="background:linear-gradient(180deg,#3E3E4C 0%,#333340 50%,#2E2E3C 100%);display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.06)">
+        <div style="padding:14px 14px 12px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#07074E,#C2410C);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(201,106,0,.3)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <div>
+              <div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#fff">Analista IA</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.3);margin-top:1px">Estado de Resultados</div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.55);line-height:1.5;font-family:'Open Sans',sans-serif">
+            Analizando <span style="color:#C96A00;font-weight:600">FY 2022 · Dic</span><br>
+            Período: <span style="color:rgba(255,255,255,.8);font-weight:600">YTD 12 meses</span>
+          </div>
+        </div>
+        <div style="padding:10px 14px 6px;flex-shrink:0">
+          <div style="font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:7px">Análisis Rápido</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1.4">¿Por qué el gap vs presupuesto?</div>
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1.4">¿Qué riesgos identificas?</div>
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1.4">Explica el EBITDA</div>
+          </div>
+        </div>
+        <div style="flex:1;padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 11px;font-size:9px;color:rgba(255,255,255,.8);line-height:1.55;font-family:'Open Sans',sans-serif">
+            Hola. Estoy analizando el <span style="color:#C96A00;font-weight:600">Estado de Resultados YTD 2022</span>. Puedo explicar cualquier métrica o identificar drivers de variación.
+          </div>
+        </div>
+        <div style="padding:10px 12px;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:7px;align-items:center;flex-shrink:0">
+          <input style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:7px 12px;font-size:9px;color:#fff;font-family:'Open Sans',sans-serif;outline:none" placeholder="Pregunta sobre los datos…" type="text">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#07074E,#C2410C);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+          </div>
+        </div>
+        <div style="padding:4px 12px 10px;display:flex;justify-content:space-between;flex-shrink:0">
+          <div style="font-size:7px;color:rgba(255,255,255,.18);font-family:'Open Sans',sans-serif">Análisis sobre datos reales · <span style="color:#C96A00;opacity:.6">EduIntelligence FY2022</span></div>
+          <button style="background:none;border:none;font-size:7.5px;color:rgba(255,255,255,.25);cursor:pointer;font-family:'Open Sans',sans-serif">⬇ Exportar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- NARRATIVA — estructura correcta de cards_insight_v3 -->
+    <div style="background:#fff;border-top:1px solid #E2E2EF;padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+      <!-- INSIGHT DIAGNÓSTICO -->
+      <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;display:flex">
+        <div style="width:3px;background:linear-gradient(180deg,#E87202 0%,rgba(232,114,2,0) 100%);flex-shrink:0"></div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:7px;flex:1">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:6px;height:6px;border-radius:50%;background:#E87202;flex-shrink:0"></div>
+            <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#E87202">Diagnóstico</div>
+          </div>
+          <div style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#07074E;line-height:1.35">Rentabilidad saludable con gap en utilidad neta</div>
+          <div style="font-size:11px;color:#6B6B8A;line-height:1.6">Margen neto del 12.6%. Las Ventas Netas superaron el presupuesto, sin embargo la Utilidad Neta quedó 12.2% bajo el objetivo.</div>
+          <div style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;background:#FFF8E5;align-self:flex-start;margin-top:2px">
+            <span style="font-size:9px;font-weight:700;color:#B87800">En seguimiento · Q1</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;margin-top:4px">
+            <div style="height:2px;width:16px;background:linear-gradient(90deg,#07074E,#E87202);border-radius:1px;flex-shrink:0"></div>
+            <span style="font-size:10px;font-weight:700;color:#E87202">Monitorear evolución del margen</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIGHT ACCIÓN -->
+      <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;display:flex">
+        <div style="width:3px;background:linear-gradient(180deg,#CC1B00 0%,#E87202 100%);flex-shrink:0"></div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:7px;flex:1">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:6px;height:6px;border-radius:50%;background:#CC1B00;flex-shrink:0"></div>
+            <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#CC1B00">Acción prioritaria</div>
+          </div>
+          <div style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#07074E;line-height:1.35">Revisar Otros Ingresos y Gastos en H2 2022</div>
+          <div style="font-size:11px;color:#6B6B8A;line-height:1.6">Concentran la mayor desviación vs presupuesto — son el driver principal del gap en Utilidad Neta.</div>
+          <div style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;background:#FFF0EE;align-self:flex-start;margin-top:2px">
+            <span style="font-size:9px;font-weight:700;color:#CC1B00">Urgente · Esta semana</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;margin-top:4px">
+            <div style="height:2px;width:16px;background:linear-gradient(90deg,#07074E,#E87202);border-radius:1px;flex-shrink:0"></div>
+            <span style="font-size:10px;font-weight:700;color:#E87202">Auditar partidas no operativas H2</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- LABEL B -->
+  <div style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#AAAABF;margin-top:8px">Layout B — Dos columnas · Página única</div>
+
+  <!-- LAYOUT B -->
+  <div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 24px rgba(7,7,78,.12)">
+
+    <!-- NAV -->
+    <div style="background:linear-gradient(135deg,#07074E 0%,#0D0D6B 45%,#1a1a8a 70%,#2d1a6e 100%);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;bottom:0;width:260px;background:linear-gradient(90deg,transparent,rgba(232,114,2,.1))"></div>
+      <div style="display:flex;align-items:center;gap:10px;z-index:1">
+        <div style="width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#E87202" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,2 3,6 7,10"/></svg>
+        </div>
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.4)">Panel de tableros</span>
+      </div>
+      <div style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;color:rgba(232,114,2,.6);font-weight:500">Operativo</span>
+        <span style="font-size:11px;color:rgba(232,114,2,.25)">·</span>
+        <span style="font-size:11px;color:rgba(232,114,2,.85);font-weight:700">Gestión de Mantenimiento</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;z-index:1">
+        <div style="display:flex;gap:5px;align-items:center">
+          <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:12px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-start">
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:12px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+            <div style="width:16px;height:5px;background:rgba(255,255,255,.8);border-radius:1px"></div>
+          </div>
+        </div>
+        <span style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.35)">Edu<strong style="color:rgba(255,255,255,.6)">Intelligence</strong></span>
+      </div>
+    </div>
+
+    <!-- TÍTULO + FILTROS -->
+    <div style="background:#fff;padding:22px 24px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:inline-flex;align-items:center;gap:7px;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#E87202">
+          <div style="width:14px;height:1.5px;background:#E87202"></div>Covenin 2500-93
+        </div>
+        <div style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;color:#07074E;letter-spacing:-.3px">Evaluación de la Gestión de Mantenimiento</div>
+        <div style="font-size:11px;color:#9898B8;display:flex;align-items:center;gap:5px">
+          Diagnóstico operativo por área
+          <div style="width:2px;height:2px;border-radius:50%;background:#D0D0E8"></div>
+          <strong style="color:#44446A;font-weight:600">¿Qué área intervenir primero?</strong>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="display:flex;align-items:center;background:#F4F4FA;border:1.5px solid #E2E2EF;border-radius:8px;padding:3px;gap:2px">
+          <div style="font-size:10px;font-weight:600;color:#AAAABF;padding:5px 10px;border-radius:5px">Todas</div>
+          <div style="font-size:10px;font-weight:600;color:#AAAABF;padding:5px 10px;border-radius:5px">SEM 1</div>
+          <div style="font-size:10px;font-weight:600;color:#AAAABF;padding:5px 10px;border-radius:5px">SEM 2</div>
+          <div style="font-size:10px;font-weight:600;color:#AAAABF;padding:5px 10px;border-radius:5px">SEM 3</div>
+          <div style="font-size:10px;font-weight:700;color:#fff;background:linear-gradient(90deg,#07074E 0%,#C2410C 60%,#E87202 100%);padding:5px 10px;border-radius:5px">SEM 4</div>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:#F4F4FA;border:1.5px solid #E2E2EF;border-radius:8px;padding:6px 12px;cursor:pointer">
+          <div style="width:6px;height:6px;border-radius:50%;background:#E87202"></div>
+          <span style="font-size:10px;font-weight:600;color:#44446A;font-family:'Open Sans',sans-serif">Área · Todas</span>
+          <svg width="8" height="8" viewBox="0 0 10 10" fill="none" stroke="#9898B8" stroke-width="2" stroke-linecap="round"><polyline points="2,3 5,7 8,3"/></svg>
+        </div>
+        <button style="font-size:10px;color:#AAAABF;background:none;border:none;cursor:pointer;font-family:'Open Sans',sans-serif">✕ Limpiar</button>
+      </div>
+    </div>
+    <div style="height:3px;background:linear-gradient(90deg,#07074E 0%,#1a1a8a 20%,#3d2a9e 35%,#6b21a8 50%,#c2410c 70%,#E87202 85%,#f59e0b 100%)"></div>
+
+    <!-- DOS COLUMNAS -->
+    <div style="display:grid;grid-template-columns:1fr 240px;min-height:320px">
+      <div style="padding:16px;display:flex;flex-direction:column;gap:12px;background:#F4F4FA">
+        <div style="background:#fff;border-radius:8px;border:1px solid #E2E2EF;padding:14px;min-height:70px;display:flex;align-items:center;justify-content:center">
+          <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#DFDFE8">Banner de condición · MEJORABLE</div>
+        </div>
+        <div style="background:#fff;border-radius:8px;border:1px solid #E2E2EF;padding:14px;min-height:130px;display:flex;align-items:center;justify-content:center">
+          <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#DFDFE8">Pareto de deméritos</div>
+        </div>
+        <div style="background:#fff;border-radius:8px;border:1px solid #E2E2EF;padding:14px;min-height:70px;display:flex;align-items:center;justify-content:center">
+          <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#DFDFE8">Tabla principios básicos</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(180deg,#3E3E4C 0%,#333340 50%,#2E2E3C 100%);display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.06)">
+        <div style="padding:14px 14px 12px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#07074E,#C2410C);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(201,106,0,.3)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <div>
+              <div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#fff">Analista IA</div>
+              <div style="font-family:'Open Sans',sans-serif;font-size:8px;color:rgba(255,255,255,.3);margin-top:1px">Gestión de Mantenimiento</div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.55);line-height:1.5;font-family:'Open Sans',sans-serif">
+            Analizando <span style="color:#C96A00;font-weight:600">SEM 4 · Todas las áreas</span><br>
+            Cumplimiento: <span style="color:rgba(255,255,255,.8);font-weight:600">44.92%</span>
+          </div>
+        </div>
+        <div style="padding:10px 14px 6px;flex-shrink:0">
+          <div style="font-family:'Open Sans',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:7px">Análisis Rápido</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1.4">¿Por qué la condición actual?</div>
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1.4">¿Qué área intervenir primero?</div>
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Open Sans',sans-serif;line-height:1.4">Acciones prioritarias</div>
+          </div>
+        </div>
+        <div style="flex:1;padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 11px;font-size:9px;color:rgba(255,255,255,.8);line-height:1.55;font-family:'Open Sans',sans-serif">
+            Hola. Estoy analizando la evaluación <span style="color:#C96A00;font-weight:600">COVENIN 2500-93</span> en tiempo real según los filtros activos.
+          </div>
+        </div>
+        <div style="padding:10px 12px;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:7px;align-items:center;flex-shrink:0">
+          <input style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:7px 12px;font-size:9px;color:#fff;font-family:'Open Sans',sans-serif;outline:none" placeholder="Pregunta sobre los datos…" type="text">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#07074E,#C2410C);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+          </div>
+        </div>
+        <div style="padding:4px 12px 10px;display:flex;justify-content:space-between;flex-shrink:0">
+          <div style="font-size:7px;color:rgba(255,255,255,.18);font-family:'Open Sans',sans-serif">Análisis sobre datos reales · <span style="color:#C96A00;opacity:.6">COVENIN 2500-93</span></div>
+          <button style="background:none;border:none;font-size:7.5px;color:rgba(255,255,255,.25);cursor:pointer;font-family:'Open Sans',sans-serif">⬇ Exportar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
