@@ -1,0 +1,61 @@
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:48px;font-family:'Open Sans',sans-serif">
+
+  <div style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#AAAABF;margin-bottom:20px">Slicer de área</div>
+
+  <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+
+    <!-- ACTIVADOR -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:9px;color:#AAAABF;letter-spacing:1px;text-transform:uppercase;font-weight:600">Cerrado</div>
+      <div style="display:inline-flex;align-items:center;gap:7px;background:#fff;border:1.5px solid #E2E2EF;border-radius:9px;padding:8px 14px;cursor:pointer">
+        <div style="width:7px;height:7px;border-radius:50%;background:#E87202;flex-shrink:0"></div>
+        <span style="font-family:'Open Sans',sans-serif;font-size:11px;font-weight:600;color:#44446A">Área · Todas</span>
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#9898B8" stroke-width="2" stroke-linecap="round"><polyline points="2,3 5,7 8,3"/></svg>
+      </div>
+    </div>
+
+    <!-- DROPDOWN ABIERTO -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:9px;color:#AAAABF;letter-spacing:1px;text-transform:uppercase;font-weight:600">Abierto</div>
+
+      <!-- Activador activo -->
+      <div style="display:inline-flex;align-items:center;gap:7px;background:#fff;border:1.5px solid #07074E;border-radius:9px;padding:8px 14px;cursor:pointer">
+        <div style="width:7px;height:7px;border-radius:50%;background:#E87202;flex-shrink:0"></div>
+        <span style="font-family:'Open Sans',sans-serif;font-size:11px;font-weight:600;color:#07074E">Área · Todas</span>
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#07074E" stroke-width="2" stroke-linecap="round"><polyline points="2,7 5,3 8,7"/></svg>
+      </div>
+
+      <!-- Panel dropdown -->
+      <div style="background:#fff;border-radius:10px;border:1.5px solid #E2E2EF;overflow:hidden;width:280px;box-shadow:0 8px 24px rgba(7,7,78,.1);position:relative">
+
+        <!-- Línea superior con degradado -->
+        <div style="height:3px;background:linear-gradient(90deg,#07074E 0%,#C2410C 60%,#E87202 100%)"></div>
+
+        <!-- Header del dropdown -->
+        <div style="padding:12px 16px;border-bottom:1px solid #F0F0F8;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-family:'Open Sans',sans-serif;font-size:11px;font-weight:700;color:#07074E;letter-spacing:.2px">Área · Todas</span>
+          <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#07074E 0%,#C2410C 60%,#E87202 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,5 4,7.5 8,2.5"/></svg>
+          </div>
+        </div>
+
+        <!-- Opciones -->
+        <div style="padding:6px 0">
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;transition:background .1s;border-left:3px solid transparent">I Organización de la Empresa</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;border-left:3px solid transparent">II Organización de Mantenimiento</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;border-left:3px solid transparent">III Planificación de Mantenimiento</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#44446A;font-weight:600;cursor:pointer;background:linear-gradient(90deg,rgba(7,7,78,.04),transparent);border-left:3px solid #E87202">IV Mantenimiento Rutinario</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;border-left:3px solid transparent">V Mantenimiento Programado</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;border-left:3px solid transparent">VI Mantenimiento Circunstancial</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;border-left:3px solid transparent">VII Mantenimiento Correctivo</div>
+          <div style="padding:9px 16px;font-family:'Open Sans',sans-serif;font-size:12px;color:#8888AA;cursor:pointer;border-left:3px solid transparent">VIII Mantenimiento Preventivo</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
