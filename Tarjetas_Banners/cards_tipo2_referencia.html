@@ -1,0 +1,124 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:40px;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+
+  <!-- SPARKLINE -->
+  <div style="width:280px;height:200px;background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;position:relative;display:flex;flex-direction:column;flex-shrink:0">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1A7F3C,rgba(26,127,60,0))"></div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between">
+      <div>
+        <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#AAAABF;margin-bottom:1px">Indicador</div>
+        <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#CCCCDD;font-style:italic">Evolución mensual</div>
+      </div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;flex:1;padding:8px 0">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:700;color:#07074E;letter-spacing:-1.5px;line-height:1">62.173<span style="font-size:14px;font-weight:700">K</span></div>
+          <span style="font-family:'Open Sans',sans-serif;font-size:10px;font-weight:700;background:#EEF7F1;color:#1A7F3C;padding:2px 8px;border-radius:4px;align-self:flex-start">▲ 8.2% vs AA</span>
+          <span style="font-family:'Open Sans',sans-serif;font-size:9px;color:#AAAABF;font-style:italic">acumulado anual</span>
+        </div>
+        <svg width="110" height="80" viewBox="-4 -8 118 92" style="flex-shrink:0;overflow:visible">
+          <defs>
+            <linearGradient id="spk-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1A7F3C" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="#1A7F3C" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="54" x2="110" y2="54" stroke="#EBEBF5" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="2" y="51" font-family="Open Sans" font-size="7" fill="#CCCCDD">Obj.</text>
+          <path d="M0,72 C12,70 20,66 32,62 C44,58 50,64 62,56 C74,48 84,32 96,20 C102,14 106,10 110,7 L110,80 L0,80Z" fill="url(#spk-fill)"/>
+          <path d="M0,72 C12,70 20,66 32,62 C44,58 50,64 62,56 C74,48 84,32 96,20 C102,14 106,10 110,7" fill="none" stroke="#1A7F3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="110" cy="7" r="3.5" fill="#1A7F3C"/>
+          <circle cx="110" cy="7" r="7" fill="#1A7F3C" fill-opacity="0.12"/>
+          <text x="0" y="84" font-family="Open Sans" font-size="7" fill="#CCCCDD">Ene</text>
+          <text x="55" y="84" font-family="Open Sans" font-size="7" fill="#CCCCDD" text-anchor="middle">Jun</text>
+          <text x="110" y="84" font-family="Open Sans" font-size="7" fill="#CCCCDD" text-anchor="end">Dic</text>
+        </svg>
+      </div>
+      <div style="padding-top:8px;border-top:1px solid #F2F2F8;display:grid;grid-template-columns:1fr 1fr 1fr">
+        <div><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Margen</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#1A7F3C">18.6%</div></div>
+        <div style="text-align:center"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Mejor</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#44446A">Oct</div></div>
+        <div style="text-align:right"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Peor</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#CC1B00">Dic</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAUGE -->
+  <div style="width:280px;height:200px;background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;position:relative;display:flex;flex-direction:column;flex-shrink:0">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#B87800,rgba(184,120,0,0))"></div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between">
+      <div>
+        <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#AAAABF;margin-bottom:1px">Indicador</div>
+        <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#CCCCDD;font-style:italic">Cumplimiento vs objetivo</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1;padding:8px 0">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:700;color:#07074E;letter-spacing:-1.5px;line-height:1">44.9<span style="font-size:14px;font-weight:700">%</span></div>
+          <span style="font-family:'Open Sans',sans-serif;font-size:10px;font-weight:700;background:#FFF8E5;color:#B87800;padding:2px 8px;border-radius:4px;align-self:flex-start">Mejorable</span>
+          <span style="font-family:'Open Sans',sans-serif;font-size:9px;color:#AAAABF;font-style:italic">objetivo 100%</span>
+        </div>
+        <svg width="110" height="80" viewBox="-4 -8 118 92" style="flex-shrink:0;overflow:visible">
+          <defs>
+            <linearGradient id="gauge-g" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#07074E"/>
+              <stop offset="60%" stop-color="#C2410C"/>
+              <stop offset="100%" stop-color="#E87202"/>
+            </linearGradient>
+          </defs>
+          <path d="M10,72 A45,45 0 0,1 100,72" fill="none" stroke="#F0F0F8" stroke-width="9" stroke-linecap="round"/>
+          <path d="M10,72 A45,45 0 0,1 100,72" fill="none" stroke="url(#gauge-g)" stroke-width="9" stroke-linecap="round" stroke-dasharray="141.4" stroke-dashoffset="78"/>
+          <text x="55" y="62" text-anchor="middle" font-family="Poppins" font-size="13" font-weight="700" fill="#07074E">44.9%</text>
+          <text x="6" y="80" font-family="Open Sans" font-size="7" fill="#CCCCDD" text-anchor="middle">0</text>
+          <text x="55" y="18" font-family="Open Sans" font-size="7" fill="#CCCCDD" text-anchor="middle">50</text>
+          <text x="104" y="80" font-family="Open Sans" font-size="7" fill="#CCCCDD" text-anchor="middle">100</text>
+        </svg>
+      </div>
+      <div style="padding-top:8px;border-top:1px solid #F2F2F8;display:grid;grid-template-columns:1fr 1fr 1fr">
+        <div><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Puntaje</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#44446A">1.377</div></div>
+        <div style="text-align:center"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Máximo</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#44446A">2.500</div></div>
+        <div style="text-align:right"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Brecha</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#B87800">1.123</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRAS COMPOSICIÓN -->
+  <div style="width:280px;height:200px;background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;position:relative;display:flex;flex-direction:column;flex-shrink:0">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#07074E,rgba(7,7,78,0))"></div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between">
+      <div>
+        <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#AAAABF;margin-bottom:1px">Indicador</div>
+        <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#CCCCDD;font-style:italic">Composición del total</div>
+      </div>
+      <div style="flex:1;padding:6px 0">
+        <div style="font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#07074E;letter-spacing:-1.5px;line-height:1;margin-bottom:10px">812<span style="font-size:13px;font-weight:700">K</span></div>
+        <svg width="100%" height="70" viewBox="0 0 248 70" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="bar-g" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#07074E"/>
+              <stop offset="100%" stop-color="#E87202"/>
+            </linearGradient>
+          </defs>
+          <text x="0" y="11" font-family="Open Sans" font-size="8" font-weight="600" fill="#AAAABF">MP</text>
+          <rect x="30" y="1" width="138" height="12" rx="2" fill="url(#bar-g)"/>
+          <text x="172" y="11" font-family="Poppins" font-size="8" font-weight="700" fill="#07074E">291K</text>
+          <text x="248" y="11" font-family="Poppins" font-size="8" font-weight="700" fill="#44446A" text-anchor="end">30.2%</text>
+
+          <text x="0" y="38" font-family="Open Sans" font-size="8" font-weight="600" fill="#AAAABF">Pers.</text>
+          <rect x="30" y="28" width="126" height="12" rx="2" fill="url(#bar-g)"/>
+          <text x="160" y="38" font-family="Poppins" font-size="8" font-weight="700" fill="#07074E">272K</text>
+          <text x="248" y="38" font-family="Poppins" font-size="8" font-weight="700" fill="#44446A" text-anchor="end">28.2%</text>
+
+          <text x="0" y="65" font-family="Open Sans" font-size="8" font-weight="600" fill="#AAAABF">Otros</text>
+          <rect x="30" y="55" width="110" height="12" rx="2" fill="#DDDDE8"/>
+          <text x="144" y="65" font-family="Poppins" font-size="8" font-weight="700" fill="#07074E">249K</text>
+          <text x="248" y="65" font-family="Poppins" font-size="8" font-weight="700" fill="#44446A" text-anchor="end">25.9%</text>
+        </svg>
+      </div>
+      <div style="padding-top:8px;border-top:1px solid #F2F2F8;display:grid;grid-template-columns:1fr 1fr 1fr">
+        <div><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Mayor</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">MP</div></div>
+        <div style="text-align:center"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Total</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#44446A">812K</div></div>
+        <div style="text-align:right"><div style="font-family:'Open Sans',sans-serif;font-size:7px;font-weight:600;color:#AAAABF;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">vs Ventas</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#B87800">84.3%</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
