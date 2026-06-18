@@ -1,0 +1,95 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;gap:24px;align-items:flex-start">
+
+  <!-- ANILLO — ancho exacto calculado -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;width:476px">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap">Composición del Costo de Ventas — FY 2022</div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1;flex-shrink:0">↓ CSV</button>
+    </div>
+    <div style="padding:20px 24px;display:flex;align-items:center;gap:28px">
+      <div style="position:relative;width:180px;height:180px;flex-shrink:0">
+        <canvas id="donut1" width="180" height="180" role="img" aria-label="Composición del costo de ventas FY 2022"></canvas>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none">
+          <div style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:700;color:#07074E;letter-spacing:-.5px;line-height:1">812K</div>
+          <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#9898B8;margin-top:2px">Total</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;width:196px;flex-shrink:0">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#07074E;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Materia Prima</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">291K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">30.2%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#C2410C;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Personal</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">272K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">28.2%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#C96A00;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Energía</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">158K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">16.4%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#AAAABF;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Otros</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">91K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">9.4%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#D4D4E8;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Mantenimiento</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">128K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">15.8%</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55"><span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Materia Prima y Personal</span> concentran el <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">58.4%</span> del costo total · Optimizar estas dos partidas tiene impacto directo sobre el margen bruto.</div>
+    </div>
+  </div>
+
+  <!-- CIRCULAR -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;width:460px">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap">Distribución de Ingresos por Segmento — FY 2022</div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1;flex-shrink:0">↓ CSV</button>
+    </div>
+    <div style="padding:20px 24px;display:flex;align-items:center;gap:28px">
+      <div style="width:180px;height:180px;flex-shrink:0">
+        <canvas id="pie1" width="180" height="180" role="img" aria-label="Distribución de ingresos por segmento FY 2022"></canvas>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;width:180px;flex-shrink:0">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#07074E;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Bienes</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">37.2K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">44.1%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#C2410C;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Servicios</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">28.4K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">33.7%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#C96A00;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Proyectos</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">13.7K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">16.2%</div></div>
+        </div>
+        <div style="height:1px;background:#F2F2F8"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:2px;background:#AAAABF;flex-shrink:0"></div><div style="font-family:'Open Sans',sans-serif;font-size:11px;color:#44446A">Otros</div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#07074E">5.0K</div><div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#9898B8">6.0%</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55"><span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Bienes y Servicios</span> representan el <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">77.8%</span> de los ingresos · Proyectos crece consistentemente y puede convertirse en el segundo motor.</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('donut1'),{type:'doughnut',data:{labels:['Materia Prima','Personal','Energía','Otros','Mantenimiento'],datasets:[{data:[291,272,158,91,128],backgroundColor:['#07074E','#C2410C','#C96A00','#AAAABF','#D4D4E8'],borderColor:'#fff',borderWidth:2,hoverOffset:4}]},options:{responsive:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{titleFont:{family:"'Poppins',sans-serif",size:11,weight:'700'},bodyFont:{family:"'Open Sans',sans-serif",size:10},callbacks:{label:ctx=>' '+ctx.label+': '+ctx.raw+'K'}}}}});
+
+new Chart(document.getElementById('pie1'),{type:'pie',data:{labels:['Bienes','Servicios','Proyectos','Otros'],datasets:[{data:[37.2,28.4,13.7,5.0],backgroundColor:['#07074E','#C2410C','#C96A00','#AAAABF'],borderColor:'#fff',borderWidth:2,hoverOffset:4}]},options:{responsive:false,plugins:{legend:{display:false},tooltip:{titleFont:{family:"'Poppins',sans-serif",size:11,weight:'700'},bodyFont:{family:"'Open Sans',sans-serif",size:10},callbacks:{label:ctx=>' '+ctx.label+': '+ctx.raw+'K'}}}}});
+</script>
