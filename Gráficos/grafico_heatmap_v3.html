@@ -1,0 +1,120 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;align-items:flex-start">
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden;display:inline-block">
+
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap">Cumplimiento por Área y Semana — COVENIN 2500-93</div>
+    <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1;flex-shrink:0">↓ CSV</button>
+  </div>
+
+  <div style="padding:16px 20px 8px">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;justify-content:flex-end">
+      <span style="font-family:'Open Sans',sans-serif;font-size:8px;color:#9898B8">Bajo</span>
+      <div style="display:flex;gap:1px;border-radius:3px;overflow:hidden">
+        <div style="width:18px;height:10px;background:#CC1B00"></div>
+        <div style="width:18px;height:10px;background:#D94E1A"></div>
+        <div style="width:18px;height:10px;background:#C96A00"></div>
+        <div style="width:18px;height:10px;background:#B87800"></div>
+        <div style="width:18px;height:10px;background:#5A9E6A"></div>
+        <div style="width:18px;height:10px;background:#2E8B57"></div>
+        <div style="width:18px;height:10px;background:#1A7F3C"></div>
+      </div>
+      <span style="font-family:'Open Sans',sans-serif;font-size:8px;color:#9898B8">Alto</span>
+    </div>
+
+    <!-- Ancho total exacto: 160 + 1 + 72*4 + 1*4 + 1 + 60 = 160+1+288+4+1+60 = 514px -->
+    <div style="width:514px">
+
+      <!-- Header row -->
+      <div style="display:flex;gap:1px;margin-bottom:1px">
+        <div style="width:160px;flex-shrink:0;background:#F4F4FA;padding:6px 8px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.5px">Área</div>
+        <div style="width:72px;flex-shrink:0;background:#F4F4FA;padding:6px 4px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.5px;text-align:center">SEM 1</div>
+        <div style="width:72px;flex-shrink:0;background:#F4F4FA;padding:6px 4px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.5px;text-align:center">SEM 2</div>
+        <div style="width:72px;flex-shrink:0;background:#F4F4FA;padding:6px 4px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.5px;text-align:center">SEM 3</div>
+        <div style="width:72px;flex-shrink:0;background:#F4F4FA;padding:6px 4px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#9898B8;text-transform:uppercase;letter-spacing:.5px;text-align:center">SEM 4</div>
+        <div style="width:60px;flex-shrink:0;background:#F4F4FA;padding:6px 4px;font-family:'Open Sans',sans-serif;font-size:8px;font-weight:700;color:#AAAABF;text-transform:uppercase;letter-spacing:.5px;text-align:center">Prom.</div>
+      </div>
+
+      <!-- Data rows -->
+      <div id="heatRows" style="display:flex;flex-direction:column;gap:1px"></div>
+
+    </div>
+  </div>
+
+  <div style="margin:4px 14px 12px;border-radius:6px;background:#FFF0EE;border-left:3px solid #CC1B00;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">VIII Preventivo y IX Avería</span> muestran cumplimiento crítico en todas las semanas · <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">I Org. Empresa</span> es la única área con tendencia consistentemente positiva.
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const rows = [
+  { area:'VIII Mtto. Preventivo',   vals:[30,29,31,32] },
+  { area:'IX Mtto. por Avería',     vals:[33,34,35,36] },
+  { area:'VII Mtto. Correctivo',    vals:[35,36,37,37] },
+  { area:'VI Mtto. Circunstancial', vals:[37,38,38,39] },
+  { area:'XII Recursos Mtto.',      vals:[38,39,40,41] },
+  { area:'XI Apoyo Logístico',      vals:[40,41,42,43] },
+  { area:'X Personal Mtto.',        vals:[42,44,45,46] },
+  { area:'IV Mtto. Rutinario',      vals:[43,44,45,46] },
+  { area:'V Mtto. Programado',      vals:[46,47,48,50] },
+  { area:'III Planificación',       vals:[50,52,53,55] },
+  { area:'II Org. Mantenimiento',   vals:[52,54,56,58] },
+  { area:'I Org. de la Empresa',    vals:[60,62,64,67] },
+];
+
+function getColor(v) {
+  if (v < 35)  return { bg:'#CC1B00', text:'#fff' };
+  if (v < 42)  return { bg:'#D94E1A', text:'#fff' };
+  if (v < 48)  return { bg:'#C96A00', text:'#fff' };
+  if (v < 55)  return { bg:'#B87800', text:'#fff' };
+  if (v < 62)  return { bg:'#5A9E6A', text:'#fff' };
+  if (v < 68)  return { bg:'#2E8B57', text:'#fff' };
+  return               { bg:'#1A7F3C', text:'#fff' };
+}
+
+function arrow(vals) {
+  const d = vals[3] - vals[0];
+  if (d > 3)  return `<span style="color:#1A7F3C;font-weight:700;margin-right:5px;font-size:11px">↑</span>`;
+  if (d < -3) return `<span style="color:#CC1B00;font-weight:700;margin-right:5px;font-size:11px">↓</span>`;
+  return `<span style="color:#9898B8;margin-right:5px;font-size:11px">→</span>`;
+}
+
+const container = document.getElementById('heatRows');
+
+rows.forEach(r => {
+  const avg = (r.vals.reduce((a,b)=>a+b,0)/r.vals.length).toFixed(1);
+  const avgC = getColor(parseFloat(avg));
+
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:1px';
+
+  // Label
+  const label = document.createElement('div');
+  label.style.cssText = 'width:160px;flex-shrink:0;background:#fff;padding:9px 8px;font-family:\'Open Sans\',sans-serif;font-size:11px;color:#44446A;display:flex;align-items:center;white-space:nowrap';
+  label.innerHTML = arrow(r.vals) + r.area;
+  row.appendChild(label);
+
+  // Valores
+  r.vals.forEach(v => {
+    const c = getColor(v);
+    const cell = document.createElement('div');
+    cell.style.cssText = `width:72px;flex-shrink:0;background:${c.bg};display:flex;align-items:center;justify-content:center;padding:9px 4px`;
+    cell.innerHTML = `<span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:${c.text}">${v}%</span>`;
+    row.appendChild(cell);
+  });
+
+  // Promedio
+  const avgCell = document.createElement('div');
+  avgCell.style.cssText = `width:60px;flex-shrink:0;background:${avgC.bg};display:flex;align-items:center;justify-content:center;padding:9px 4px`;
+  avgCell.innerHTML = `<span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#fff">${avg}%</span>`;
+  row.appendChild(avgCell);
+
+  container.appendChild(row);
+});
+</script>

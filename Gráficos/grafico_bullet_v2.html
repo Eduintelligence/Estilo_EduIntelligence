@@ -1,0 +1,81 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif">
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Indicadores Clave vs Objetivo — FY 2022</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:20px;height:6px;border-radius:2px;background:#E2E2EF"></div><span style="font-size:9px;color:#9898B8">Rango ref.</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:20px;height:6px;border-radius:2px;background:#C8C8DC"></div><span style="font-size:9px;color:#9898B8">Rango aceptable</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:2px;height:14px;background:#07074E;border-radius:1px"></div><span style="font-size:9px;color:#9898B8">Objetivo</span></div>
+      <div style="width:1px;height:16px;background:#E2E2EF"></div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+    </div>
+  </div>
+
+  <div style="padding:20px 20px 12px;display:flex;flex-direction:column;gap:0" id="bulletContainer"></div>
+
+  <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Ventas y EBITDA</span> superan el objetivo · <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Margen Neto y Cumplimiento COVENIN</span> están por debajo de la meta — requieren atención prioritaria.
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const metrics = [
+  { label:'Ventas Netas',          real:785,  objetivo:730, refMid:650, refHigh:800, max:850, fmt:v=>v+'K'  },
+  { label:'EBITDA',                real:62.2, objetivo:58,  refMid:52,  refHigh:70,  max:75,  fmt:v=>v+'K'  },
+  { label:'Margen Neto',           real:12.6, objetivo:15,  refMid:12,  refHigh:18,  max:20,  fmt:v=>v+'%'  },
+  { label:'Cumplimiento COVENIN',  real:44.9, objetivo:70,  refMid:50,  refHigh:80,  max:100, fmt:v=>v+'%'  },
+  { label:'Costo de Ventas / Vtas',real:62.4, objetivo:65,  refMid:62,  refHigh:72,  max:80,  fmt:v=>v+'%'  },
+];
+
+const container = document.getElementById('bulletContainer');
+
+metrics.forEach((m, idx) => {
+  const pctReal  = (m.real      / m.max) * 100;
+  const pctObj   = (m.objetivo  / m.max) * 100;
+  const pctMid   = (m.refMid    / m.max) * 100;
+  const pctHigh  = (m.refHigh   / m.max) * 100;
+
+  const row = document.createElement('div');
+  row.style.cssText = `display:grid;grid-template-columns:180px 1fr 90px;align-items:center;gap:16px;padding:10px 0;${idx < metrics.length-1 ? 'border-bottom:1px solid #F2F2F8':''}`;
+
+  // Label
+  const labelCol = document.createElement('div');
+  labelCol.innerHTML = `<div style="font-family:'Open Sans',sans-serif;font-size:11px;font-weight:600;color:#07074E">${m.label}</div>`;
+  row.appendChild(labelCol);
+
+  // Barra
+  const barCol = document.createElement('div');
+  barCol.style.cssText = 'position:relative;height:28px;display:flex;align-items:center';
+  barCol.innerHTML = `
+    <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:100%;height:14px;background:#EAEAF2;border-radius:3px"></div>
+    <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:${pctHigh}%;height:14px;background:#D8D8E8;border-radius:3px"></div>
+    <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:${pctMid}%;height:14px;background:#C8C8DC;border-radius:3px"></div>
+    <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:${pctReal}%;height:8px;background:#07074E;border-radius:2px"></div>
+    <div style="position:absolute;left:calc(${pctObj}% - 1.5px);top:50%;transform:translateY(-50%);width:3px;height:22px;background:#C96A00;border-radius:1px;z-index:2"></div>
+    <div style="position:absolute;bottom:-14px;left:0;width:100%;display:flex;justify-content:space-between">
+      <span style="font-family:'Open Sans',sans-serif;font-size:7.5px;color:#AAAABF">0</span>
+      <span style="font-family:'Open Sans',sans-serif;font-size:7.5px;color:#AAAABF">${m.fmt(m.max/2)}</span>
+      <span style="font-family:'Open Sans',sans-serif;font-size:7.5px;color:#AAAABF">${m.fmt(m.max)}</span>
+    </div>
+  `;
+  row.appendChild(barCol);
+
+  // Valor
+  const valCol = document.createElement('div');
+  valCol.style.cssText = 'text-align:right';
+  valCol.innerHTML = `
+    <div style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:#07074E;letter-spacing:-.5px;line-height:1">${m.fmt(m.real)}</div>
+    <div style="font-family:'Open Sans',sans-serif;font-size:8.5px;color:#9898B8;margin-top:2px">obj. ${m.fmt(m.objetivo)}</div>
+  `;
+  row.appendChild(valCol);
+
+  container.appendChild(row);
+});
+</script>

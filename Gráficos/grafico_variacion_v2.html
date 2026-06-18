@@ -1,0 +1,190 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;gap:24px">
+
+  <!-- VARIACIÓN MENSUAL VERTICAL -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Variación de Ventas vs Presupuesto — Mensual FY 2022</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:2px;background:#1A7F3C"></div><span style="font-size:9px;color:#9898B8">Sobre presupuesto</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:2px;background:#CC1B00"></div><span style="font-size:9px;color:#9898B8">Bajo presupuesto</span></div>
+        <div style="width:1px;height:16px;background:#E2E2EF"></div>
+        <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+      </div>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:260px">
+      <canvas id="var1"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">10 de 12 meses</span> superaron el presupuesto · La mayor desviación positiva fue en <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Dic (+14K)</span> · Solo <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Ene y Feb</span> quedaron bajo el objetivo.
+      </div>
+    </div>
+  </div>
+
+  <!-- VARIACIÓN HORIZONTAL por ÁREA -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Variación de Ventas por Área vs Año Anterior — FY 2022</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:2px;background:#1A7F3C"></div><span style="font-size:9px;color:#9898B8">Crecimiento</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:2px;background:#CC1B00"></div><span style="font-size:9px;color:#9898B8">Caída</span></div>
+        <div style="width:1px;height:16px;background:#E2E2EF"></div>
+        <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+      </div>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:280px">
+      <canvas id="var2"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#FFF8E5;border-left:3px solid #B87800;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Canal Digital</span> lidera el crecimiento con <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">+28.4%</span> · <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Canal Export</span> es el único con caída significativa de <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">-8.2%</span>.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const gridH  = { color:'#F0F0F8', drawBorder:false };
+const noGrid = { display:false };
+const tickSm = { color:'#6B6B8A', font:{ family:"'Open Sans',sans-serif", size:9 } };
+const tickY  = { color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 } };
+
+// VARIACIÓN MENSUAL
+const varMensual = [-3, -2, 4, 6, 8, 12, 9, 11, 13, 10, 12, 14];
+const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+new Chart(document.getElementById('var1'),{
+  type:'bar',
+  data:{
+    labels: meses,
+    datasets:[{
+      data: varMensual,
+      backgroundColor: varMensual.map(v => v >= 0 ? '#1A7F3C' : '#CC1B00'),
+      borderRadius: 4,
+      borderSkipped: false,
+      barPercentage: 0.6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        titleFont:{ family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:{ family:"'Open Sans',sans-serif", size:10 },
+        callbacks:{ label: ctx => '  Variación: '+(ctx.raw>0?'+':'')+ctx.raw+'K' }
+      }
+    },
+    scales:{
+      x:{ grid:noGrid, border:{display:false}, ticks:tickSm },
+      y:{ grid:gridH, border:{display:false}, ticks:{ ...tickY, callback: v => (v>0?'+':'')+v+'K' }, min:-8, max:20 }
+    }
+  },
+  plugins:[
+    {
+      id:'zeroLine',
+      afterDraw(chart){
+        const {ctx,chartArea,scales} = chart;
+        const y0 = scales.y.getPixelForValue(0);
+        ctx.save();
+        ctx.strokeStyle = '#44446A';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left, y0);
+        ctx.lineTo(chartArea.right, y0);
+        ctx.stroke();
+        ctx.restore();
+      }
+    },
+    {
+      id:'valueLabels',
+      afterDatasetsDraw(chart){
+        const {ctx} = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        varMensual.forEach((v,i) => {
+          const bar = meta.data[i];
+          ctx.fillStyle = v >= 0 ? '#1A7F3C' : '#CC1B00';
+          ctx.font = `700 8px 'Open Sans',sans-serif`;
+          ctx.textAlign = 'center';
+          if(v >= 0){ ctx.textBaseline='bottom'; ctx.fillText((v>0?'+':'')+v+'K', bar.x, bar.y-3); }
+          else       { ctx.textBaseline='top';    ctx.fillText(v+'K', bar.x, bar.y+3); }
+        });
+        ctx.restore();
+      }
+    }
+  ]
+});
+
+// VARIACIÓN HORIZONTAL
+const areas   = ['Canal Digital','Área Norte','Área Centro','Área Este','Canal Directo','Área Oeste','Canal Retail','Área Sur','Canal Export'];
+const varArea = [28.4, 18.2, 12.6, 9.4, 5.8, 3.2, -1.4, -4.8, -8.2];
+
+new Chart(document.getElementById('var2'),{
+  type:'bar',
+  data:{
+    labels: areas,
+    datasets:[{
+      data: varArea,
+      backgroundColor: varArea.map(v => v >= 0 ? '#1A7F3C' : '#CC1B00'),
+      borderRadius: 4,
+      borderSkipped: false,
+      barThickness: 22
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        titleFont:{ family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:{ family:"'Open Sans',sans-serif", size:10 },
+        callbacks:{ label: ctx => '  Variación: '+(ctx.raw>0?'+':'')+ctx.raw+'%' }
+      }
+    },
+    scales:{
+      x:{ grid:gridH, border:{display:false}, ticks:{ ...tickY, callback: v => (v>0?'+':'')+v+'%' }, min:-14, max:36 },
+      y:{ grid:noGrid, border:{display:false}, ticks:{ color:'#44446A', font:{ family:"'Open Sans',sans-serif", size:10 }, crossAlign:'far' } }
+    }
+  },
+  plugins:[
+    {
+      id:'zeroLineH',
+      afterDraw(chart){
+        const {ctx,chartArea,scales} = chart;
+        const x0 = scales.x.getPixelForValue(0);
+        ctx.save();
+        ctx.strokeStyle = '#44446A';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x0, chartArea.top);
+        ctx.lineTo(x0, chartArea.bottom);
+        ctx.stroke();
+        ctx.restore();
+      }
+    },
+    {
+      id:'valueLabelsH',
+      afterDatasetsDraw(chart){
+        const {ctx} = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        varArea.forEach((v,i) => {
+          const bar = meta.data[i];
+          ctx.fillStyle = v >= 0 ? '#1A7F3C' : '#CC1B00';
+          ctx.font = `700 9px 'Open Sans',sans-serif`;
+          ctx.textBaseline = 'middle';
+          if(v >= 0){ ctx.textAlign='left';  ctx.fillText('+'+ v+'%', bar.x+5, bar.y); }
+          else       { ctx.textAlign='right'; ctx.fillText(    v+'%', bar.x-5, bar.y); }
+        });
+        ctx.restore();
+      }
+    }
+  ]
+});
+</script>

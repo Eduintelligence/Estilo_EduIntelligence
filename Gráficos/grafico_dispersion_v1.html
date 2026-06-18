@@ -1,0 +1,160 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif">
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Ventas vs Margen por Área — ¿Quién genera más con mejor rentabilidad? · FY 2022</div>
+    <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+  </div>
+
+  <div style="padding:16px 16px 8px;position:relative;height:380px">
+    <canvas id="scatter" role="img" aria-label="Gráfico de dispersión ventas vs margen por área FY 2022"></canvas>
+  </div>
+
+  <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Área Norte</span> lidera en volumen y rentabilidad — ideal para replicar su modelo · <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Área Sur</span> tiene alto volumen pero bajo margen — requiere revisión de estructura de costos.
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// X = Ventas (K), Y = Margen (%), tamaño = EBITDA relativo
+const puntos = [
+  { label:'Área Norte',   x:285, y:21.2, r:16, type:'good'      },
+  { label:'Área Centro',  x:198, y:16.8, r:12, type:'good'      },
+  { label:'Área Sur',     x:312, y:10.4, r:14, type:'bad'       },
+  { label:'Área Este',    x:142, y:18.5, r:10, type:'good'      },
+  { label:'Área Oeste',   x:178, y:13.2, r:9,  type:'warn'      },
+  { label:'Canal Digital',x:95,  y:22.8, r:8,  type:'good'      },
+  { label:'Canal Export', x:68,  y:19.1, r:6,  type:'good'      },
+  { label:'Canal Directo',x:235, y:11.8, r:11, type:'warn'      },
+  { label:'Proyecto A',   x:54,  y:8.4,  r:5,  type:'bad'       },
+  { label:'Canal Retail', x:156, y:15.7, r:9,  type:'neutral'   },
+];
+
+const colMap = {
+  good:    { bg:'rgba(7,7,78,.75)',    border:'#07074E'  },
+  warn:    { bg:'rgba(184,120,0,.75)', border:'#B87800'  },
+  bad:     { bg:'rgba(204,27,0,.75)',  border:'#CC1B00'  },
+  neutral: { bg:'rgba(169,169,185,.75)', border:'#9898B8' },
+};
+
+// Benchmark lines
+const avgX = Math.round(puntos.reduce((s,p)=>s+p.x,0)/puntos.length);
+const avgY  = (puntos.reduce((s,p)=>s+p.y,0)/puntos.length).toFixed(1);
+
+new Chart(document.getElementById('scatter'), {
+  type:'bubble',
+  data:{
+    datasets: puntos.map(p => ({
+      label: p.label,
+      data:[{ x:p.x, y:p.y, r:p.r }],
+      backgroundColor: colMap[p.type].bg,
+      borderColor:     colMap[p.type].border,
+      borderWidth: 1.5,
+    }))
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        titleFont:{ family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:{ family:"'Open Sans',sans-serif", size:10 },
+        callbacks:{
+          title: ctx => ctx[0].dataset.label,
+          label: ctx => [`  Ventas: ${ctx.raw.x}K`, `  Margen: ${ctx.raw.y}%`]
+        }
+      }
+    },
+    scales:{
+      x:{
+        grid:{ color:'#F0F0F8', drawBorder:false },
+        border:{ display:false },
+        title:{
+          display:true,
+          text:'Ventas Netas (K)',
+          color:'#9898B8',
+          font:{ family:"'Open Sans',sans-serif", size:9, weight:'600' },
+          padding:{ top:8 }
+        },
+        ticks:{ color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 }, callback: v=>v+'K' },
+        min:0, max:380
+      },
+      y:{
+        grid:{ color:'#F0F0F8', drawBorder:false },
+        border:{ display:false },
+        title:{
+          display:true,
+          text:'Margen Neto (%)',
+          color:'#9898B8',
+          font:{ family:"'Open Sans',sans-serif", size:9, weight:'600' },
+          padding:{ bottom:8 }
+        },
+        ticks:{ color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 }, callback: v=>v+'%' },
+        min:0, max:28
+      }
+    }
+  },
+  plugins:[
+    {
+      id:'benchmarkLines',
+      afterDraw(chart){
+        const { ctx, chartArea, scales } = chart;
+        ctx.save();
+
+        // Línea vertical benchmark X
+        const xPx = scales.x.getPixelForValue(avgX);
+        ctx.strokeStyle = '#D4D4E8';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4,3]);
+        ctx.beginPath();
+        ctx.moveTo(xPx, chartArea.top);
+        ctx.lineTo(xPx, chartArea.bottom);
+        ctx.stroke();
+        ctx.fillStyle = '#AAAABF';
+        ctx.font = `9px 'Open Sans',sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('Media '+avgX+'K', xPx, chartArea.top - 6);
+
+        // Línea horizontal benchmark Y
+        const yPx = scales.y.getPixelForValue(parseFloat(avgY));
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left, yPx);
+        ctx.lineTo(chartArea.right, yPx);
+        ctx.stroke();
+        ctx.textAlign = 'right';
+        ctx.fillText('Media '+avgY+'%', chartArea.right, yPx - 5);
+
+        ctx.setLineDash([]);
+        ctx.restore();
+      }
+    },
+    {
+      id:'pointLabels',
+      afterDatasetsDraw(chart){
+        const { ctx } = chart;
+        ctx.save();
+        chart.data.datasets.forEach((ds, i) => {
+          const meta = chart.getDatasetMeta(i);
+          if (!meta.data[0]) return;
+          const pt  = meta.data[0];
+          const raw = ds.data[0];
+          ctx.fillStyle = '#44446A';
+          ctx.font = `600 9px 'Open Sans',sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(ds.label, pt.x, pt.y - raw.r - 3);
+        });
+        ctx.restore();
+      }
+    }
+  ]
+});
+</script>

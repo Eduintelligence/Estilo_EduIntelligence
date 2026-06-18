@@ -1,0 +1,155 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;gap:24px">
+
+  <!-- APILADAS -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Composición de Ingresos por Segmento — Mensual FY 2022</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;border-radius:2px;background:#07074E"></div><span style="font-size:9px;color:#9898B8">Bienes</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;border-radius:2px;background:#C2410C"></div><span style="font-size:9px;color:#9898B8">Servicios</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;border-radius:2px;background:#C96A00"></div><span style="font-size:9px;color:#9898B8">Proyectos</span></div>
+        </div>
+        <div style="width:1px;height:16px;background:#E2E2EF"></div>
+        <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+      </div>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:280px">
+      <canvas id="stacked" role="img" aria-label="Composición de ingresos por segmento mensual FY 2022"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Bienes</span> mantiene la mayor participación durante todo el año · El segmento <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Proyectos</span> crece sostenidamente desde <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Jun</span> hasta representar el 20% en Dic.
+      </div>
+    </div>
+  </div>
+
+  <!-- AGRUPADAS -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Ventas vs Presupuesto por Trimestre — FY 2022</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;border-radius:2px;background:#07074E"></div><span style="font-size:9px;color:#9898B8">Real</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;border-radius:2px;background:#C96A00;opacity:.5"></div><span style="font-size:9px;color:#9898B8">Presupuesto</span></div>
+        </div>
+        <div style="width:1px;height:16px;background:#E2E2EF"></div>
+        <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+      </div>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:280px">
+      <canvas id="grouped" role="img" aria-label="Ventas vs presupuesto por trimestre FY 2022"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        Las ventas reales superaron el presupuesto en los <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">cuatro trimestres</span> · La mayor desviación positiva se dio en <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Q4 con +12.4%</span> sobre el objetivo.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const gridH  = { color:'#F0F0F8', drawBorder:false };
+const noGrid = { display:false };
+const tickX  = { color:'#6B6B8A', font:{ family:"'Open Sans',sans-serif", size:9 } };
+const tickY  = { color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 }, callback: v => v+'K' };
+
+// APILADAS
+new Chart(document.getElementById('stacked'), {
+  type: 'bar',
+  data: {
+    labels: meses,
+    datasets: [
+      {
+        label: 'Bienes',
+        data: [22,23,24,24,25,26,26,27,28,28,29,30],
+        backgroundColor: '#07074E',
+        borderRadius: { topLeft:0, topRight:0, bottomLeft:3, bottomRight:3 },
+        borderSkipped: false,
+        stack: 'a'
+      },
+      {
+        label: 'Servicios',
+        data: [15,15,16,16,17,17,18,18,18,19,19,20],
+        backgroundColor: '#C2410C',
+        borderRadius: 0,
+        borderSkipped: false,
+        stack: 'a'
+      },
+      {
+        label: 'Proyectos',
+        data: [8,8,9,9,10,11,12,13,14,14,15,16],
+        backgroundColor: '#C96A00',
+        borderRadius: { topLeft:3, topRight:3, bottomLeft:0, bottomRight:0 },
+        borderSkipped: false,
+        stack: 'a'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display:false },
+      tooltip: {
+        titleFont: { family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:  { family:"'Open Sans',sans-serif", size:10 },
+        callbacks: { label: ctx => '  '+ctx.dataset.label+': '+ctx.raw+'K' }
+      }
+    },
+    scales: {
+      x: { stacked:true, grid:noGrid, border:{ display:false }, ticks:tickX },
+      y: { stacked:true, grid:gridH,  border:{ display:false }, ticks:tickY, max:80 }
+    }
+  }
+});
+
+// AGRUPADAS
+new Chart(document.getElementById('grouped'), {
+  type: 'bar',
+  data: {
+    labels: ['Q1','Q2','Q3','Q4'],
+    datasets: [
+      {
+        label: 'Real',
+        data: [185,210,238,275],
+        backgroundColor: '#07074E',
+        borderRadius: 4,
+        borderSkipped: false,
+        barPercentage: 0.7,
+        categoryPercentage: 0.6
+      },
+      {
+        label: 'Presupuesto',
+        data: [175,198,225,245],
+        backgroundColor: 'rgba(201,106,0,.45)',
+        borderRadius: 4,
+        borderSkipped: false,
+        barPercentage: 0.7,
+        categoryPercentage: 0.6
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display:false },
+      tooltip: {
+        titleFont: { family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:  { family:"'Open Sans',sans-serif", size:10 },
+        callbacks: { label: ctx => '  '+ctx.dataset.label+': '+ctx.raw+'K' }
+      }
+    },
+    scales: {
+      x: { grid:noGrid, border:{ display:false }, ticks:tickX },
+      y: { grid:gridH,  border:{ display:false }, ticks:tickY, max:320 }
+    }
+  }
+});
+</script>

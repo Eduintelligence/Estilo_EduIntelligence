@@ -1,0 +1,179 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;gap:24px">
+
+  <!-- COLUMNAS — color único navy -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Ventas Netas Mensuales — FY 2022</div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:240px">
+      <canvas id="col1" role="img" aria-label="Ventas netas mensuales FY 2022"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        Las ventas crecen de forma sostenida durante el año · <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Dic</span> registra el máximo con <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">96K</span> — un <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">+44%</span> sobre Ene.
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUMNAS — color semántico por valor -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Margen Neto Mensual vs Objetivo 15% — FY 2022</div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:240px">
+      <canvas id="col2" role="img" aria-label="Margen neto mensual vs objetivo 15% FY 2022"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#FFF8E5;border-left:3px solid #B87800;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        Solo <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">2 meses</span> superaron el objetivo del 15% · El margen promedio anual fue <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">12.6%</span> — <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">2.4 puntos</span> por debajo de la meta.
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRAS HORIZONTALES — color único -->
+  <div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+    <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Costo de Ventas por Categoría — FY 2022</div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+    </div>
+    <div style="padding:16px 16px 8px;position:relative;height:240px">
+      <canvas id="bar1" role="img" aria-label="Costo de ventas por categoría FY 2022"></canvas>
+    </div>
+    <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+      <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+        <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Materia Prima</span> es la partida más alta con <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">291K</span> · Las tres primeras categorías representan el <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">74.8%</span> del costo total.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const gridH  = { color:'#F0F0F8', drawBorder:false };
+const noGrid = { display:false };
+const tickX  = { color:'#6B6B8A', font:{ family:"'Open Sans',sans-serif", size:9 } };
+const tickY  = { color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 } };
+
+// COLUMNAS — color único navy con degradado por opacidad
+const ventasData = [66,70,74,76,78,82,84,86,88,90,93,96];
+new Chart(document.getElementById('col1'), {
+  type:'bar',
+  data:{
+    labels:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    datasets:[{
+      data: ventasData,
+      backgroundColor: ventasData.map((_,i) => `rgba(7,7,78,${0.45 + i*0.05})`),
+      borderRadius: 4,
+      borderSkipped: false,
+      barPercentage: 0.7
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ titleFont:{family:"'Poppins',sans-serif",size:11,weight:'700'}, bodyFont:{family:"'Open Sans',sans-serif",size:10}, callbacks:{label:ctx=>'  Ventas: '+ctx.raw+'K'} } },
+    scales:{
+      x:{ grid:noGrid, border:{display:false}, ticks:tickX },
+      y:{ grid:gridH,  border:{display:false}, ticks:{...tickY, callback:v=>v+'K'}, min:50, max:110 }
+    }
+  }
+});
+
+// COLUMNAS — color semántico por valor vs objetivo 15%
+const margenData = [9.2,9.8,10.5,11.2,11.8,12.4,13.0,12.5,13.2,14.1,18.6,12.6];
+const margenColors = margenData.map(v => v >= 15 ? '#1A7F3C' : v >= 12 ? '#B87800' : '#CC1B00');
+new Chart(document.getElementById('col2'), {
+  type:'bar',
+  data:{
+    labels:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    datasets:[{
+      data: margenData,
+      backgroundColor: margenColors,
+      borderRadius: 4,
+      borderSkipped: false,
+      barPercentage: 0.7
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ titleFont:{family:"'Poppins',sans-serif",size:11,weight:'700'}, bodyFont:{family:"'Open Sans',sans-serif",size:10}, callbacks:{label:ctx=>'  Margen: '+ctx.raw+'%'} },
+      annotation:{}
+    },
+    scales:{
+      x:{ grid:noGrid, border:{display:false}, ticks:tickX },
+      y:{ grid:gridH,  border:{display:false}, ticks:{...tickY, callback:v=>v+'%'}, min:0, max:22 }
+    }
+  },
+  plugins:[{
+    id:'objetivoLine',
+    afterDraw(chart){
+      const {ctx,chartArea,scales} = chart;
+      const y = scales.y.getPixelForValue(15);
+      ctx.save();
+      ctx.strokeStyle = '#9898B8';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4,3]);
+      ctx.beginPath();
+      ctx.moveTo(chartArea.left, y);
+      ctx.lineTo(chartArea.right, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#9898B8';
+      ctx.font = `9px 'Open Sans',sans-serif`;
+      ctx.textAlign = 'right';
+      ctx.fillText('15% obj.', chartArea.right, y - 4);
+      ctx.restore();
+    }
+  }]
+});
+
+// BARRAS HORIZONTALES — color único amber degradado
+const costoLabels = ['Materia Prima','Personal','Energía','Mantenimiento','Otros'];
+const costoData   = [291,272,158,128,91];
+new Chart(document.getElementById('bar1'), {
+  type:'bar',
+  data:{
+    labels: costoLabels,
+    datasets:[{
+      data: costoData,
+      backgroundColor: costoData.map((_,i) => `rgba(201,106,0,${1 - i*0.15})`),
+      borderRadius: 4,
+      borderSkipped: 'left',
+      barThickness: 28
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ titleFont:{family:"'Poppins',sans-serif",size:11,weight:'700'}, bodyFont:{family:"'Open Sans',sans-serif",size:10}, callbacks:{label:ctx=>'  '+ctx.raw+'K'} } },
+    scales:{
+      x:{ grid:gridH, border:{display:false}, ticks:{...tickY, callback:v=>v+'K'}, max:350 },
+      y:{ grid:noGrid, border:{display:false}, ticks:{color:'#44446A', font:{family:"'Open Sans',sans-serif",size:11}, crossAlign:'far'} }
+    },
+    layout:{ padding:{ right:40 } }
+  },
+  plugins:[{
+    id:'valueLabels',
+    afterDatasetsDraw(chart){
+      const {ctx} = chart;
+      ctx.save();
+      chart.data.datasets[0].data.forEach((val,i)=>{
+        const meta = chart.getDatasetMeta(0);
+        const bar  = meta.data[i];
+        ctx.fillStyle = `rgba(201,106,0,${1 - i*0.15})`;
+        ctx.font = `700 10px 'Open Sans',sans-serif`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val+'K', bar.x + 6, bar.y);
+      });
+      ctx.restore();
+    }
+  }]
+});
+</script>

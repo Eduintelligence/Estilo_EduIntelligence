@@ -1,0 +1,168 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif">
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Composición de Ingresos por Categoría y Subcategoría — FY 2022</div>
+    <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+  </div>
+
+  <div style="padding:14px">
+    <div id="treemap" style="width:100%;height:340px;position:relative"></div>
+  </div>
+
+  <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Bienes · Producto A</span> es la celda de mayor valor con <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">18.2K</span> · El segmento <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Bienes</span> domina con el <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">44.1%</span> del total de ingresos.
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const data = [
+  { cat:'Bienes',      label:'Producto A',  val:18.2, pct:'21.6%' },
+  { cat:'Bienes',      label:'Producto B',  val:12.4, pct:'14.7%' },
+  { cat:'Bienes',      label:'Producto C',  val:6.6,  pct:'7.8%'  },
+  { cat:'Servicios',   label:'Servicio A',  val:15.8, pct:'18.7%' },
+  { cat:'Servicios',   label:'Servicio B',  val:9.6,  pct:'11.4%' },
+  { cat:'Servicios',   label:'Servicio C',  val:3.0,  pct:'3.6%'  },
+  { cat:'Proyectos',   label:'Proyecto A',  val:8.4,  pct:'10.0%' },
+  { cat:'Proyectos',   label:'Proyecto B',  val:5.3,  pct:'6.3%'  },
+  { cat:'Otros',       label:'Canal D',     val:3.2,  pct:'3.8%'  },
+  { cat:'Otros',       label:'Canal E',     val:1.8,  pct:'2.1%'  },
+];
+
+const catColors = {
+  'Bienes':    { base:'#07074E', shades:['#07074E','#0D0D6B','#1a1a8a'] },
+  'Servicios': { base:'#C2410C', shades:['#C2410C','#9a340a','#7a2908'] },
+  'Proyectos': { base:'#C96A00', shades:['#C96A00','#a05600','#7a4100'] },
+  'Otros':     { base:'#888799', shades:['#888799','#6B6B8A'] },
+};
+
+function buildTreemap(items, W, H) {
+  const total = items.reduce((s,d) => s+d.val, 0);
+  const rects = [];
+  squarify(items.map(d=>({...d, area:(d.val/total)*W*H})), 0, 0, W, H, rects);
+  return rects;
+}
+
+function squarify(items, x, y, w, h, rects) {
+  if (!items.length) return;
+  if (items.length === 1) {
+    rects.push({...items[0], x, y, w, h});
+    return;
+  }
+  let best = Infinity, row = [], i = 0;
+  const totalArea = items.reduce((s,d) => s+d.area, 0);
+  while (i < items.length) {
+    const testRow = [...row, items[i]];
+    const rowArea = testRow.reduce((s,d) => s+d.area, 0);
+    const side = Math.min(w, h);
+    const ratio = testRow.reduce((worst, d) => {
+      const r1 = (side * side * d.area) / (rowArea * rowArea);
+      const r2 = (rowArea * rowArea) / (side * side * d.area);
+      return Math.max(worst, Math.max(r1, r2));
+    }, 0);
+    if (ratio < best || row.length === 0) {
+      best = ratio; row = testRow; i++;
+    } else break;
+  }
+  const rowArea = row.reduce((s,d) => s+d.area, 0);
+  const rowFrac = rowArea / totalArea;
+  if (w <= h) {
+    const rowH = h * rowFrac;
+    let cx = x;
+    row.forEach(d => {
+      const cw = (d.area / rowArea) * w;
+      rects.push({...d, x:cx, y, w:cw, h:rowH});
+      cx += cw;
+    });
+    squarify(items.slice(row.length), x, y + rowH, w, h - rowH, rects);
+  } else {
+    const rowW = w * rowFrac;
+    let cy = y;
+    row.forEach(d => {
+      const ch = (d.area / rowArea) * h;
+      rects.push({...d, x, y:cy, w:rowW, h:ch});
+      cy += ch;
+    });
+    squarify(items.slice(row.length), x + rowW, y, w - rowW, h, rects);
+  }
+}
+
+function getColor(cat, idx) {
+  const shades = catColors[cat]?.shades || ['#888799'];
+  return shades[idx % shades.length];
+}
+
+function render() {
+  const container = document.getElementById('treemap');
+  const W = container.offsetWidth;
+  const H = container.offsetHeight;
+  const rects = buildTreemap(data, W, H);
+
+  const catCount = {};
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.style.display = 'block';
+
+  rects.forEach(r => {
+    catCount[r.cat] = (catCount[r.cat] || 0);
+    const colorIdx = catCount[r.cat]++;
+    const fill = getColor(r.cat, colorIdx);
+    const gap = 2;
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+
+    const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x', r.x + gap/2);
+    rect.setAttribute('y', r.y + gap/2);
+    rect.setAttribute('width',  Math.max(r.w - gap, 0));
+    rect.setAttribute('height', Math.max(r.h - gap, 0));
+    rect.setAttribute('rx', 4);
+    rect.setAttribute('fill', fill);
+    g.appendChild(rect);
+
+    const cw = r.w - gap;
+    const ch = r.h - gap;
+
+    if (cw > 48 && ch > 32) {
+      const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x', r.x + r.w/2);
+      label.setAttribute('y', r.y + r.h/2 - (ch > 52 ? 10 : 4));
+      label.setAttribute('text-anchor','middle');
+      label.setAttribute('dominant-baseline','middle');
+      label.setAttribute('font-family',"'Open Sans', sans-serif");
+      label.setAttribute('font-size', cw > 90 ? '11' : '9');
+      label.setAttribute('font-weight','600');
+      label.setAttribute('fill','rgba(255,255,255,.9)');
+      label.textContent = r.label;
+      g.appendChild(label);
+
+      if (ch > 52) {
+        const val = document.createElementNS('http://www.w3.org/2000/svg','text');
+        val.setAttribute('x', r.x + r.w/2);
+        val.setAttribute('y', r.y + r.h/2 + 10);
+        val.setAttribute('text-anchor','middle');
+        val.setAttribute('dominant-baseline','middle');
+        val.setAttribute('font-family',"'Poppins', sans-serif");
+        val.setAttribute('font-size', cw > 90 ? '13' : '10');
+        val.setAttribute('font-weight','700');
+        val.setAttribute('fill','rgba(255,255,255,.7)');
+        val.textContent = r.val+'K · '+r.pct;
+        g.appendChild(val);
+      }
+    }
+
+    svg.appendChild(g);
+  });
+
+  container.appendChild(svg);
+}
+
+window.addEventListener('load', render);
+</script>

@@ -1,0 +1,113 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif">
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Deméritos por Área — Ranking Total · SEM 4</div>
+    <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+  </div>
+
+  <div style="padding:16px 16px 8px;position:relative;height:420px">
+    <canvas id="barH" role="img" aria-label="Ranking de deméritos por área COVENIN SEM 4"></canvas>
+  </div>
+
+  <div style="margin:0 14px 12px;border-radius:6px;background:#FFF0EE;border-left:3px solid #CC1B00;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      Las áreas <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">VIII Preventivo, IX Avería y VII Correctivo</span> concentran el <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">35.9%</span> del total de deméritos · Intervenir estas tres áreas primero maximiza el impacto sobre el cumplimiento global.
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const labels = [
+  'VIII Mtto. Preventivo',
+  'IX Mtto. por Avería',
+  'VII Mtto. Correctivo',
+  'VI Mtto. Circunstancial',
+  'XII Recursos Mtto.',
+  'X Personal Mtto.',
+  'IV Mtto. Rutinario',
+  'V Mtto. Programado',
+  'III Planificación',
+  'II Org. Mantenimiento',
+  'XI Apoyo Logístico',
+  'I Org. de la Empresa',
+];
+const values = [170,161,157,152,89,108,134,125,90,84,57,50];
+
+function getColor(v) {
+  if (v >= 150) return { bg:'#CC1B00', bgA:'rgba(204,27,0,.15)' };
+  if (v >= 100) return { bg:'#B87800', bgA:'rgba(184,120,0,.12)' };
+  return              { bg:'#1A7F3C', bgA:'rgba(26,127,60,.1)'  };
+}
+
+const bgColors  = values.map(v => getColor(v).bg);
+const bgHover   = values.map(v => getColor(v).bgA);
+
+new Chart(document.getElementById('barH'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [{
+      data: values,
+      backgroundColor: bgColors,
+      borderRadius: 4,
+      borderSkipped: 'left',
+      barThickness: 22,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        titleFont: { family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:  { family:"'Open Sans',sans-serif", size:10 },
+        callbacks: { label: ctx => '  Deméritos: ' + ctx.raw }
+      }
+    },
+    scales: {
+      x: {
+        grid:   { color:'#F0F0F8', drawBorder:false },
+        border: { display:false },
+        ticks:  { color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 } },
+        max: 200
+      },
+      y: {
+        grid:   { display:false },
+        border: { display:false },
+        ticks:  {
+          color: '#44446A',
+          font:  { family:"'Open Sans',sans-serif", size:11 },
+          crossAlign: 'far'
+        }
+      }
+    },
+    layout: { padding: { right: 40 } }
+  },
+  plugins: [{
+    id: 'valueLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx, data } = chart;
+      ctx.save();
+      data.datasets[0].data.forEach((val, i) => {
+        const meta = chart.getDatasetMeta(0);
+        const bar  = meta.data[i];
+        const c    = getColor(val);
+        ctx.fillStyle = c.bg;
+        ctx.font = `700 10px 'Open Sans', sans-serif`;
+        ctx.textAlign   = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val, bar.x + 6, bar.y);
+      });
+      ctx.restore();
+    }
+  }]
+});
+</script>

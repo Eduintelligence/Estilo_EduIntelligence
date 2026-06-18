@@ -1,0 +1,164 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif;display:flex;flex-direction:column;gap:24px">
+
+<!-- GRÁFICO 1 -->
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Evolución de Ventas — Real vs Presupuesto vs Año Anterior</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:4px"><div style="width:20px;height:2px;background:#07074E;border-radius:1px"></div><span style="font-size:9px;color:#9898B8">Real</span></div>
+        <div style="display:flex;align-items:center;gap:4px"><div style="width:20px;height:2px;background:#C96A00;border-radius:1px"></div><span style="font-size:9px;color:#9898B8">Presupuesto</span></div>
+        <div style="display:flex;align-items:center;gap:4px"><div style="width:14px;height:0;border-top:2px dashed #AAAABF"></div><span style="font-size:9px;color:#9898B8">Año anterior</span></div>
+      </div>
+      <div style="width:1px;height:16px;background:#E2E2EF"></div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+    </div>
+  </div>
+  <div style="padding:16px 16px 8px;position:relative;height:280px">
+    <canvas id="c1" role="img" aria-label="Evolución mensual de ventas real vs presupuesto vs año anterior"></canvas>
+  </div>
+  <div style="margin:0 14px 12px;border-radius:6px;background:#EEF7F1;border-left:3px solid #1A7F3C;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      Las ventas reales superan al presupuesto en <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">+7.6%</span> acumulado · El ritmo de crecimiento se acelera desde <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Sep</span> — H2 explica el <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">61%</span> del total anual.
+    </div>
+  </div>
+</div>
+
+<!-- GRÁFICO 2 -->
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Margen Neto — Evolución Mensual · FY 2022</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="display:flex;align-items:center;gap:4px"><div style="width:20px;height:2px;background:#1A7F3C;border-radius:1px"></div><span style="font-size:9px;color:#9898B8">Margen %</span></div>
+      <div style="width:1px;height:16px;background:#E2E2EF"></div>
+      <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+    </div>
+  </div>
+  <div style="padding:16px 16px 8px;position:relative;height:280px">
+    <canvas id="c2" role="img" aria-label="Margen neto mensual FY 2022"></canvas>
+  </div>
+  <div style="margin:0 14px 12px;border-radius:6px;background:#FFF8E5;border-left:3px solid #B87800;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      El margen cerró en <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">12.6%</span> — bajo el objetivo de 15% · Máximo en <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">Nov con 18.6%</span> · La caída de Dic requiere revisión de Otros Ingresos y Gastos.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const gridH = { color:'#F0F0F8', drawBorder:false };
+const noGrid = { display:false };
+const tickStyle = { color:'#6B6B8A', font:{ family:"'Open Sans', sans-serif", size:9 } };
+const tickStyleY = { color:'#AAAABF', font:{ family:"'Open Sans', sans-serif", size:9 } };
+
+new Chart(document.getElementById('c1'), {
+  type:'line',
+  data:{
+    labels: meses,
+    datasets:[
+      {
+        label:'Año anterior',
+        data:[520,535,548,560,572,588,600,612,625,638,650,660],
+        borderColor:'#AAAABF',
+        borderWidth:1,
+        borderDash:[5,4],
+        tension:.4,
+        pointRadius:2.5,
+        pointBackgroundColor:'#fff',
+        pointBorderColor:'#AAAABF',
+        pointBorderWidth:1,
+        fill:false,
+        order:3
+      },
+      {
+        label:'Presupuesto',
+        data:[560,575,592,608,622,640,656,672,685,700,715,730],
+        borderColor:'#C96A00',
+        borderWidth:1.5,
+        tension:.4,
+        pointRadius:2.5,
+        pointBackgroundColor:'#fff',
+        pointBorderColor:'#C96A00',
+        pointBorderWidth:1.2,
+        fill:false,
+        order:2
+      },
+      {
+        label:'Real',
+        data:[575,592,614,630,648,670,688,708,725,742,760,785],
+        borderColor:'#07074E',
+        borderWidth:2,
+        tension:.4,
+        pointRadius:3,
+        pointBackgroundColor:'#fff',
+        pointBorderColor:'#07074E',
+        pointBorderWidth:1.5,
+        backgroundColor:'rgba(7,7,78,.05)',
+        fill:true,
+        order:1
+      }
+    ]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{ legend:{ display:false } },
+    scales:{
+      x:{
+        grid: noGrid,
+        border:{ display:false },
+        ticks: tickStyle
+      },
+      y:{
+        grid: gridH,
+        border:{ display:false },
+        ticks:{ ...tickStyleY, callback: v => v+'K' },
+        min:500, max:830
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('c2'), {
+  type:'line',
+  data:{
+    labels: meses,
+    datasets:[{
+      label:'Margen %',
+      data:[9.2,9.8,10.5,11.2,11.8,12.4,13.0,12.5,13.2,14.1,18.6,12.6],
+      borderColor:'#1A7F3C',
+      borderWidth:2,
+      tension:.4,
+      pointRadius:[3,3,3,3,3,3,3,3,3,3,5,3],
+      pointBackgroundColor:['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#1A7F3C','#fff'],
+      pointBorderColor:'#1A7F3C',
+      pointBorderWidth:1.5,
+      backgroundColor:'rgba(26,127,60,.07)',
+      fill:true
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{ legend:{ display:false } },
+    scales:{
+      x:{
+        grid: noGrid,
+        border:{ display:false },
+        ticks: tickStyle
+      },
+      y:{
+        grid: gridH,
+        border:{ display:false },
+        ticks:{ ...tickStyleY, callback: v => v+'%' },
+        min:8, max:22
+      }
+    }
+  }
+});
+</script>

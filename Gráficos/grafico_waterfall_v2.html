@@ -1,0 +1,152 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="background:#EAEAF2;padding:32px;font-family:'Open Sans',sans-serif">
+<div style="background:#fff;border-radius:10px;border:1px solid #E2E2EF;overflow:hidden">
+
+  <div style="padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#F4F4FA;border-bottom:1px solid #E2E2EF">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;color:#07074E;letter-spacing:.4px;text-transform:uppercase">Puente de Utilidad Neta — De Ventas a Resultado Final · FY 2022</div>
+    <button style="appearance:none;font-family:'Open Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;color:#07074E;background:#fff;border:1.5px solid #E2E2EF;border-radius:5px;padding:4px 10px;cursor:pointer;line-height:1">↓ CSV</button>
+  </div>
+
+  <div style="padding:16px 16px 8px;position:relative;height:340px">
+    <canvas id="wf" role="img" aria-label="Waterfall puente de utilidad neta FY 2022"></canvas>
+  </div>
+
+  <div style="margin:0 14px 12px;border-radius:6px;background:#FFF8E5;border-left:3px solid #B87800;padding:8px 12px">
+    <div style="font-family:'Open Sans',sans-serif;font-size:9px;color:#44446A;line-height:1.55">
+      Las <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Ventas Netas de 217K</span> se reducen principalmente por <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Costo de Ventas (−145K)</span> y <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#CC1B00">Gastos Operativos (−38K)</span> · La Utilidad Neta final de <span style="font-family:'Poppins',sans-serif;font-weight:700;color:#C96A00">27K</span> representa un margen del 12.6%.
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const items = [
+  { label:'Ventas\nNetas',       val:217,  type:'start' },
+  { label:'Costo de\nVentas',    val:-145, type:'neg'   },
+  { label:'Utilidad\nBruta',     val:72,   type:'total' },
+  { label:'Gastos\nOperativos',  val:-38,  type:'neg'   },
+  { label:'EBITDA',              val:34,   type:'total' },
+  { label:'Depreciación',        val:-4,   type:'neg'   },
+  { label:'Otros Ing.\ny Gastos',val:-3,   type:'neg'   },
+  { label:'Utilidad\nNeta',      val:27,   type:'total' },
+];
+
+const colStart = '#07074E';
+const colNeg   = '#CC1B00';
+const colTotal = '#C96A00';
+const colPos   = '#1A7F3C';
+
+let running = 0;
+const floats = items.map(d => {
+  if (d.type === 'start') {
+    running = d.val;
+    return { base:0, val:d.val, end:running };
+  } else if (d.type === 'total') {
+    return { base:0, val:running, end:running };
+  } else {
+    const base = d.val < 0 ? running + d.val : running;
+    running += d.val;
+    return { base, val:Math.abs(d.val), end:running };
+  }
+});
+
+// Max redondeado a múltiplo de 50 limpio
+const rawMax = Math.max(...floats.map(f => f.base + f.val));
+const maxVal = Math.ceil(rawMax * 1.15 / 50) * 50;
+
+new Chart(document.getElementById('wf'), {
+  type:'bar',
+  data:{
+    labels: items.map(d => d.label),
+    datasets:[{
+      data: floats.map(f => [f.base, f.base + f.val]),
+      backgroundColor: items.map(d => {
+        if (d.type === 'start') return colStart;
+        if (d.type === 'total') return colTotal;
+        return d.val < 0 ? colNeg : colPos;
+      }),
+      borderRadius:4,
+      borderSkipped:false,
+      barPercentage:0.6
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        titleFont:{ family:"'Poppins',sans-serif", size:11, weight:'700' },
+        bodyFont:{ family:"'Open Sans',sans-serif", size:10 },
+        callbacks:{ label: ctx => `  ${items[ctx.dataIndex].type==='total'?'Total':'Variación'}: ${items[ctx.dataIndex].val}K` }
+      }
+    },
+    scales:{
+      x:{
+        grid:{ display:false },
+        border:{ display:false },
+        ticks:{
+          color:'#44446A',
+          font:{ family:"'Open Sans',sans-serif", size:9 },
+          callback: function(val){ return this.getLabelForValue(val).split('\n'); }
+        }
+      },
+      y:{
+        grid:{ color:'#F0F0F8', drawBorder:false },
+        border:{ display:false },
+        ticks:{ color:'#AAAABF', font:{ family:"'Open Sans',sans-serif", size:9 }, callback: v => v+'K' },
+        min:0,
+        max:maxVal
+      }
+    }
+  },
+  plugins:[
+    {
+      id:'connectors',
+      afterDatasetsDraw(chart){
+        const { ctx } = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.strokeStyle = '#D4D4E8';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3,3]);
+        for (let i = 0; i < meta.data.length - 1; i++){
+          const curr = meta.data[i];
+          const next = meta.data[i+1];
+          const currY = items[i].type === 'neg'
+            ? chart.scales.y.getPixelForValue(floats[i].base)
+            : chart.scales.y.getPixelForValue(floats[i].base + floats[i].val);
+          ctx.beginPath();
+          ctx.moveTo(curr.x + curr.width/2, currY);
+          ctx.lineTo(next.x - next.width/2, currY);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+    },
+    {
+      id:'valueLabels',
+      afterDatasetsDraw(chart){
+        const { ctx } = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        items.forEach((item, i) => {
+          const bar = meta.data[i];
+          const f   = floats[i];
+          const color = item.type==='start' ? colStart : item.type==='total' ? colTotal : item.val<0 ? colNeg : colPos;
+          ctx.fillStyle = color;
+          ctx.font = `700 9px 'Open Sans',sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          const topY = chart.scales.y.getPixelForValue(f.base + f.val);
+          ctx.fillText(item.val+'K', bar.x, topY - 4);
+        });
+        ctx.restore();
+      }
+    }
+  ]
+});
+</script>
